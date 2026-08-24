@@ -120,7 +120,7 @@ namespace SAIH_Backend.Datos.Entidades
             set { secondLastName = value; }
         }
 
-        public string PhoneEmployee
+        public string Phone
         {
             get { return phone; }
             set { phone = value; }

@@ -157,7 +157,7 @@ namespace WebApiSAIH.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecondLastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneEmployee = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FK_idDepartment1 = table.Column<long>(type: "bigint", nullable: false),

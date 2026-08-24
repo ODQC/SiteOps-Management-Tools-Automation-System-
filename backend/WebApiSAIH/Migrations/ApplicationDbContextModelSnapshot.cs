@@ -333,7 +333,7 @@ namespace WebApiSAIH.Migrations
                     b.Property<string>("NationalId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneEmployee")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecondLastName")

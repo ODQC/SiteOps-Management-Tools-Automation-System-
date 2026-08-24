@@ -26,8 +26,8 @@ namespace SAIH_Backend.Servicios.Profiles
                         dest.SecondLastName,
                         opt => opt.MapFrom(src => src.SecondLastName))
                 .ForMember(dest =>
-                        dest.PhoneEmployee,
-                        opt => opt.MapFrom(src => src.PhoneEmployee))
+                        dest.Phone,
+                        opt => opt.MapFrom(src => src.Phone))
                 .ForMember(dest =>
                         dest.Email,
                         opt => opt.MapFrom(src => src.Email))

@@ -105,7 +105,7 @@ namespace SAIH_Backend.Servicios.DTO
             get { return secondLastName; }
             set { secondLastName = value; }
         }
-        public string PhoneEmployee
+        public string Phone
         {
             get { return phone; }
             set { phone = value; }

@@ -12,7 +12,7 @@ using WebApiSAIH.Models;
 namespace WebApiSAIH.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260824190804_InitialCreate")]
+    [Migration("20260824190957_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -336,7 +336,7 @@ namespace WebApiSAIH.Migrations
                     b.Property<string>("NationalId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneEmployee")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecondLastName")

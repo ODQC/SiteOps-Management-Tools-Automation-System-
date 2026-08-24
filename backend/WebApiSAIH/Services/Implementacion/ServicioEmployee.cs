@@ -475,7 +475,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", null);
                 }
 
-                employee.PhoneEmployee = perfilDTO.PhoneEmployee;
+                employee.Phone = perfilDTO.Phone;
 
                 if (perfilDTO.FK_idDocument1.HasValue)
                 {
@@ -505,7 +505,7 @@ namespace WebApiSAIH.Services.Implementacion
             Employee.FirstName = EmployeeDTO.FirstName;
             Employee.LastName = EmployeeDTO.LastName;
             Employee.SecondLastName = EmployeeDTO.SecondLastName;
-            Employee.PhoneEmployee = EmployeeDTO.PhoneEmployee;
+            Employee.Phone = EmployeeDTO.Phone;
             Employee.FK_idDepartment1 = EmployeeDTO.FK_idDepartment1;
             Employee.FK_idSite1 = EmployeeDTO.FK_idSite1;
             Employee.FK_idRole1 = EmployeeDTO.FK_idRole1;
