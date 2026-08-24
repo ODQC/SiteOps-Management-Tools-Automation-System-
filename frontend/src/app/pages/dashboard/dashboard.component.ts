@@ -68,8 +68,8 @@ export class DashboardComponent implements OnInit {
   planesPorVencer: PlanPorVencer[] = [];
   goalsActivos = 0;
   goalsInhabilitados = 0;
-  guardaparquesTotal = 0;
-  guardaparquesActivos = 0;
+  teamTotal = 0;
+  teamActive = 0;
 
   // Employee
   miPlan: (PlanResumen & { diasRestantes: number; status?: string }) | null = null;
@@ -194,9 +194,9 @@ export class DashboardComponent implements OnInit {
       this.goalsInhabilitados = goalsDelAnio.filter(o => o.status !== 'Activo').length;
 
       const rolEmployee = roles.find(r => r.name === 'Employee');
-      const guardaparques = employees.filter(u => u.fK_idRole1 === rolEmployee?.pK_idRole);
-      this.guardaparquesTotal = guardaparques.length;
-      this.guardaparquesActivos = guardaparques.filter(u => u.status === 'Activo').length;
+      const teamMembers = employees.filter(u => u.fK_idRole1 === rolEmployee?.pK_idRole);
+      this.teamTotal = teamMembers.length;
+      this.teamActive = teamMembers.filter(u => u.status === 'Activo').length;
 
       this.cargando = false;
     });

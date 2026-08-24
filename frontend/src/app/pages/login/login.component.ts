@@ -21,7 +21,7 @@ import { ThemeService } from 'src/app/services/Theme/theme.service';
 })
 
 export class LoginComponent implements OnInit, IAction {
-  private isValidEmail = /^[a-z]+[a-z0-9._]+@+sinac+\.+go+\.+cr$/;  // sirve para el sinac
+  private isValidEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   loginForm: UntypedFormGroup;
   hidePassword = true;
@@ -65,10 +65,6 @@ export class LoginComponent implements OnInit, IAction {
 
   esCampoValido(field: string): boolean {
     return !!(this.loginForm.get(field)?.touched && !this.loginForm.get(field)?.valid);
-  }
-
-  goToLink(url: string) {
-    window.open(url, "_blank");
   }
 
   inicioSesion() {

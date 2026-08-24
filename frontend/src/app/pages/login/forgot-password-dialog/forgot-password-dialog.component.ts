@@ -12,7 +12,7 @@ import { ToastService } from 'src/app/services/Toast/toast.service';
   standalone: false
 })
 export class ForgotPasswordDialogComponent {
-  private isValidEmail = /^[a-z]+[a-z0-9._]+@+sinac+\.+go+\.+cr$/;
+  private isValidEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   recuperarPasswordForm: UntypedFormGroup;
 
@@ -32,7 +32,7 @@ export class ForgotPasswordDialogComponent {
     if (this.recuperarPasswordForm.get(field)?.errors?.required) {
       mensaje = '¡El campo se encuentra vacío!';
     } else if (this.recuperarPasswordForm.get(field)?.hasError('pattern')) {
-      mensaje = 'Sólo se permiten correos intitucionales.';
+      mensaje = 'Ingresa un correo electrónico válido.';
     }
     return mensaje;
   }

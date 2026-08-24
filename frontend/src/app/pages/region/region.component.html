@@ -2,13 +2,13 @@
   <mat-card class="page__card" appearance="outlined">
     <div class="page__header">
       <div>
-        <h1>Áreas de conservación</h1>
-        <p>Administra las áreas de conservación del SINAC.</p>
+        <h1>Regiones</h1>
+        <p>Administra las regiones de la organización.</p>
       </div>
       @if (!soloLectura) {
         <button mat-flat-button color="primary" class="page__new-button" (click)="nuevaArea()">
           <mat-icon>add</mat-icon>
-          Nueva área
+          Nueva región
         </button>
       }
     </div>
@@ -64,7 +64,7 @@
       @if (areasFiltradas.length === 0) {
         <div class="table-wrapper__empty">
           <mat-icon>search_off</mat-icon>
-          <p>No se encontraron áreas de conservación.</p>
+          <p>No se encontraron regiones.</p>
         </div>
       }
     </div>

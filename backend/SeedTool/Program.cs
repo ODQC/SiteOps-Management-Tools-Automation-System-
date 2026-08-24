@@ -90,26 +90,26 @@ Role GetOrCreateRol(string codigo, string name)
     return r;
 }
 
-var areaCentral = GetOrCreateArea("AC-01", "Área Central");
-var areaGuanacaste = GetOrCreateArea("AC-02", "Área de Conservación Guanacaste");
+var areaCentral = GetOrCreateArea("AC-01", "East Region");
+var regionWest = GetOrCreateArea("AC-02", "West Region");
 
 // Nombre alineado con el que espera el formulario de registro de employees
-// (frontend/src/app/pages/formulario/formulario.component.ts, retornarPkDepartment).
-var deptoTI = GetOrCreateDepto("DEP-01", "Department TI");
-var deptoAdmin = GetOrCreateDepto("DEP-02", "Department Administración");
+// (frontend/src/app/pages/employee-form/employee-form.component.ts, retornarPkDepartment).
+var deptoTI = GetOrCreateDepto("DEP-01", "Department IT");
+var deptoAdmin = GetOrCreateDepto("DEP-02", "Department Administration");
 // Department "N/A" para roles que no tienen uno propio (Administrador de Parque,
-// Guardaparque) -- lo busca ServicioDepartment.getNADepartmentId por CodigoDepartment.
+// Employee) -- lo busca ServicioDepartment.getNADepartmentId por CodigoDepartment.
 var deptoNA = GetOrCreateDepto("N/A", "N/A");
 
-var parqueUno = GetOrCreateParque("PN-01", "Parque Nacional de Prueba", areaCentral.PK_IdRegion);
-var parqueDos = GetOrCreateParque("PN-02", "Volcán Arenal", areaGuanacaste.PK_IdRegion);
+var parqueUno = GetOrCreateParque("ST-01", "Downtown Site", areaCentral.PK_IdRegion);
+var parqueDos = GetOrCreateParque("ST-02", "North Site", regionWest.PK_IdRegion);
 // Parque "N/A" para roles que no tienen uno propio (Supervisor, Administrador TI) -- lo
 // busca ServicioSite.getNASiteId por Code.
 var siteNA = GetOrCreateParque("N/A", "N/A", areaCentral.PK_IdRegion);
 
 var rolAdminTI = GetOrCreateRol("ROL-01", Roles.ROLE_ADMIN);
 var rolAdminParque = GetOrCreateRol("ROL-02", Roles.ROLE_SITE_MANAGER);
-var rolGuardaparque = GetOrCreateRol("ROL-03", Roles.ROLE_EMPLOYEE);
+var rolEmployee = GetOrCreateRol("ROL-03", Roles.ROLE_EMPLOYEE);
 var rolSupervisor = GetOrCreateRol("ROL-04", Roles.ROLE_SUPERVISOR);
 
 foreach (var name in new[] { "Login", "Change Password", "Employee data" })
@@ -126,10 +126,10 @@ const string password = "Prueba1234";
 
 var employeesDePrueba = new[]
 {
-    new { Email = "admin.prueba@sinac.go.cr", Cedula = "1-2345-6789", Nombre = "Admin", Apellido1 = "Prueba", Apellido2 = "SAIH", Rol = rolAdminTI, Depto = deptoTI, Parque = parqueUno },
-    new { Email = "parque.prueba@sinac.go.cr", Cedula = "2-3456-7890", Nombre = "Ana", Apellido1 = "Administradora", Apellido2 = "Parque", Rol = rolAdminParque, Depto = deptoTI, Parque = parqueUno },
-    new { Email = "guarda.prueba@sinac.go.cr", Cedula = "3-4567-8901", Nombre = "Carlos", Apellido1 = "Guarda", Apellido2 = "Parque", Rol = rolGuardaparque, Depto = deptoTI, Parque = parqueDos },
-    new { Email = "supervisor.prueba@sinac.go.cr", Cedula = "4-5678-9012", Nombre = "Sofía", Apellido1 = "Supervisora", Apellido2 = "SAIH", Rol = rolSupervisor, Depto = deptoAdmin, Parque = parqueUno },
+    new { Email = "admin.demo@example.com", Cedula = "1000000001", Nombre = "Admin", Apellido1 = "Demo", Apellido2 = "User", Rol = rolAdminTI, Depto = deptoTI, Parque = parqueUno },
+    new { Email = "sitemanager.demo@example.com", Cedula = "1000000002", Nombre = "Ana", Apellido1 = "Site", Apellido2 = "Manager", Rol = rolAdminParque, Depto = deptoTI, Parque = parqueUno },
+    new { Email = "employee.demo@example.com", Cedula = "1000000003", Nombre = "Carlos", Apellido1 = "Field", Apellido2 = "Employee", Rol = rolEmployee, Depto = deptoTI, Parque = parqueDos },
+    new { Email = "supervisor.demo@example.com", Cedula = "1000000004", Nombre = "Sofía", Apellido1 = "Demo", Apellido2 = "Supervisor", Rol = rolSupervisor, Depto = deptoAdmin, Parque = parqueUno },
 };
 
 foreach (var u in employeesDePrueba)

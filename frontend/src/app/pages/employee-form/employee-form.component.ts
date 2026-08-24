@@ -85,7 +85,7 @@ export class EmployeeFormComponent implements OnInit, IAction {
       apellidoUno: ['', Validators.required],
       apellidoDos: ['', Validators.required],
       phone: ['', [Validators.required, Validators.maxLength(8), Validators.minLength(8), Validators.pattern(/^[0-9]\d*$/)]],
-      correo: ['', [Validators.required, Validators.pattern(/^[a-z]+[a-z0-9._]+@+sinac+\.+go+\.+cr$/)]],
+      correo: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       passwordUno: ['', [Validators.required, Validators.maxLength(16), Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*?&])[A-Za-z\d$@$!%*?&]/)]],
       passwordDos: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*?&])[A-Za-z\d$@$!%*?&]{8,16}/)]],
       rol: ['', Validators.required],
