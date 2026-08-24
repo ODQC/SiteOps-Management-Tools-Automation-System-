@@ -1,0 +1,153 @@
+<div class="page">
+  <mat-card class="page__card" appearance="outlined">
+    <div class="page__header">
+      <h1>Registro de employees</h1>
+      <p>Completa los datos para crear un nuevo employee del sistema.</p>
+    </div>
+
+    <form [formGroup]="formulario" (ngSubmit)="guardarEmployee()" class="form-grid">
+
+      <mat-form-field appearance="outline" class="form-grid__field">
+        <mat-label>Tipo de identificación</mat-label>
+        <mat-select formControlName="tipoIdentificacion" [(ngModel)]="selectedId.tipoId" (selectionChange)="onSelectedId({value: $event.value})">
+          @for (tipo of tipoIdentificacion; track tipo) {
+            <mat-option [value]="tipo.tipoId">{{ tipo.nombre }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      @if (tipoCedulas!.length > 0) {
+        @for (tipo of tipoCedulas; track tipo) {
+          @if (tipo.tipoId == 1) {
+            <mat-form-field appearance="outline" class="form-grid__field">
+              <mat-label>Número de cédula</mat-label>
+              <input matInput formControlName="cedulaNacional" maxlength="9" />
+              @if (esCampoValido('cedulaNacional')) {
+                <mat-error>{{ getErrorMessageId('cedulaNacional') }}</mat-error>
+              }
+            </mat-form-field>
+          }
+          @if (tipo.tipoId == 2) {
+            <mat-form-field appearance="outline" class="form-grid__field">
+              <mat-label>Número de cédula (DIMEX)</mat-label>
+              <input matInput formControlName="cedulaDimex" minlength="11" maxlength="12" />
+              @if (esCampoValido('cedulaDimex')) {
+                <mat-error>{{ getErrorMessageId('cedulaDimex') }}</mat-error>
+              }
+            </mat-form-field>
+          }
+        }
+      }
+
+      <mat-form-field appearance="outline" class="form-grid__field">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" />
+        @if (nombreNoValido) {
+          <mat-error>El nombre debe contener únicamente letras y no puede estar vacío</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-grid__field">
+        <mat-label>Primer apellido</mat-label>
+        <input matInput formControlName="apellidoUno" />
+        @if (apellido1NoValido) {
+          <mat-error>El apellido debe contener únicamente letras y no puede estar vacío</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-grid__field">
+        <mat-label>Segundo apellido</mat-label>
+        <input matInput formControlName="apellidoDos" />
+        @if (apellido2NoValido) {
+          <mat-error>El apellido debe contener únicamente letras y no puede estar vacío</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-grid__field">
+        <mat-label>Número de teléfono</mat-label>
+        <input matInput type="tel" formControlName="phone" maxlength="8" />
+        @if (phoneNoValido) {
+          <mat-error>Debe tener al menos 8 números sin espacios ni guiones</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-grid__field">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="correo" />
+        @if (correoNoValido) {
+          <mat-error>El formato del correo debe ser: nombreapellido&#64;sinac.go.cr</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-grid__field">
+        <mat-label>Password</mat-label>
+        <input matInput #input1 type="password" formControlName="passwordUno" maxlength="16" />
+        <button mat-icon-button matSuffix type="button" (click)="showPassword(input1)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        @if (esCampoValido('passwordUno')) {
+          <mat-error>{{ getErrorMessage('passwordUno') }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-grid__field">
+        <mat-label>Confirmar password</mat-label>
+        <input matInput #input2 type="password" formControlName="passwordDos" maxlength="16" />
+        <button mat-icon-button matSuffix type="button" (click)="showPassword(input2)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        @if (password2NoValido && password2NoValid) {
+          <mat-error>Las passwords no coinciden</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-grid__field">
+        <mat-label>Rol</mat-label>
+        <mat-select [(ngModel)]="selectedRol.name" formControlName="rol" (selectionChange)="onSelected(selectedRol.name)">
+          @for (tipo of roleList; track tipo) {
+            <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      @for (rol of roleList; track rol) {
+        @if (rol.name == 'Site Manager' && areasList2!.length > 0) {
+          <mat-form-field appearance="outline" class="form-grid__field">
+            <mat-label>Áreas de conservación</mat-label>
+            <mat-select [(ngModel)]="selectedArea.name" formControlName="areaSilvestre" (selectionChange)="getParques()">
+              @for (tipo of areasList; track tipo) {
+                <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-grid__field">
+            <mat-label>Parques nacionales</mat-label>
+            <mat-select [(ngModel)]="selectedParque.name" formControlName="site">
+              @for (tipo of parqueList; track tipo) {
+                <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+        @if (rol.name == 'Supervisor' && departmentList2!.length > 0) {
+          <mat-form-field appearance="outline" class="form-grid__field">
+            <mat-label>Department</mat-label>
+            <mat-select [(ngModel)]="selectedDepartment.pk_IdDepartment" formControlName="department">
+              @for (tipo of departmentList; track tipo) {
+                <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+      }
+
+      <div class="form-grid__actions">
+        <button type="submit" mat-flat-button color="primary">
+          <mat-icon>person_add</mat-icon>
+          Ingresar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

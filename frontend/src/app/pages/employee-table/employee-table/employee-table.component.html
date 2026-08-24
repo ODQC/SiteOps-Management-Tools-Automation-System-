@@ -1,0 +1,149 @@
+<div class="page">
+  <mat-card class="page__card" appearance="outlined">
+    <div class="page__header">
+      <h1>Consulta de employees</h1>
+      <p>Filtra, revisa y administra los employees registrados en el sistema.</p>
+    </div>
+
+    <div class="filters">
+      <mat-form-field appearance="outline" class="filters__search">
+        <mat-label>Buscador</mat-label>
+        <input matInput #txtSearch (keyup)="onSearchEmployee(txtSearch.value)" placeholder="Buscar..." />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filters__field">
+        <mat-label>Tipo de búsqueda</mat-label>
+        <mat-select [(ngModel)]="opcionBusqueda" (selectionChange)="capturarTipoBusqueda()">
+          <mat-option value="Identificacion">Identificación</mat-option>
+          <mat-option value="Nombre">Nombre</mat-option>
+          <mat-option value="Apellidos">Apellidos</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filters__field">
+        <mat-label>Estado</mat-label>
+        <mat-select [(ngModel)]="opcionBusquedaEstado" (selectionChange)="capturarTipoBusquedaEstado()">
+          <mat-option value="Todos">Todos</mat-option>
+          <mat-option value="Activos">Activos</mat-option>
+          <mat-option value="Inactivos">Inactivos</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filters__field">
+        <mat-label>Rol</mat-label>
+        <mat-select [(ngModel)]="opcionBusquedaRol" (selectionChange)="capturarTipoBusquedaRol()">
+          <mat-option value="Todos">Todos</mat-option>
+          @for (tipo of roleList; track tipo) {
+            <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filters__field">
+        <mat-label>Department</mat-label>
+        <mat-select [(ngModel)]="opcionBusquedaDepartment" (selectionChange)="capturarTipoBusquedaDepartment()">
+          <mat-option value="Todos">Todos</mat-option>
+          @for (tipo of departmentList; track tipo) {
+            <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filters__field">
+        <mat-label>ASP</mat-label>
+        <mat-select [(ngModel)]="opcionBusquedaParque" (selectionChange)="capturarTipoBusquedaParque()">
+          <mat-option value="Todos">Todos</mat-option>
+          @for (tipo of parqueList; track tipo) {
+            @if (tipo.name !== 'N/A') {
+              <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+            }
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="employeesVisibles | filter: pagina:search:opcionBusqueda:opcionBusquedaEstado:opcionBusquedaRol: opcionBusquedaArea:opcionBusquedaParque:opcionBusquedaDepartment:roleList:departmentList:parqueList" class="users-table">
+
+        <ng-container matColumnDef="identificacion">
+          <th mat-header-cell *matHeaderCellDef>Identificación</th>
+          <td mat-cell *matCellDef="let employee">{{ employee.nationalId }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef>Nombre completo</th>
+          <td mat-cell *matCellDef="let employee">{{ employee.firstName }} {{ employee.lastName }} {{ employee.secondLastName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="correo">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let employee">{{ employee.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+          <td mat-cell *matCellDef="let employee">{{ employee.phone }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="department">
+          <th mat-header-cell *matHeaderCellDef>Department</th>
+          <td mat-cell *matCellDef="let employee">{{ getDepartmentName(employee.fK_idDepartment1) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="rol">
+          <th mat-header-cell *matHeaderCellDef>Rol</th>
+          <td mat-cell *matCellDef="let employee">{{ getRoleName(employee.fK_idRole1) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="asp">
+          <th mat-header-cell *matHeaderCellDef>ASP</th>
+          <td mat-cell *matCellDef="let employee">{{ getSiteName(employee.fK_idSite1) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="editar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let employee">
+            @if (!soloLectura) {
+              <button mat-stroked-button color="primary" (click)="editar(employee)">
+                <mat-icon>edit</mat-icon>
+                Editar
+              </button>
+            }
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let employee">
+            <button mat-flat-button [color]="employee.status === 'Activo' ? 'primary' : 'warn'" [disabled]="soloLectura" (click)="deshabilitarEmployee(employee.nationalId)">
+              {{ employee.status === 'Activo' ? 'Activo' : 'Inactivo' }}
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+      </table>
+
+      @if ((employeesVisibles | filter: pagina:search:opcionBusqueda:opcionBusquedaEstado:opcionBusquedaRol: opcionBusquedaArea:opcionBusquedaParque:opcionBusquedaDepartment:roleList:departmentList:parqueList).length === 0) {
+        <div class="table-wrapper__empty">
+          <mat-icon>search_off</mat-icon>
+          <p>No se encontraron employees con esos criterios.</p>
+        </div>
+      }
+    </div>
+
+    <div class="pager">
+      <button mat-stroked-button (click)="paginaAnterior()" [disabled]="pagina === 0">
+        <mat-icon>chevron_left</mat-icon>
+        Anteriores
+      </button>
+      <button mat-stroked-button (click)="paginaSiguiente()"
+        [disabled]="(employeesVisibles | filter: pagina:search:opcionBusqueda:opcionBusquedaEstado:opcionBusquedaRol: opcionBusquedaArea:opcionBusquedaParque:opcionBusquedaDepartment:roleList:departmentList:parqueList).length === 0">
+        Siguiente
+        <mat-icon iconPositionEnd>chevron_right</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+</div>

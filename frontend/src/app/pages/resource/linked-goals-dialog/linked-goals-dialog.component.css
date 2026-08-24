@@ -1,0 +1,29 @@
+@import '../../../shared/dialog-grid.css';
+@import '../../../shared/page-list.css';
+
+.linked-goals-dialog {
+  min-width: 560px;
+}
+
+.linked-goals-dialog__form {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
+.linked-goals-dialog__select {
+  flex: 1;
+}
+
+@media (max-width: 640px) {
+  .linked-goals-dialog {
+    min-width: 0;
+  }
+
+  .linked-goals-dialog__form {
+    flex-direction: column;
+  }
+}

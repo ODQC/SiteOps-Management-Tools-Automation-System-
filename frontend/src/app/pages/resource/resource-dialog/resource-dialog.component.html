@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>{{ esEdicion ? 'Editar resource' : 'Nueva resource' }}</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="guardar()">
+  <mat-dialog-content class="dialog-grid">
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Código</mat-label>
+      <input matInput formControlName="code" [readonly]="esEdicion" />
+      @if (esCampoValido('code')) {
+        <mat-error>El código es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Tipo de resource</mat-label>
+      <input matInput formControlName="type" />
+      @if (esCampoValido('type')) {
+        <mat-error>El tipo es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field dialog-grid__field--full">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+      @if (esCampoValido('description')) {
+        <mat-error>La descripción es obligatoria</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="Activo">Activo</mat-option>
+        <mat-option value="Inactivo">Inactivo</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">{{ esEdicion ? 'Actualizar' : 'Crear' }}</button>
+  </mat-dialog-actions>
+</form>

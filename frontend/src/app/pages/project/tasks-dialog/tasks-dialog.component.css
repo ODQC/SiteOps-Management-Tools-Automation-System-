@@ -1,0 +1,28 @@
+@import '../../../shared/dialog-grid.css';
+@import '../../../shared/page-list.css';
+
+.tasks-dialog {
+  min-width: 560px;
+}
+
+.tasks-dialog__add {
+  margin-top: 16px;
+}
+
+.tasks-dialog__form {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
+.tasks-dialog__form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .tasks-dialog {
+    min-width: 0;
+  }
+}

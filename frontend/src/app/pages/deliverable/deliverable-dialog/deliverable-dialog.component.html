@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>{{ esEdicion ? 'Editar deliverable' : 'Nueva deliverable' }}</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="guardar()">
+  <mat-dialog-content class="dialog-grid">
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Código</mat-label>
+      <input matInput formControlName="code" [readonly]="esEdicion" />
+      @if (esCampoValido('code')) {
+        <mat-error>El código es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" />
+      @if (esCampoValido('nombre')) {
+        <mat-error>El nombre es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field dialog-grid__field--full">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripcion" rows="3"></textarea>
+      @if (esCampoValido('descripcion')) {
+        <mat-error>La descripción es obligatoria</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field dialog-grid__field--full">
+      <mat-label>Task relacionada</mat-label>
+      <mat-select formControlName="fK_idTask1">
+        @for (act of taskesList; track act) {
+          <mat-option [value]="act.pK_idTask">{{ act.name }}</mat-option>
+        }
+      </mat-select>
+      @if (esCampoValido('fK_idTask1')) {
+        <mat-error>Selecciona una task</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="dialog-grid__field dialog-grid__field--full deliverable-dialog__file">
+      <button mat-stroked-button type="button" (click)="fileInput.click()">
+        <mat-icon>attach_file</mat-icon>
+        {{ documentSeleccionado ? documentSeleccionado.name : (esEdicion ? 'Reemplazar document' : 'Adjuntar document') }}
+      </button>
+      <input #fileInput type="file" hidden (change)="onDocumentSeleccionado($event)" />
+      @if (esEdicion && !documentSeleccionado && data?.documentName) {
+        <span class="deliverable-dialog__file-current">Document actual: {{ data?.documentName }}</span>
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="subiendoDocument">
+      @if (subiendoDocument) {
+        <mat-spinner diameter="18"></mat-spinner>
+      } @else {
+        {{ esEdicion ? 'Actualizar' : 'Crear' }}
+      }
+    </button>
+  </mat-dialog-actions>
+</form>

@@ -133,7 +133,7 @@ namespace WebApiSAIH.Services.Implementacion
             {
                 new Claim("Email", model.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim("Cedula", employee?.NationalId ?? ""),
+                new Claim("NationalId", employee?.NationalId ?? ""),
                 new Claim("UserID", employee?.PK_idEmployee.ToString() ?? "0"),
             };
 
@@ -645,10 +645,10 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (employee != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Cedula en uso", true);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "National ID already in use", true);
                 }
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Cedula disponible", false);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "National ID available", false);
             }
             catch (Exception e)
             {

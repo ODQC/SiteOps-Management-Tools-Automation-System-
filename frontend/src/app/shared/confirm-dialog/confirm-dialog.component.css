@@ -1,0 +1,25 @@
+.confirm-dialog {
+  min-width: 280px;
+}
+
+.confirm-dialog__icon {
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.confirm-dialog__icon mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: var(--mat-sys-primary);
+}
+
+h2[mat-dialog-title] {
+  text-align: center;
+}
+
+mat-dialog-content p {
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+}

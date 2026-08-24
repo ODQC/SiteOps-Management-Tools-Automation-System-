@@ -1,0 +1,13 @@
+@import '../../../shared/dialog-grid.css';
+
+.deliverable-dialog__file {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.deliverable-dialog__file-current {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.85rem;
+}

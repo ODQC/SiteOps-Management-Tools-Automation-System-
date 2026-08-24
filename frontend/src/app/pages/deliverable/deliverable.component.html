@@ -1,0 +1,77 @@
+<div class="page">
+  <mat-card class="page__card" appearance="outlined">
+    <div class="page__header">
+      <div>
+        <h1>Deliverables</h1>
+        <p>Administra las deliverables adjuntas a las tasks.</p>
+      </div>
+      @if (!soloLectura) {
+        <button mat-flat-button color="primary" class="page__new-button" (click)="nueva()">
+          <mat-icon>add</mat-icon>
+          Nueva deliverable
+        </button>
+      }
+    </div>
+
+    <div class="filters">
+      <mat-form-field appearance="outline" class="filters__search">
+        <mat-label>Buscador</mat-label>
+        <input matInput [(ngModel)]="search" placeholder="Buscar por nombre o código..." />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="deliverablesFiltradas" class="data-table">
+        <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef>Código</th>
+          <td mat-cell *matCellDef="let e">{{ e.code }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef>Nombre</th>
+          <td mat-cell *matCellDef="let e">{{ e.nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="task">
+          <th mat-header-cell *matHeaderCellDef>Task</th>
+          <td mat-cell *matCellDef="let e">{{ name(e.fK_idTask1) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="document">
+          <th mat-header-cell *matHeaderCellDef>Document</th>
+          <td mat-cell *matCellDef="let e">{{ e.documentName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="editar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let e">
+            <button mat-stroked-button color="primary" (click)="editar(e)">
+              <mat-icon>edit</mat-icon>
+              Editar
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let e">
+            <button mat-flat-button [color]="e.status === 'Activo' ? 'primary' : 'warn'" [disabled]="soloLectura" (click)="cambiarEstado(e)">
+              {{ e.status }}
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+      </table>
+
+      @if (deliverablesFiltradas.length === 0) {
+        <div class="table-wrapper__empty">
+          <mat-icon>search_off</mat-icon>
+          <p>No se encontraron deliverables.</p>
+        </div>
+      }
+    </div>
+  </mat-card>
+</div>

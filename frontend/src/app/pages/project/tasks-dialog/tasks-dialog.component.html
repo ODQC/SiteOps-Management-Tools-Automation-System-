@@ -1,0 +1,103 @@
+<h2 mat-dialog-title>Tasks del plan {{ plan.code }}</h2>
+
+<mat-dialog-content class="tasks-dialog">
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="tasks" class="data-table">
+      <ng-container matColumnDef="codigo">
+        <th mat-header-cell *matHeaderCellDef>Código</th>
+        <td mat-cell *matCellDef="let a">{{ a.code }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let a">{{ a.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let a">{{ a.completionDate | date: 'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let a">{{ a.taskStatus }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+    </table>
+
+    @if (tasks.length === 0) {
+      <div class="table-wrapper__empty">
+        <mat-icon>event_busy</mat-icon>
+        <p>Este plan aún no tiene tasks.</p>
+      </div>
+    }
+  </div>
+
+  @if (!mostrarFormulario && permissions.esCompleto('tasks')) {
+    <button mat-stroked-button color="primary" class="tasks-dialog__add" (click)="toggleFormulario()">
+      <mat-icon>add</mat-icon>
+      Agregar task
+    </button>
+  } @else if (mostrarFormulario) {
+    <form [formGroup]="formulario" (ngSubmit)="crearTask()" class="dialog-grid tasks-dialog__form">
+      <mat-form-field appearance="outline" class="dialog-grid__field">
+        <mat-label>Código</mat-label>
+        <input matInput formControlName="code" />
+        @if (esCampoValido('code')) {
+          <mat-error>Obligatorio</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dialog-grid__field">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" />
+        @if (esCampoValido('name')) {
+          <mat-error>Obligatorio</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dialog-grid__field">
+        <mat-label>Goal</mat-label>
+        <mat-select formControlName="fk_IdGoal1">
+          @for (obj of goalsList; track obj) {
+            <mat-option [value]="obj.pK_idGoal">{{ obj.name }}</mat-option>
+          }
+        </mat-select>
+        @if (esCampoValido('fk_IdGoal1')) {
+          <mat-error>Selecciona un goal</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dialog-grid__field">
+        <mat-label>Fecha de realización</mat-label>
+        <input matInput [matDatepicker]="pickerFecha" formControlName="completionDate" />
+        <mat-datepicker-toggle matSuffix [for]="pickerFecha"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFecha></mat-datepicker>
+        @if (esCampoValido('completionDate')) {
+          <mat-error>Obligatorio</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dialog-grid__field">
+        <mat-label>Colaboradores</mat-label>
+        <input matInput formControlName="collaborators" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dialog-grid__field dialog-grid__field--full">
+        <mat-label>Observaciones</mat-label>
+        <textarea matInput formControlName="notes" rows="2"></textarea>
+      </mat-form-field>
+
+      <div class="dialog-grid__field dialog-grid__field--full tasks-dialog__form-actions">
+        <button mat-stroked-button type="button" (click)="toggleFormulario()">Cancelar</button>
+        <button mat-flat-button color="primary" type="submit">Guardar task</button>
+      </div>
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="cerrar()">Cerrar</button>
+</mat-dialog-actions>

@@ -1,0 +1,144 @@
+<mat-sidenav-container class="shell">
+  <mat-sidenav
+    #drawer
+    class="shell__drawer"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="sidenavOpened"
+    (openedChange)="sidenavOpened = $event">
+
+    <div class="shell__brand">
+      <img src="../assets/Recursos/iconoSinac.png" alt="SINAC" class="shell__brand-logo" />
+      <div class="shell__brand-text">
+        <span class="shell__brand-title">SAIH</span>
+        <span class="shell__brand-subtitle">Sistema de Automatización de Resources de Manejo</span>
+      </div>
+    </div>
+
+    <a class="shell__profile" routerLink="/sidebar/my-profile">
+      <div class="shell__profile-avatar">
+        @if (fotoProfile) {
+          <img [src]="fotoProfile" alt="Foto de profile" />
+        } @else {
+          <mat-icon>account_circle</mat-icon>
+        }
+      </div>
+      <div class="shell__profile-info">
+        <span class="shell__profile-email">{{ employeeService.cargarProfileEmployee().Email }}</span>
+      </div>
+    </a>
+
+    <mat-nav-list class="shell__nav">
+      <a mat-list-item routerLink="/sidebar/dashboard" routerLinkActive="shell__nav-link--active">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>Inicio</span>
+      </a>
+
+      <mat-divider></mat-divider>
+
+      @if (permissions.tieneAcceso('employeesRegistro') || permissions.tieneAcceso('employeesConsulta')) {
+        <h3 matSubheader>Módulos</h3>
+
+        @if (permissions.tieneAcceso('employeesRegistro')) {
+          <a mat-list-item routerLink="/sidebar/registro" routerLinkActive="shell__nav-link--active">
+            <mat-icon matListItemIcon>person_add</mat-icon>
+            <span matListItemTitle>Registro de employees</span>
+          </a>
+        }
+
+        @if (permissions.tieneAcceso('employeesConsulta')) {
+          <a mat-list-item routerLink="/sidebar/consultas" routerLinkActive="shell__nav-link--active">
+            <mat-icon matListItemIcon>groups</mat-icon>
+            <span matListItemTitle>Consulta de employees</span>
+          </a>
+        }
+
+        <mat-divider></mat-divider>
+      }
+
+      @if (permissions.tieneAcceso('mantenimientos') || permissions.tieneAcceso('resources')) {
+        <h3 matSubheader>Mantenimientos</h3>
+
+        @if (permissions.tieneAcceso('mantenimientos')) {
+          <a mat-list-item routerLink="/sidebar/areas-conservacion" routerLinkActive="shell__nav-link--active">
+            <mat-icon matListItemIcon>forest</mat-icon>
+            <span matListItemTitle>Áreas de conservación</span>
+          </a>
+
+          <a mat-list-item routerLink="/sidebar/parques-nacionales" routerLinkActive="shell__nav-link--active">
+            <mat-icon matListItemIcon>park</mat-icon>
+            <span matListItemTitle>Parques nacionales</span>
+          </a>
+        }
+
+        @if (permissions.tieneAcceso('resources')) {
+          <a mat-list-item routerLink="/sidebar/resources" routerLinkActive="shell__nav-link--active">
+            <mat-icon matListItemIcon>construction</mat-icon>
+            <span matListItemTitle>Resources</span>
+          </a>
+        }
+
+        <mat-divider></mat-divider>
+      }
+
+      @if (permissions.tieneAcceso('goals') || permissions.tieneAcceso('planesTrabajo') || permissions.tieneAcceso('deliverables')) {
+        <h3 matSubheader>Planificación</h3>
+
+        @if (permissions.tieneAcceso('goals')) {
+          <a mat-list-item routerLink="/sidebar/goals" routerLinkActive="shell__nav-link--active">
+            <mat-icon matListItemIcon>flag</mat-icon>
+            <span matListItemTitle>Goals</span>
+          </a>
+        }
+
+        @if (permissions.tieneAcceso('planesTrabajo')) {
+          <a mat-list-item routerLink="/sidebar/planes-trabajo" routerLinkActive="shell__nav-link--active">
+            <mat-icon matListItemIcon>event_note</mat-icon>
+            <span matListItemTitle>Planes de trabajo</span>
+          </a>
+        }
+
+        @if (permissions.tieneAcceso('deliverables')) {
+          <a mat-list-item routerLink="/sidebar/deliverables" routerLinkActive="shell__nav-link--active">
+            <mat-icon matListItemIcon>photo_library</mat-icon>
+            <span matListItemTitle>Deliverables</span>
+          </a>
+        }
+
+        <mat-divider></mat-divider>
+      }
+
+      <a mat-list-item href="#">
+        <mat-icon matListItemIcon>help_outline</mat-icon>
+        <span matListItemTitle>Ayuda</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="shell__toolbar" color="primary">
+      <button mat-icon-button (click)="drawer.toggle()" aria-label="Abrir/cerrar menú">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="shell__toolbar-title">Sistema de Automatización de Información de las Resources de Manejo</span>
+      <span class="shell__spacer"></span>
+      <button mat-icon-button (click)="themeService.alternarTema()"
+        [matTooltip]="themeService.tema === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+        aria-label="Cambiar tema">
+        <mat-icon>{{ themeService.tema === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+      <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión" aria-label="Cerrar sesión">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <main class="shell__content">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="shell__footer">
+      © 2026 SAIH — SINAC
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

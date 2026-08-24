@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>{{ esEdicion ? 'Editar plan de trabajo' : 'Nuevo plan de trabajo' }}</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="guardar()">
+  <mat-dialog-content class="dialog-grid">
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Código del plan</mat-label>
+      <input matInput formControlName="code" [readonly]="esEdicion" />
+      @if (esCampoValido('code')) {
+        <mat-error>El código es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Responsable</mat-label>
+      <mat-select formControlName="fk_IdEmployee1">
+        @for (employee of employeesList; track employee) {
+          <mat-option [value]="employee.pK_idEmployee">{{ employee.firstName }} {{ employee.lastName }}</mat-option>
+        }
+      </mat-select>
+      @if (esCampoValido('fk_IdEmployee1')) {
+        <mat-error>Selecciona un responsable</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Área de conservación</mat-label>
+      <mat-select formControlName="fK_idRegion2">
+        @for (area of areasList; track area) {
+          <mat-option [value]="area.pK_IdRegion">{{ area.name }}</mat-option>
+        }
+      </mat-select>
+      @if (esCampoValido('fK_idRegion2')) {
+        <mat-error>Selecciona un área</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="Pendiente">Pendiente</mat-option>
+        <mat-option value="En Curso">En Curso</mat-option>
+        <mat-option value="Completada">Completada</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Fecha de inicio</mat-label>
+      <input matInput [matDatepicker]="pickerInicio" formControlName="startDate" />
+      <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+      <mat-datepicker #pickerInicio></mat-datepicker>
+      @if (esCampoValido('startDate')) {
+        <mat-error>La fecha de inicio es obligatoria</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>Fecha final</mat-label>
+      <input matInput [matDatepicker]="pickerFinal" formControlName="endDate" />
+      <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+      <mat-datepicker #pickerFinal></mat-datepicker>
+      @if (esCampoValido('endDate')) {
+        <mat-error>La fecha final es obligatoria</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dialog-grid__field">
+      <mat-label>progress (%)</mat-label>
+      <input matInput type="number" min="0" max="100" formControlName="progress" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">{{ esEdicion ? 'Actualizar' : 'Crear' }}</button>
+  </mat-dialog-actions>
+</form>

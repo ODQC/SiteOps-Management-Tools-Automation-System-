@@ -1,0 +1,114 @@
+<h2 mat-dialog-title>Actualizar employee</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="editar()">
+  <mat-dialog-content class="edit-dialog">
+
+    <mat-form-field appearance="outline" class="edit-dialog__field">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" />
+      @if (nombreNoValido) {
+        <mat-error>El nombre debe contener únicamente letras y no puede estar vacío</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="edit-dialog__field">
+      <mat-label>Primer apellido</mat-label>
+      <input matInput formControlName="apellidoUno" />
+      @if (apellido1NoValido) {
+        <mat-error>El apellido debe contener únicamente letras y no puede estar vacío</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="edit-dialog__field">
+      <mat-label>Segundo apellido</mat-label>
+      <input matInput formControlName="apellidoDos" />
+      @if (apellido2NoValido) {
+        <mat-error>El apellido debe contener únicamente letras y no puede estar vacío</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="edit-dialog__field">
+      <mat-label>Número de teléfono</mat-label>
+      <input matInput type="tel" formControlName="phone" maxlength="8" />
+      @if (phoneNoValido) {
+        <mat-error>Debe tener al menos 8 números sin espacios ni guiones</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="edit-dialog__field">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="correo" />
+      @if (correoNoValido) {
+        <mat-error>El formato del correo debe ser: nombreapellido&#64;sinac.go.cr</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="edit-dialog__field">
+      <mat-label>Password</mat-label>
+      <input matInput #input1 type="password" formControlName="passwordUno" maxlength="16" />
+      <button mat-icon-button matSuffix type="button" (click)="showPassword(input1)">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      @if (esCampoValido('passwordUno')) {
+        <mat-error>{{ getErrorMessage('passwordUno') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="edit-dialog__field">
+      <mat-label>Confirmar password</mat-label>
+      <input matInput #input2 type="password" formControlName="passwordDos" maxlength="16" />
+      <button mat-icon-button matSuffix type="button" (click)="showPassword(input2)">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      @if (password2NoValido && password2NoValid) {
+        <mat-error>Las passwords no coinciden</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="edit-dialog__field">
+      <mat-label>Rol</mat-label>
+      <mat-select formControlName="rol" (selectionChange)="onSelected(retornarRol($event.value))">
+        @for (tipo of roleList; track tipo) {
+          <mat-option [value]="tipo.pK_idRole">{{ tipo.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @for (rol of roleList; track rol) {
+      @if (rol.name == 'Site Manager' && areasList2!.length > 0) {
+        <mat-form-field appearance="outline" class="edit-dialog__field">
+          <mat-label>Áreas de conservación</mat-label>
+          <mat-select [(ngModel)]="selectedArea.name" formControlName="areaSilvestre" (selectionChange)="getParques()">
+            @for (tipo of areasList; track tipo) {
+              <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="edit-dialog__field">
+          <mat-label>Parques nacionales</mat-label>
+          <mat-select [(ngModel)]="selectedParque.name" formControlName="site">
+            @for (tipo of parqueList; track tipo) {
+              <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+      @if (rol.name == 'Supervisor' && departmentList2!.length > 0) {
+        <mat-form-field appearance="outline" class="edit-dialog__field">
+          <mat-label>Department</mat-label>
+          <mat-select [(ngModel)]="selectedDepartment.pk_IdDepartment" formControlName="department">
+            @for (tipo of departmentList; track tipo) {
+              <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">Actualizar</button>
+  </mat-dialog-actions>
+</form>

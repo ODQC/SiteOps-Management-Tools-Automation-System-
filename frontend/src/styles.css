@@ -1,0 +1,39 @@
+/* Global styles */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+}
+
+/* Toast/snackbar colors used by ToastService */
+.saih-snackbar {
+  --mdc-snackbar-container-color: var(--mat-sys-inverse-surface);
+}
+
+.saih-snackbar--success .mdc-snackbar__surface {
+  background: #2e7d32 !important;
+}
+
+.saih-snackbar--error .mdc-snackbar__surface {
+  background: #c62828 !important;
+}
+
+.saih-snackbar--warning .mdc-snackbar__surface {
+  background: #ef6c00 !important;
+}
+
+.saih-snackbar .mdc-snackbar__label {
+  color: #fff !important;
+}
+
+.saih-snackbar .mat-mdc-snack-bar-action {
+  color: #fff !important;
+}

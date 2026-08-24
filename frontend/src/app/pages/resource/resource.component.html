@@ -1,0 +1,82 @@
+<div class="page">
+  <mat-card class="page__card" appearance="outlined">
+    <div class="page__header">
+      <div>
+        <h1>Resources de manejo</h1>
+        <p>Administra las resources usadas en las tasks de campo.</p>
+      </div>
+      @if (!soloLectura) {
+        <button mat-flat-button color="primary" class="page__new-button" (click)="nueva()">
+          <mat-icon>add</mat-icon>
+          Nueva resource
+        </button>
+      }
+    </div>
+
+    <div class="filters">
+      <mat-form-field appearance="outline" class="filters__search">
+        <mat-label>Buscador</mat-label>
+        <input matInput [(ngModel)]="search" placeholder="Buscar por tipo o código..." />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="resourcesFiltradas" class="data-table">
+        <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef>Código</th>
+          <td mat-cell *matCellDef="let h">{{ h.code }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let h">{{ h.type }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="descripcion">
+          <th mat-header-cell *matHeaderCellDef>Descripción</th>
+          <td mat-cell *matCellDef="let h">{{ h.description }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="goals">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let h">
+            <button mat-stroked-button color="primary" (click)="verGoals(h)">
+              <mat-icon>flag</mat-icon>
+              Goals
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="editar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let h">
+            <button mat-stroked-button color="primary" (click)="editar(h)">
+              <mat-icon>edit</mat-icon>
+              Editar
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let h">
+            <button mat-flat-button [color]="h.status === 'Activo' ? 'primary' : 'warn'" [disabled]="soloLectura" (click)="cambiarEstado(h)">
+              {{ h.status }}
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+      </table>
+
+      @if (resourcesFiltradas.length === 0) {
+        <div class="table-wrapper__empty">
+          <mat-icon>search_off</mat-icon>
+          <p>No se encontraron resources.</p>
+        </div>
+      }
+    </div>
+  </mat-card>
+</div>

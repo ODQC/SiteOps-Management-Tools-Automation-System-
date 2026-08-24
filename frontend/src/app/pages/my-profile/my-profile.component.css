@@ -1,0 +1,78 @@
+@import '../../shared/page-list.css';
+
+.my-profile__loading {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
+
+.my-profile__layout {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.my-profile__foto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.my-profile__avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mat-sys-secondary-container);
+}
+
+.my-profile__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.my-profile__avatar mat-icon {
+  font-size: 72px;
+  width: 72px;
+  height: 72px;
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.my-profile__form {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 280px;
+}
+
+.my-profile__readonly {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.my-profile__readonly > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.my-profile__label {
+  font-size: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.my-profile__field {
+  width: 100%;
+  max-width: 360px;
+}
+
+.my-profile__actions {
+  margin-top: 8px;
+}

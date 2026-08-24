@@ -1,0 +1,18 @@
+.edit-dialog {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 20px;
+  align-items: start;
+  padding-top: 4px !important;
+  max-width: 640px;
+}
+
+.edit-dialog__field {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .edit-dialog {
+    grid-template-columns: 1fr;
+  }
+}

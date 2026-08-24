@@ -1,0 +1,23 @@
+.dialog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 20px;
+  align-items: start;
+  padding-top: 4px !important;
+  min-width: 420px;
+}
+
+.dialog-grid__field {
+  width: 100%;
+}
+
+.dialog-grid__field--full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+  .dialog-grid {
+    grid-template-columns: 1fr;
+    min-width: 0;
+  }
+}
