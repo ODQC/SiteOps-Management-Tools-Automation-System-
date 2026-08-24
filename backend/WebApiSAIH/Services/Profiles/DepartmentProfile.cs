@@ -17,17 +17,17 @@ namespace SAIH_Backend.Servicios.Profiles
                    dest.PK_idDepartment,
                    opt => opt.MapFrom(src => src.PK_idDepartment))
                .ForMember(dest =>
-                   dest.CodigoDepartment,
-                   opt => opt.MapFrom(src => src.CodigoDepartment))
+                   dest.Code,
+                   opt => opt.MapFrom(src => src.Code))
                .ForMember(dest =>
-                   dest.NombreDepartment,
-                   opt => opt.MapFrom(src => src.NombreDepartment))
+                   dest.Name,
+                   opt => opt.MapFrom(src => src.Name))
                .ForMember(dest =>
-                   dest.DescripcionDepartment,
-                   opt => opt.MapFrom(src => src.DescripcionDepartment))
+                   dest.Description,
+                   opt => opt.MapFrom(src => src.Description))
                .ForMember(dest =>
-                   dest.EstadoDepartment,
-                   opt => opt.MapFrom(src => src.EstadoDepartment))
+                   dest.Status,
+                   opt => opt.MapFrom(src => src.Status))
             .ReverseMap();
         }
 

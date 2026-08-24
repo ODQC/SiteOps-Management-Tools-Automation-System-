@@ -90,10 +90,10 @@ namespace WebApiSAIH.Migrations
                 {
                     PK_idDepartment = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CodigoDepartment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NombreDepartment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DescripcionDepartment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EstadoDepartment = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -50,17 +50,17 @@ Region GetOrCreateArea(string codigo, string nombre)
 
 Department GetOrCreateDepto(string codigo, string nombre)
 {
-    var d = db.Departments.FirstOrDefault(x => x.CodigoDepartment == codigo);
+    var d = db.Departments.FirstOrDefault(x => x.Code == codigo);
     if (d == null)
     {
         d = new Department(0, codigo, nombre, $"{nombre} (prueba)", Status.ACTIVE);
         db.Departments.Add(d);
         db.SaveChanges();
     }
-    else if (d.NombreDepartment != nombre)
+    else if (d.Name != nombre)
     {
-        d.NombreDepartment = nombre;
-        d.DescripcionDepartment = $"{nombre} (prueba)";
+        d.Name = nombre;
+        d.Description = $"{nombre} (prueba)";
         db.SaveChanges();
     }
     return d;

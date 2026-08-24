@@ -30,20 +30,20 @@ namespace SAIH_Backend.Servicios.Implementacion
         public RespuestaGenerica toggleDepartmentStatus(string idDepartmentDTO)
         {
             Department department = _context.Departments.Where(
-                s => s.CodigoDepartment == idDepartmentDTO).FirstOrDefault<Department>();
+                s => s.Code == idDepartmentDTO).FirstOrDefault<Department>();
 
             if (department == null)
             {
                 return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department not found", null);
             }
 
-            if (department.EstadoDepartment == Status.ACTIVE)
+            if (department.Status == Status.ACTIVE)
             {
-                department.EstadoDepartment = Status.INACTIVE;
+                department.Status = Status.INACTIVE;
             }
-            else if (department.EstadoDepartment == Status.INACTIVE)
+            else if (department.Status == Status.INACTIVE)
             {
-                department.EstadoDepartment = Status.ACTIVE;
+                department.Status = Status.ACTIVE;
             }
 
             try
@@ -62,7 +62,7 @@ namespace SAIH_Backend.Servicios.Implementacion
         public RespuestaGenerica deleteDepartment(string idDepartmentDTO)
         {
             Department department = _context.Departments.Where(
-                s => s.CodigoDepartment == idDepartmentDTO).FirstOrDefault<Department>();
+                s => s.Code == idDepartmentDTO).FirstOrDefault<Department>();
 
             if (department == null)
             {
@@ -79,7 +79,7 @@ namespace SAIH_Backend.Servicios.Implementacion
                 return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Department " + department.CodigoDepartment + " deleted successfully", _mapper.Map<DepartmentDTO>(department));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Department " + department.Code + " deleted successfully", _mapper.Map<DepartmentDTO>(department));
         }
 
         public RespuestaGenerica createDepartment(DepartmentDTO departmentDTO)
@@ -87,7 +87,7 @@ namespace SAIH_Backend.Servicios.Implementacion
             try
             {
                 Department department = _context.Departments.Where(
-                 s => s.CodigoDepartment == departmentDTO.CodigoDepartment).FirstOrDefault<Department>();
+                 s => s.Code == departmentDTO.Code).FirstOrDefault<Department>();
 
                 if (department != null)
                 {
@@ -129,7 +129,7 @@ namespace SAIH_Backend.Servicios.Implementacion
                 }
 
                 Department departmentCodigo = _context.Departments.Where(
-                 s => s.CodigoDepartment == departmentDTO.CodigoDepartment).FirstOrDefault<Department>();
+                 s => s.Code == departmentDTO.Code).FirstOrDefault<Department>();
 
                 if (departmentCodigo != null && (departmentCodigo != department))
                 {
@@ -162,7 +162,7 @@ namespace SAIH_Backend.Servicios.Implementacion
         public RespuestaGenerica getDepartment(string idDepartmentDTO)
         {
             Department department = _context.Departments
-                .Where(s => s.CodigoDepartment == idDepartmentDTO).FirstOrDefault<Department>();
+                .Where(s => s.Code == idDepartmentDTO).FirstOrDefault<Department>();
 
             if (department == null)
             {
@@ -175,7 +175,7 @@ namespace SAIH_Backend.Servicios.Implementacion
         public RespuestaGenerica getDepartments()
         {
             List<Department> departments = _context.Departments
-                       .Where(s => s.CodigoDepartment != "N/A")
+                       .Where(s => s.Code != "N/A")
                        .ToList();
 
             return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Departments listed", _mapper.Map<List<DepartmentDTO>>(departments));
@@ -184,7 +184,7 @@ namespace SAIH_Backend.Servicios.Implementacion
         public RespuestaGenerica getNADepartmentId()
         {
             Department department = _context.Departments
-                .Where(s => s.CodigoDepartment == "N/A").FirstOrDefault<Department>();
+                .Where(s => s.Code == "N/A").FirstOrDefault<Department>();
 
             if (department == null)
             {
@@ -196,10 +196,10 @@ namespace SAIH_Backend.Servicios.Implementacion
 
         private Department covertirDTOAEntidad(Department department, DepartmentDTO departmentDTO)
         {
-            department.CodigoDepartment = departmentDTO.CodigoDepartment;
-            department.NombreDepartment = departmentDTO.NombreDepartment;
-            department.DescripcionDepartment = departmentDTO.DescripcionDepartment;
-            department.EstadoDepartment = departmentDTO.EstadoDepartment;
+            department.Code = departmentDTO.Code;
+            department.Name = departmentDTO.Name;
+            department.Description = departmentDTO.Description;
+            department.Status = departmentDTO.Status;
 
 
             return department;
@@ -210,7 +210,7 @@ namespace SAIH_Backend.Servicios.Implementacion
             List<String> listaErrores = new List<String>();
 
             Department department2 = _context.Departments.Where(
-                 s => s.CodigoDepartment == department.CodigoDepartment).FirstOrDefault<Department>();
+                 s => s.Code == department.Code).FirstOrDefault<Department>();
 
             if (department2 != null)
             {
@@ -230,7 +230,7 @@ namespace SAIH_Backend.Servicios.Implementacion
             try
             {
                 Department department = _context.Departments.Where(
-                s => s.CodigoDepartment == code).FirstOrDefault<Department>();
+                s => s.Code == code).FirstOrDefault<Department>();
 
                 if (department != null)
                 {

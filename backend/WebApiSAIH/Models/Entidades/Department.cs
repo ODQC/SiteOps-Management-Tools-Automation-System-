@@ -41,10 +41,10 @@ namespace SAIH_Backend.Datos.Entidades
         }
 
         public long PK_idDepartment { get => pk_IdDepartment; set => pk_IdDepartment = value; }
-        public string CodigoDepartment { get => codigoDepartment; set => codigoDepartment = value; }
-        public string NombreDepartment { get => nombreDepartment; set => nombreDepartment = value; }
-        public string DescripcionDepartment { get => descripcionDepartment; set => descripcionDepartment = value; }
-        public string EstadoDepartment { get => estadoDepartment; set => estadoDepartment = value; }
+        public string Code { get => codigoDepartment; set => codigoDepartment = value; }
+        public string Name { get => nombreDepartment; set => nombreDepartment = value; }
+        public string Description { get => descripcionDepartment; set => descripcionDepartment = value; }
+        public string Status { get => estadoDepartment; set => estadoDepartment = value; }
 
 
     }
