@@ -27,7 +27,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
         public RespuestaGenerica deshabilitarRole(string idRole)
         {
-            Role role = _context.Roles.Where(
+            Role role = _context.EmployeeRoles.Where(
                 s => s.Code == idRole).FirstOrDefault<Role>();
 
             if (role == null)
@@ -59,7 +59,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
         public RespuestaGenerica eliminarRole(string idRole)
         {
-            Role role = _context.Roles.Where(
+            Role role = _context.EmployeeRoles.Where(
                 s => s.Code == idRole).FirstOrDefault<Role>();
 
             if (role == null)
@@ -69,7 +69,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
             try
             {
-                _context.Roles.Remove(role);
+                _context.EmployeeRoles.Remove(role);
                 _context.SaveChanges();
             }
             catch (Exception e)
@@ -84,7 +84,7 @@ namespace SAIH_Backend.Servicios.Implementacion
         {
             try
             {
-                Role role = _context.Roles.Where(
+                Role role = _context.EmployeeRoles.Where(
                  s => s.Code == roleDTO.Code).FirstOrDefault<Role>();
 
                 if (role != null)
@@ -99,7 +99,7 @@ namespace SAIH_Backend.Servicios.Implementacion
                     return validarCampos(role2);
                 }
 
-                _context.Roles.Add(role2);
+                _context.EmployeeRoles.Add(role2);
                 _context.SaveChanges();
 
                 return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Rol registrado", _mapper.Map<RoleDTO>(role2));
@@ -118,7 +118,7 @@ namespace SAIH_Backend.Servicios.Implementacion
         {
             List<String> listaErrores = new List<String>();
 
-            Role role2 = _context.Roles.Where(
+            Role role2 = _context.EmployeeRoles.Where(
                  s => s.Code == role.Code).FirstOrDefault<Role>();
 
             if (role2 != null)
@@ -138,7 +138,7 @@ namespace SAIH_Backend.Servicios.Implementacion
         {
             try
             {
-                Role role = _context.Roles.Where(
+                Role role = _context.EmployeeRoles.Where(
                  s => s.PK_idRole == pK_idRole).FirstOrDefault<Role>();
 
                 if (role == null)
@@ -146,7 +146,7 @@ namespace SAIH_Backend.Servicios.Implementacion
                     return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Rol no encontrado", "No se actualizo ningun rol");
                 }
                     
-                Role rolCodigo = _context.Roles.Where(
+                Role rolCodigo = _context.EmployeeRoles.Where(
                  s => s.Code == roleDTO.Code).FirstOrDefault<Role>();
 
                 if (rolCodigo != null && (rolCodigo != role))
@@ -174,17 +174,17 @@ namespace SAIH_Backend.Servicios.Implementacion
 
         private bool RolExists(long pK_idRole)
         {
-            return _context.Roles.Any(e => e.PK_idRole == pK_idRole);
+            return _context.EmployeeRoles.Any(e => e.PK_idRole == pK_idRole);
         }
 
         public RespuestaGenerica obtenerRoless()
         {
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Roles desplegados", _context.Roles.ToList());
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Roles desplegados", _context.EmployeeRoles.ToList());
         }
 
         public RespuestaGenerica obtenerRole(string idRole)
         {
-            Role role = _context.Roles
+            Role role = _context.EmployeeRoles
                 .Where(s => s.Code == idRole).FirstOrDefault<Role>();
 
             if (role == null)
@@ -208,7 +208,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
         public RespuestaGenerica obtenerRole(long pk_idRole)
         {
-            Role role = _context.Roles
+            Role role = _context.EmployeeRoles
                 .Where(s => s.PK_idRole == pk_idRole).FirstOrDefault<Role>();
 
             if (role == null)

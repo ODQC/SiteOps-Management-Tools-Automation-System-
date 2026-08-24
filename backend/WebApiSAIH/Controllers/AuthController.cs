@@ -28,7 +28,7 @@ namespace WebApiSAIH.Controllers
         } 
 
         [HttpPost("Register")]
-        [Authorize(Roles = Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_ADMIN)]
         public async Task<IActionResult> RegisterAsync([FromBody] EmployeeDTO model)
         {
             if (ModelState.IsValid)

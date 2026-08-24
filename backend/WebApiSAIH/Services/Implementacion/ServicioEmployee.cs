@@ -33,17 +33,15 @@ namespace WebApiSAIH.Services.Implementacion
         private UserManager<IdentityUser> _userManager;
         private RoleManager<IdentityRole> _roleManager;
         private IConfiguration _configuration;
-        private IEmailService _emailService;
         private ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private ISendGridEmailService _sendGridService;
 
-        public ServicioEmployee(UserManager<IdentityUser> userManager, IConfiguration configuration, IEmailService emailService, 
+        public ServicioEmployee(UserManager<IdentityUser> userManager, IConfiguration configuration,
             ApplicationDbContext context, IMapper mapper, RoleManager<IdentityRole> roleManager, ISendGridEmailService sendGridService)
         {
             _userManager = userManager;
             _configuration = configuration;
-            _emailService = emailService;
             _roleManager = roleManager;
             _context = context;
             _mapper = mapper;
@@ -85,11 +83,10 @@ namespace WebApiSAIH.Services.Implementacion
 
             htmlString = Regex.Replace(htmlString, "URL", url);
 
-            //await _emailService.SendEmailAsync(email, "Recuperar Password", htmlString);
             await _sendGridService.SendEmailAsyn(email, "Recuperar Password", htmlString);
 
             Email emailToSave = new Email();
-            emailToSave.De = "proyectoSAIH.21@gmail.com";
+            emailToSave.De = "noreply@example.com";
             emailToSave.Para = email;
             emailToSave.Email_template_id = emailTemplate.PK_idTemplate;
             emailToSave.Fecha = DateTime.Now;
@@ -179,11 +176,10 @@ namespace WebApiSAIH.Services.Implementacion
             htmlString = Regex.Replace(htmlString, "DATETIME", DateTime.Now.ToString("dd-MM-yyyy") + ", " + 
                 DateTime.Now.ToString("hh:mm:ss"));
 
-            //await _emailService.SendEmailAsync(model.Email, "Nuevo inicio de sesión", htmlString);
             await _sendGridService.SendEmailAsyn(model.Email, "Nuevo inicio de sesión", htmlString);
 
             Email emailToSave = new Email();
-            emailToSave.De = "proyectoSAIH.21@gmail.com";
+            emailToSave.De = "noreply@example.com";
             emailToSave.Para = model.Email;
             emailToSave.Email_template_id = emailTemplate.PK_idTemplate;
             emailToSave.Fecha = DateTime.Now;
@@ -230,11 +226,10 @@ namespace WebApiSAIH.Services.Implementacion
 
                 htmlString = Regex.Replace(htmlString, "PASSWORD", model.ConfirmPassword);
 
-                //await _emailService.SendEmailAsync(model.Email, "Password SAIH", htmlString);
                 await _sendGridService.SendEmailAsyn(model.Email, "Password SAIH", htmlString);
 
                 Email emailToSave = new Email();
-                emailToSave.De = "proyectoSAIH.21@gmail.com";
+                emailToSave.De = "noreply@example.com";
                 emailToSave.Para = model.Email;
                 emailToSave.Email_template_id = emailTemplate.PK_idTemplate;
                 emailToSave.Fecha = DateTime.Now;
@@ -242,24 +237,24 @@ namespace WebApiSAIH.Services.Implementacion
                 _context.Emails.Add(emailToSave);
                 _context.SaveChanges();
 
-                if (!await _roleManager.RoleExistsAsync(Roles.ROL_ADMINISTRADOR_PARQUE))
+                if (!await _roleManager.RoleExistsAsync(Roles.ROLE_SITE_MANAGER))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(Roles.ROL_ADMINISTRADOR_PARQUE));
+                    await _roleManager.CreateAsync(new IdentityRole(Roles.ROLE_SITE_MANAGER));
                 }
-                if (!await _roleManager.RoleExistsAsync(Roles.ROL_ADMINISTRADOR_TI))
+                if (!await _roleManager.RoleExistsAsync(Roles.ROLE_ADMIN))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(Roles.ROL_ADMINISTRADOR_TI));
+                    await _roleManager.CreateAsync(new IdentityRole(Roles.ROLE_ADMIN));
                 }
-                if (!await _roleManager.RoleExistsAsync(Roles.ROL_GUARDAPARQUE))
+                if (!await _roleManager.RoleExistsAsync(Roles.ROLE_EMPLOYEE))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(Roles.ROL_GUARDAPARQUE));
+                    await _roleManager.CreateAsync(new IdentityRole(Roles.ROLE_EMPLOYEE));
                 }
-                if (!await _roleManager.RoleExistsAsync(Roles.ROL_SUPERVISOR))
+                if (!await _roleManager.RoleExistsAsync(Roles.ROLE_SUPERVISOR))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(Roles.ROL_SUPERVISOR));
+                    await _roleManager.CreateAsync(new IdentityRole(Roles.ROLE_SUPERVISOR));
                 }
 
-                Role role2 = _context.Roles.Where(
+                Role role2 = _context.EmployeeRoles.Where(
                  s => s.PK_idRole == fkRole).FirstOrDefault<Role>();
 
                 if (await _roleManager.RoleExistsAsync(role2.Name))
@@ -344,8 +339,8 @@ namespace WebApiSAIH.Services.Implementacion
                     return validarCampos(employee2);
                 }
 
-                Role rolAdminParque = _context.Roles.Where(
-                s => s.Name == Roles.ROL_ADMINISTRADOR_PARQUE).FirstOrDefault<Role>();
+                Role rolAdminParque = _context.EmployeeRoles.Where(
+                s => s.Name == Roles.ROLE_SITE_MANAGER).FirstOrDefault<Role>();
 
                 if (employee2.FK_idRole1 == rolAdminParque.PK_idRole && administradoresParqueActivos(employee2.FK_idSite1))
                 {
@@ -387,8 +382,8 @@ namespace WebApiSAIH.Services.Implementacion
 
         private bool administradoresParqueActivos(long fk_site)
         {
-            Role rolAdminParque = _context.Roles.Where(
-                s => s.Name == Roles.ROL_ADMINISTRADOR_PARQUE).FirstOrDefault<Role>();
+            Role rolAdminParque = _context.EmployeeRoles.Where(
+                s => s.Name == Roles.ROLE_SITE_MANAGER).FirstOrDefault<Role>();
 
             Site site = _context.Sites.Where(
                 s => s.PK_IdSite == fk_site).FirstOrDefault<Site>();
@@ -549,8 +544,8 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee no encontrado", null);
             }
 
-            Role rolAdminParque = _context.Roles.Where(
-                s => s.Name == Roles.ROL_ADMINISTRADOR_PARQUE).FirstOrDefault<Role>();
+            Role rolAdminParque = _context.EmployeeRoles.Where(
+                s => s.Name == Roles.ROLE_SITE_MANAGER).FirstOrDefault<Role>();
 
             Site site = _context.Sites.Where(
                 s => s.PK_IdSite == employee.FK_idSite1).FirstOrDefault<Site>();

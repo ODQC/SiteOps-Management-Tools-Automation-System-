@@ -28,7 +28,7 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_ADMIN)]
         public async Task<IActionResult> guardarEmployee(EmployeeDTO employeeDTO)
         {
             RespuestaGenerica respuestaGenerica = await _employeeService.guardarEmployee(employeeDTO);
@@ -47,16 +47,16 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpGet]
-        [Authorize(Roles = Roles.ROL_SUPERVISOR + "," + Roles.ROL_ADMINISTRADOR_PARQUE + "," +
-            Roles.ROL_ADMINISTRADOR_TI + "," + Roles.ROL_GUARDAPARQUE)]
+        [Authorize(Roles = Roles.ROLE_SUPERVISOR + "," + Roles.ROLE_SITE_MANAGER + "," +
+            Roles.ROLE_ADMIN + "," + Roles.ROLE_EMPLOYEE)]
         public IActionResult obtenerEmployeerios()
         {
             return Ok(_employeeService.obtenerEmployeerios());
         }
 
         [HttpGet("{nationalId}")]
-        [Authorize(Roles = Roles.ROL_SUPERVISOR + "," + Roles.ROL_ADMINISTRADOR_PARQUE + "," +
-            Roles.ROL_ADMINISTRADOR_TI + "," + Roles.ROL_GUARDAPARQUE)]
+        [Authorize(Roles = Roles.ROLE_SUPERVISOR + "," + Roles.ROLE_SITE_MANAGER + "," +
+            Roles.ROLE_ADMIN + "," + Roles.ROLE_EMPLOYEE)]
         public IActionResult obtenerEmployee(string nationalId)
         {
             RespuestaGenerica respuestaGenerica = _employeeService.obtenerEmployee(nationalId);
@@ -70,7 +70,7 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpGet("verificarEmail/{email}")]
-        [Authorize(Roles = Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_ADMIN)]
         public IActionResult verificarEmail(string email)
         {
             RespuestaGenerica respuestaGenerica = _employeeService.verificarEmail(email);
@@ -84,7 +84,7 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpGet("verificarCedula/{employeeCedula}")]
-        [Authorize(Roles = Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_ADMIN)]
         public IActionResult verificarCedula(string employeeCedula)
         {
             RespuestaGenerica respuestaGenerica = _employeeService.verificarCedula(employeeCedula);
@@ -98,8 +98,8 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPut("{pK_idEmployee}")]
-        [Authorize(Roles = Roles.ROL_SUPERVISOR + "," + Roles.ROL_ADMINISTRADOR_PARQUE + "," + Roles.ROL_GUARDAPARQUE + "," +
-            Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_SUPERVISOR + "," + Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_EMPLOYEE + "," +
+            Roles.ROLE_ADMIN)]
         public IActionResult modificarEmployee(int pK_idEmployee, EmployeeDTO employeeDTO)
         {
             RespuestaGenerica respuestaGenerica = _employeeService.modificarEmployee(pK_idEmployee, employeeDTO);
@@ -148,7 +148,7 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpDelete("{nationalId}")]
-        [Authorize(Roles = Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_ADMIN)]
         public async Task<IActionResult> eliminarEmployee(string nationalId)
         {
             RespuestaGenerica respuestaGenerica = await _employeeService.eliminarEmployee(nationalId);
@@ -166,8 +166,8 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpGet("cambiarEstado/{nationalId}")]
-        [Authorize(Roles = Roles.ROL_SUPERVISOR + "," + Roles.ROL_ADMINISTRADOR_PARQUE + ","  +
-            Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_SUPERVISOR + "," + Roles.ROLE_SITE_MANAGER + ","  +
+            Roles.ROLE_ADMIN)]
         public IActionResult deshabilitarEmployee(string nationalId)
         {
             RespuestaGenerica respuestaGenerica = _employeeService.deshabilitarEmployee(nationalId);

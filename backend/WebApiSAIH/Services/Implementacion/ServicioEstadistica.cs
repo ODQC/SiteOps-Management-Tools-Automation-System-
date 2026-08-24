@@ -207,8 +207,8 @@ namespace WebApiSAIH.Services.Implementacion
         {
             try
             {
-                Role rolAdminParque = _context.Roles.Where(
-                    s => s.Name == Roles.ROL_ADMINISTRADOR_PARQUE).FirstOrDefault<Role>();
+                Role rolAdminParque = _context.EmployeeRoles.Where(
+                    s => s.Name == Roles.ROLE_SITE_MANAGER).FirstOrDefault<Role>();
 
                 List<Employee> employeesAdministradorParque = _context.Employees.Where(
                     s => s.FK_idRole1 == rolAdminParque.PK_idRole).ToList();
@@ -235,8 +235,8 @@ namespace WebApiSAIH.Services.Implementacion
         {
             try
             {
-                Role rolGuardaparque = _context.Roles.Where(
-                    s => s.Name == Roles.ROL_GUARDAPARQUE).FirstOrDefault<Role>();
+                Role rolGuardaparque = _context.EmployeeRoles.Where(
+                    s => s.Name == Roles.ROLE_EMPLOYEE).FirstOrDefault<Role>();
 
                 List<Employee> employeesGuardaparque = _context.Employees.Where(
                     s => s.FK_idRole1 == rolGuardaparque.PK_idRole).ToList();
@@ -263,8 +263,8 @@ namespace WebApiSAIH.Services.Implementacion
         {
             try
             {
-                Role rolAdminTI = _context.Roles.Where(
-                s => s.Name == Roles.ROL_ADMINISTRADOR_TI).FirstOrDefault<Role>();
+                Role rolAdminTI = _context.EmployeeRoles.Where(
+                s => s.Name == Roles.ROLE_ADMIN).FirstOrDefault<Role>();
 
                 List<Employee> employeesAdminTI = _context.Employees.Where(
                 s => s.FK_idRole1 == rolAdminTI.PK_idRole).ToList();
@@ -291,8 +291,8 @@ namespace WebApiSAIH.Services.Implementacion
         {
             try
             {
-                Role rolSupervisor = _context.Roles.Where(
-                s => s.Name == Roles.ROL_SUPERVISOR).FirstOrDefault<Role>();
+                Role rolSupervisor = _context.EmployeeRoles.Where(
+                s => s.Name == Roles.ROLE_SUPERVISOR).FirstOrDefault<Role>();
 
                 List<Employee> employeesSupervisor = _context.Employees.Where(
                 s => s.FK_idRole1 == rolSupervisor.PK_idRole).ToList();

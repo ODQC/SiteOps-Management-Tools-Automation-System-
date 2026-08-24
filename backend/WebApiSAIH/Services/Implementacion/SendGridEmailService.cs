@@ -21,7 +21,7 @@ namespace WebApiSAIH.Services.Implementacion
         {
             var apiKey = _configuration["SendGridAPIKey"];
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("proyectosaih.21@gmail.com", "Proyecto SAIH");
+            var from = new EmailAddress("noreply@example.com", "SiteOps");
             var to = new EmailAddress(toEmail);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, content, content);
             var response = await client.SendEmailAsync(msg);

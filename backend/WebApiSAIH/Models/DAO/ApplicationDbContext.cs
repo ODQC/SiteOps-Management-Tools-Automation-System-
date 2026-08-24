@@ -85,7 +85,7 @@ namespace WebApiSAIH.Models
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<Department> Departments { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<Role> EmployeeRoles { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<TaskItem> Tasks { get; set; }

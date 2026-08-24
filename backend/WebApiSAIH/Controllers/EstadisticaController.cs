@@ -14,8 +14,8 @@ namespace WebApiSAIH.Controllers
 {
     [Route("api/[controller]")]
     [ApiController] 
-    [Authorize(Roles = Roles.ROL_SUPERVISOR + "," + Roles.ROL_ADMINISTRADOR_PARQUE + "," + Roles.ROL_GUARDAPARQUE + "," +
-        Roles.ROL_ADMINISTRADOR_TI)]
+    [Authorize(Roles = Roles.ROLE_SUPERVISOR + "," + Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_EMPLOYEE + "," +
+        Roles.ROLE_ADMIN)]
     public class EstadisticaController : ControllerBase
     {
         private IServicioEstadistica _servicioEstadistica;

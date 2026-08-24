@@ -59,8 +59,8 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.ROL_ADMINISTRADOR_PARQUE + "," + Roles.ROL_GUARDAPARQUE + "," +
-        Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_EMPLOYEE + "," +
+        Roles.ROLE_ADMIN)]
         public IActionResult guardarProject(ProjectDTO projectDTO)
         {
             RespuestaGenerica respuestaGenerica = _projectService.guardarProject(projectDTO);
@@ -79,8 +79,8 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPut("{pk_IdProject}")]
-        [Authorize(Roles = Roles.ROL_ADMINISTRADOR_PARQUE + "," + Roles.ROL_GUARDAPARQUE + "," +
-            Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_EMPLOYEE + "," +
+            Roles.ROLE_ADMIN)]
         public IActionResult modificarProject(long pk_IdProject, ProjectDTO projectDTO)
         {
             RespuestaGenerica respuestaGenerica = _projectService.modificarProject(pk_IdProject, projectDTO);
@@ -104,7 +104,7 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpDelete("{pk_idProject}")]
-        [Authorize(Roles =  Roles.ROL_ADMINISTRADOR_PARQUE + "," + Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles =  Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_ADMIN)]
         public IActionResult eliminarProject(long pk_idProject)
         {
             RespuestaGenerica respuestaGenerica = _projectService.eliminarProject(pk_idProject);
@@ -122,7 +122,7 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet("cambiarEstado/{pk_idPlan}/{pk_idEmployee}")]
-        [Authorize(Roles = Roles.ROL_ADMINISTRADOR_PARQUE + "," + Roles.ROL_ADMINISTRADOR_TI)]
+        [Authorize(Roles = Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_ADMIN)]
         public IActionResult deshabilitarProject(long pk_idPlan, long pk_idEmployee)
         {
             RespuestaGenerica respuestaGenerica = _projectService.deshabilitarProject(pk_idPlan, pk_idEmployee);

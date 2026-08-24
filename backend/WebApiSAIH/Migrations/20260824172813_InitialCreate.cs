@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -11,75 +11,6 @@ namespace WebApiSAIH.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "task",
-                columns: table => new
-                {
-                    PK_idTask = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Fk_IdGoal1 = table.Column<long>(type: "bigint", nullable: true),
-                    CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Collaborators = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TaskStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FK_idProject = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_idTask", x => x.PK_idTask);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "auditLog",
-                columns: table => new
-                {
-                    PK_idAuditLog = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Fk_IdEmployee2 = table.Column<long>(type: "bigint", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_idAuditLog", x => x.PK_idAuditLog);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "documents",
-                columns: table => new
-                {
-                    DocumentId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    FileType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    FilePath = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    DataFiles = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("DocumentId", x => x.DocumentId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "region",
-                columns: table => new
-                {
-                    PK_IdRegion = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_idRegion", x => x.PK_IdRegion);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -120,6 +51,40 @@ namespace WebApiSAIH.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "auditLog",
+                columns: table => new
+                {
+                    PK_idAuditLog = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Fk_IdEmployee2 = table.Column<long>(type: "bigint", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_idAuditLog", x => x.PK_idAuditLog);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "deliverable",
+                columns: table => new
+                {
+                    PK_idDeliverable = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FK_idDocument = table.Column<long>(type: "bigint", nullable: false),
+                    FK_idTask1 = table.Column<long>(type: "bigint", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DocumentName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_idDeliverable", x => x.PK_idDeliverable);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "department",
                 columns: table => new
                 {
@@ -133,6 +98,23 @@ namespace WebApiSAIH.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_idDepartment", x => x.PK_idDepartment);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "documents",
+                columns: table => new
+                {
+                    DocumentId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    FileType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    FilePath = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DataFiles = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("DocumentId", x => x.DocumentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -166,22 +148,92 @@ namespace WebApiSAIH.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "deliverable",
+                name: "employee",
                 columns: table => new
                 {
-                    PK_idDeliverable = table.Column<long>(type: "bigint", nullable: false)
+                    PK_idEmployee = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NationalId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecondLastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneEmployee = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FK_idDocument = table.Column<long>(type: "bigint", nullable: false),
-                    FK_idTask1 = table.Column<long>(type: "bigint", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DocumentName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    FK_idDepartment1 = table.Column<long>(type: "bigint", nullable: false),
+                    FK_idSite1 = table.Column<long>(type: "bigint", nullable: false),
+                    FK_idRole1 = table.Column<long>(type: "bigint", nullable: false),
+                    FK_idDocument1 = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_idDeliverable", x => x.PK_idDeliverable);
+                    table.PrimaryKey("PK_idEmployee", x => x.PK_idEmployee);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "goal",
+                columns: table => new
+                {
+                    PK_idGoal = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Year = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_idGoal", x => x.PK_idGoal);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "project",
+                columns: table => new
+                {
+                    PK_idProject = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Fk_IdEmployee1 = table.Column<long>(type: "bigint", nullable: true),
+                    FK_idRegion2 = table.Column<long>(type: "bigint", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Progress = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_idProject", x => x.PK_idProject);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "project_task",
+                columns: table => new
+                {
+                    PK_idProjectTask = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FK_idProject = table.Column<long>(type: "bigint", nullable: false),
+                    FK_idTask = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_idProjectTask", x => x.PK_idProjectTask);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "region",
+                columns: table => new
+                {
+                    PK_IdRegion = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_idRegion", x => x.PK_IdRegion);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,20 +267,19 @@ namespace WebApiSAIH.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "goal",
+                name: "role",
                 columns: table => new
                 {
-                    PK_idGoal = table.Column<long>(type: "bigint", nullable: false)
+                    PK_idRole = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Year = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_idGoal", x => x.PK_idGoal);
+                    table.PrimaryKey("PK_idRole", x => x.PK_idRole);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,75 +300,24 @@ namespace WebApiSAIH.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "project",
+                name: "task",
                 columns: table => new
                 {
-                    PK_idProject = table.Column<long>(type: "bigint", nullable: false)
+                    PK_idTaskItem = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Fk_IdEmployee1 = table.Column<long>(type: "bigint", nullable: true),
-                    FK_idRegion2 = table.Column<long>(type: "bigint", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Progress = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_idPlanTrabjo", x => x.PK_idProject);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "project_task",
-                columns: table => new
-                {
-                    PK_idProjectTask = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FK_idProject = table.Column<long>(type: "bigint", nullable: false),
-                    FK_idTask = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_idProjectTask", x => x.PK_idProjectTask);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "role",
-                columns: table => new
-                {
-                    PK_idRole = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Fk_IdGoal1 = table.Column<long>(type: "bigint", nullable: true),
+                    CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_idRole", x => x.PK_idRole);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "employee",
-                columns: table => new
-                {
-                    PK_idEmployee = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NationalId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecondLastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneEmployee = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Collaborators = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FK_idDepartment1 = table.Column<long>(type: "bigint", nullable: false),
-                    FK_idSite1 = table.Column<long>(type: "bigint", nullable: false),
-                    FK_idRole1 = table.Column<long>(type: "bigint", nullable: false),
-                    FK_idDocument1 = table.Column<long>(type: "bigint", nullable: false)
+                    TaskStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FK_idProject = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_idEmployee", x => x.PK_idEmployee);
+                    table.PrimaryKey("PK_idTaskItem", x => x.PK_idTaskItem);
                 });
 
             migrationBuilder.CreateTable(
@@ -470,18 +470,6 @@ namespace WebApiSAIH.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "task");
-
-            migrationBuilder.DropTable(
-                name: "auditLog");
-
-            migrationBuilder.DropTable(
-                name: "documents");
-
-            migrationBuilder.DropTable(
-                name: "region");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -497,7 +485,16 @@ namespace WebApiSAIH.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "auditLog");
+
+            migrationBuilder.DropTable(
+                name: "deliverable");
+
+            migrationBuilder.DropTable(
                 name: "department");
+
+            migrationBuilder.DropTable(
+                name: "documents");
 
             migrationBuilder.DropTable(
                 name: "email");
@@ -506,19 +503,10 @@ namespace WebApiSAIH.Migrations
                 name: "email_template");
 
             migrationBuilder.DropTable(
-                name: "deliverable");
-
-            migrationBuilder.DropTable(
-                name: "resource");
-
-            migrationBuilder.DropTable(
-                name: "resource_goal");
+                name: "employee");
 
             migrationBuilder.DropTable(
                 name: "goal");
-
-            migrationBuilder.DropTable(
-                name: "site");
 
             migrationBuilder.DropTable(
                 name: "project");
@@ -527,10 +515,22 @@ namespace WebApiSAIH.Migrations
                 name: "project_task");
 
             migrationBuilder.DropTable(
+                name: "region");
+
+            migrationBuilder.DropTable(
+                name: "resource");
+
+            migrationBuilder.DropTable(
+                name: "resource_goal");
+
+            migrationBuilder.DropTable(
                 name: "role");
 
             migrationBuilder.DropTable(
-                name: "employee");
+                name: "site");
+
+            migrationBuilder.DropTable(
+                name: "task");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

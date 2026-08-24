@@ -77,7 +77,6 @@ namespace WebApiSAIH
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IServicioEmployee, ServicioEmployee>();
             services.AddTransient<ISendGridEmailService, SendGridEmailService>();
-            services.AddTransient<IEmailService, EmailService>();
             services.AddScoped<IServicioRegion, ServicioRegion>();
             services.AddScoped<IServicioDepartment, ServicioDepartment>();
             services.AddScoped<IServicioRole, ServicioRole>();

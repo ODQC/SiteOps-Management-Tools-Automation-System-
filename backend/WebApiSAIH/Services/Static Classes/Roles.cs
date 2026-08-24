@@ -7,9 +7,9 @@ namespace SAIH_Backend.Servicios.Clases_Estaticas
 {
     public class Roles
     {
-        public const string ROL_ADMINISTRADOR_PARQUE = "Administrador de Parque";
-        public const string ROL_GUARDAPARQUE = "Guardaparque";
-        public const string ROL_SUPERVISOR = "Supervisor";
-        public const string ROL_ADMINISTRADOR_TI = "Administrador TI";
+        public const string ROLE_SITE_MANAGER = "Site Manager";
+        public const string ROLE_EMPLOYEE = "Employee";
+        public const string ROLE_SUPERVISOR = "Supervisor";
+        public const string ROLE_ADMIN = "Admin";
     }
 }

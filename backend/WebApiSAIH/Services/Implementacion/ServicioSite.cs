@@ -287,8 +287,8 @@ namespace SAIH_Backend.Servicios.Implementacion
 
         private bool administradoresParqueActivos(long fk_site)
         {
-            Role rolAdminParque = _context.Roles.Where(
-                s => s.Name == Roles.ROL_ADMINISTRADOR_PARQUE).FirstOrDefault<Role>();
+            Role rolAdminParque = _context.EmployeeRoles.Where(
+                s => s.Name == Roles.ROLE_SITE_MANAGER).FirstOrDefault<Role>();
 
             Site site = _context.Sites.Where(
                 s => s.PK_IdSite == fk_site).FirstOrDefault<Site>();

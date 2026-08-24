@@ -29,7 +29,7 @@ var db = sp.GetRequiredService<ApplicationDbContext>();
 var userManager = sp.GetRequiredService<UserManager<IdentityUser>>();
 var roleManager = sp.GetRequiredService<RoleManager<IdentityRole>>();
 
-foreach (var rol in new[] { Roles.ROL_ADMINISTRADOR_PARQUE, Roles.ROL_ADMINISTRADOR_TI, Roles.ROL_GUARDAPARQUE, Roles.ROL_SUPERVISOR })
+foreach (var rol in new[] { Roles.ROLE_SITE_MANAGER, Roles.ROLE_ADMIN, Roles.ROLE_EMPLOYEE, Roles.ROLE_SUPERVISOR })
 {
     if (!await roleManager.RoleExistsAsync(rol))
         await roleManager.CreateAsync(new IdentityRole(rol));
@@ -80,11 +80,11 @@ Site GetOrCreateParque(string codigo, string nombre, long areaId)
 
 Role GetOrCreateRol(string codigo, string name)
 {
-    var r = db.Roles.FirstOrDefault(x => x.Name == name);
+    var r = db.EmployeeRoles.FirstOrDefault(x => x.Name == name);
     if (r == null)
     {
         r = new Role(0, codigo, name, $"{name} (prueba)", Status.ACTIVE);
-        db.Roles.Add(r);
+        db.EmployeeRoles.Add(r);
         db.SaveChanges();
     }
     return r;
@@ -107,10 +107,10 @@ var parqueDos = GetOrCreateParque("PN-02", "Volcán Arenal", areaGuanacaste.PK_I
 // busca ServicioSite.obtenerPKParqueNA por Code.
 var parqueNA = GetOrCreateParque("N/A", "N/A", areaCentral.PK_IdRegion);
 
-var rolAdminTI = GetOrCreateRol("ROL-01", Roles.ROL_ADMINISTRADOR_TI);
-var rolAdminParque = GetOrCreateRol("ROL-02", Roles.ROL_ADMINISTRADOR_PARQUE);
-var rolGuardaparque = GetOrCreateRol("ROL-03", Roles.ROL_GUARDAPARQUE);
-var rolSupervisor = GetOrCreateRol("ROL-04", Roles.ROL_SUPERVISOR);
+var rolAdminTI = GetOrCreateRol("ROL-01", Roles.ROLE_ADMIN);
+var rolAdminParque = GetOrCreateRol("ROL-02", Roles.ROLE_SITE_MANAGER);
+var rolGuardaparque = GetOrCreateRol("ROL-03", Roles.ROLE_EMPLOYEE);
+var rolSupervisor = GetOrCreateRol("ROL-04", Roles.ROLE_SUPERVISOR);
 
 foreach (var name in new[] { "Login", "Cambiar Password", "Datos de employee" })
 {
