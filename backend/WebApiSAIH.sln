@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiSAIH", "WebApiSAIH\WebApiSAIH.csproj", "{CCE3DD2D-8DA3-485F-8A97-BA178408D9B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeedTool", "SeedTool\SeedTool.csproj", "{62DA70DE-063E-4942-9FC7-C0B11E160A8A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CCE3DD2D-8DA3-485F-8A97-BA178408D9B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCE3DD2D-8DA3-485F-8A97-BA178408D9B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCE3DD2D-8DA3-485F-8A97-BA178408D9B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCE3DD2D-8DA3-485F-8A97-BA178408D9B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62DA70DE-063E-4942-9FC7-C0B11E160A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62DA70DE-063E-4942-9FC7-C0B11E160A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62DA70DE-063E-4942-9FC7-C0B11E160A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62DA70DE-063E-4942-9FC7-C0B11E160A8A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18604639-F246-4D5B-BF4C-42F9033493B9}
+	EndGlobalSection
+EndGlobal
