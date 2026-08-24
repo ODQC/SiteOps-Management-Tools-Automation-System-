@@ -26,7 +26,7 @@ namespace WebApiSAIH.Services.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica deshabilitarProject(long idProjectDTO, long pk_idEmployee)
+        public RespuestaGenerica toggleProjectStatus(long idProjectDTO, long pk_idEmployee)
         {
             Project project = _context.Projects.Where(
                 s => s.PK_idProject == idProjectDTO).FirstOrDefault<Project>();
@@ -39,14 +39,14 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "El employee no tiene planes asociados",
+                    Mensaje = "This employee has no associated projects",
                     Object = null
                 };
             }
 
             if (project == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Plan de trabajo no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Project not found", null);
             }
 
             if (project.Status == Status.INACTIVE)
@@ -58,7 +58,7 @@ namespace WebApiSAIH.Services.Implementacion
                         return new RespuestaGenerica
                         {
                             Codigo = CodigosEstadoHTTP.HTTP_BAD_REQUEST,
-                            Mensaje = "Ya existe un plan de trabajo activo",
+                            Mensaje = "There is already an active project",
                             Object = null
                         };
                     }
@@ -88,20 +88,20 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado del plan de trabajo ha sido modificado", _mapper.Map<ProjectDTO>(project));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The project's status has been changed", _mapper.Map<ProjectDTO>(project));
         }
 
-        public RespuestaGenerica eliminarProject(long idProjectDTO)
+        public RespuestaGenerica deleteProject(long idProjectDTO)
         {
             Project project = _context.Projects.Where(
                 s => s.PK_idProject == idProjectDTO).FirstOrDefault<Project>();
 
             if (project == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Plan de trabajo no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Project not found", null);
             }
 
             try
@@ -111,13 +111,13 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Plan de trabajo: " + project.Code + " eliminado exitosamente", _mapper.Map<ProjectDTO>(project));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Project: " + project.Code + " deleted successfully", _mapper.Map<ProjectDTO>(project));
         }
 
-        public RespuestaGenerica guardarProject(ProjectDTO projectDTO)
+        public RespuestaGenerica createProject(ProjectDTO projectDTO)
         {
             try
             {
@@ -126,7 +126,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (project != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El plan de trabajo ya esta registrado en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This project is already registered in the system", null);
                 }
 
                 Project project2 = _mapper.Map<Project>(projectDTO);
@@ -134,19 +134,19 @@ namespace WebApiSAIH.Services.Implementacion
                 _context.Projects.Add(project2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Plan de trabajo registrado", _mapper.Map<ProjectDTO>(project2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Project registered", _mapper.Map<ProjectDTO>(project2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica modificarProject(long pk_IdProject, ProjectDTO projectDTO)
+        public RespuestaGenerica updateProject(long pk_IdProject, ProjectDTO projectDTO)
         {
             try
             {
@@ -155,7 +155,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (project == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Plan de trabajo no encontrado", "No se actualizo ningun plan de trabajo");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Project not found", "No project was updated");
                 }
 
                 Project projectCodigo = _context.Projects.Where(
@@ -163,23 +163,23 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (projectCodigo != null && (projectCodigo != project))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El codigo del plan de trabajo ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This project code is already in use", "");
                 }
 
                 project = covertirDTOAEntidad(project, projectDTO);
                 _context.Update(project);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Plan de trabajo actualizado", _mapper.Map<ProjectDTO>(project));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Project updated", _mapper.Map<ProjectDTO>(project));
             }
             catch (Exception e)
             {
                 if (!ProjectExists(pk_IdProject))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Plan de trabajo no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Project not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
@@ -189,39 +189,39 @@ namespace WebApiSAIH.Services.Implementacion
             return _context.Projects.Any(e => e.PK_idProject == pk_Idproject);
         }
 
-        public RespuestaGenerica obtenerProject(long idProjectDTO)
+        public RespuestaGenerica getProject(long idProjectDTO)
         {
             Project project = _context.Projects.Where(
                 s => s.PK_idProject == idProjectDTO).FirstOrDefault<Project>();
 
             if (project == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el plan de trabajo", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Project not found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Plan de trabajo", _mapper.Map<ProjectDTO>(project));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Project", _mapper.Map<ProjectDTO>(project));
         }
 
-        public RespuestaGenerica obtenerProjects()
+        public RespuestaGenerica getProjects()
         {
             List<Project> projects = _context.Projects
                        .Where(s => s.Code != "N/A")
                        .ToList();
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Plan de trabajo desplegados", _mapper.Map<List<ProjectDTO>>(projects));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Projects listed", _mapper.Map<List<ProjectDTO>>(projects));
         }
 
-        public RespuestaGenerica obtenerPKProjectNA()
+        public RespuestaGenerica getNAProjectId()
         {
             Project project = _context.Projects
                 .Where(s => s.Code == "N/A").FirstOrDefault<Project>();
 
             if (project == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el plan de trabajo con N/A", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No N/A project found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "PK plan de trabajo con N/A", project.PK_idProject);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Project PK for N/A", project.PK_idProject);
         }
 
         private Project covertirDTOAEntidad(Project project, ProjectDTO projectDTO)
@@ -238,7 +238,7 @@ namespace WebApiSAIH.Services.Implementacion
             return project;
         }
 
-        public RespuestaGenerica taskesXproject(long pk_idProject)
+        public RespuestaGenerica tasksByProject(long pk_idProject)
         {
             try
             {
@@ -247,7 +247,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (project == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el project", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Project not found", null);
                 }
 
                 List<ProjectTask> listProjectTask = _context.ProjectTasks.Where(
@@ -261,21 +261,21 @@ namespace WebApiSAIH.Services.Implementacion
                         s => s.PK_idTaskItem == listProjectTask[i].FK_idTask).FirstOrDefault<TaskItem>());
                 }
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Tasks asociadas al plan de trabajo " + pk_idProject,
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Tasks associated with the project " + pk_idProject,
                     _mapper.Map<List<TaskItemDTO>>(tasks));
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica verificarProject(string codigoProject, long fk_idEmployee)
+        public RespuestaGenerica checkProject(string code, long fk_idEmployee)
         {
             try
             {
                 Project project = _context.Projects.Where(
-                s => s.Code == codigoProject && s.Fk_IdEmployee1 == fk_idEmployee).FirstOrDefault<Project>();
+                s => s.Code == code && s.Fk_IdEmployee1 == fk_idEmployee).FirstOrDefault<Project>();
 
                 if (project != null)
                 {
@@ -286,11 +286,11 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica projectXemployee(long fk_idEmployee)
+        public RespuestaGenerica projectByEmployee(long fk_idEmployee)
         {
             try
             {
@@ -302,7 +302,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_NOT_FOUND,
-                        Mensaje = "No se encontro el project",
+                        Mensaje = "Project not found",
                         Object = null
                     };
                 }
@@ -310,7 +310,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Plan de trabajo asociado al employee " +  fk_idEmployee,
+                    Mensaje = "Project associated with employee " +  fk_idEmployee,
                     Object = _mapper.Map<List<ProjectDTO>>(planesTrabajo)
                 };
             }
@@ -319,7 +319,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Error Interno del Servidor",
+                    Mensaje = "Internal Server Error",
                     Object = e.Message
                 };
             }
@@ -332,7 +332,7 @@ namespace WebApiSAIH.Services.Implementacion
 
             if (project == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Plan trabajo no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Project not found", null);
             }
 
             if (progress != Status.COMPLETED && progress != Status.IN_PROGRESS && progress != Status.PENDING)
@@ -340,7 +340,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_BAD_REQUEST,
-                    Mensaje = "El estado no es valido",
+                    Mensaje = "The status is not valid",
                     Object = null
                 };
             }
@@ -354,10 +354,10 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El progress del plan trabajo ha sido modificado", _mapper.Map<ProjectDTO>(project));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The project's progress has been changed", _mapper.Map<ProjectDTO>(project));
         }
     }
 }

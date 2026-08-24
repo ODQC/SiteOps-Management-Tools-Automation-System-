@@ -25,14 +25,14 @@ namespace WebApiSAIH.Services.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica eliminarResourceGoal(long idResourceGoalDTO)
+        public RespuestaGenerica deleteResourceGoal(long idResourceGoalDTO)
         {
             ResourceGoal resourceGoal = _context.ResourceGoals.Where(
                 s => s.PK_idGoalResource == idResourceGoalDTO).FirstOrDefault<ResourceGoal>();
 
             if (resourceGoal == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource goal no encontrada", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource/goal link not found", null);
             }
 
             try
@@ -42,13 +42,13 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource goal" + resourceGoal.PK_idGoalResource + " eliminado exitosamente", _mapper.Map<ResourceGoalDTO>(resourceGoal));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource goal" + resourceGoal.PK_idGoalResource + " deleted successfully", _mapper.Map<ResourceGoalDTO>(resourceGoal));
         }
 
-        public RespuestaGenerica guardarResourceGoal(ResourceGoalDTO resourceGoalDTO)
+        public RespuestaGenerica createResourceGoal(ResourceGoalDTO resourceGoalDTO)
         {
             try
             {
@@ -57,19 +57,19 @@ namespace WebApiSAIH.Services.Implementacion
                 _context.ResourceGoals.Add(resourceGoal2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Resource goal registrada", _mapper.Map<ResourceGoalDTO>(resourceGoal2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Resource/goal link registered", _mapper.Map<ResourceGoalDTO>(resourceGoal2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica guardarResourceGoalList(List<ResourceGoalDTO> listResourcegoalDTO)
+        public RespuestaGenerica createResourceGoalList(List<ResourceGoalDTO> listResourcegoalDTO)
         {
             try
             {
@@ -83,19 +83,19 @@ namespace WebApiSAIH.Services.Implementacion
                 
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Resources goal registradas", _mapper.Map<List<ResourceGoalDTO>>(listResourceGoal1));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Resource/goal links registered", _mapper.Map<List<ResourceGoalDTO>>(listResourceGoal1));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica verificarRelacionExistente(long fk_idResource2, long fk_idGoal2)
+        public RespuestaGenerica checkExistingLink(long fk_idResource2, long fk_idGoal2)
         {
             try
             {
@@ -104,22 +104,22 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (resourceGoal != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resources goal existe", true);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource/goal link already exists", true);
                 }
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resources goal no existe", false);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource/goal link does not exist", false);
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica obtenerResourcesGoal()
+        public RespuestaGenerica getResourceGoals()
         {
             List<ResourceGoal> resourceGoals = null;
             try
@@ -128,10 +128,10 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error del servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Server error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource goal desplegadas", _mapper.Map<List<ResourceGoalDTO>>(resourceGoals));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource/goal links listed", _mapper.Map<List<ResourceGoalDTO>>(resourceGoals));
         }
     }
 }

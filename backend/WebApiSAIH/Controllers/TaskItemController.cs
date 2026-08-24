@@ -29,28 +29,28 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet]
-        public IActionResult obtenerTaskes()
+        public IActionResult getTasks()
         {
-            return Ok(_taskService.obtenerTaskes());
+            return Ok(_taskService.getTasks());
         }
 
         [HttpGet("taskNA")]
-        public IActionResult obtenerPKTaskNA()
+        public IActionResult getNATaskId()
         {
-            RespuestaGenerica respuestaGenerica = _taskService.obtenerPKTaskNA();
+            RespuestaGenerica respuestaGenerica = _taskService.getNATaskId();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
-                NotFound(respuestaGenerica);
+                return NotFound(respuestaGenerica);
             }
 
             return Ok(respuestaGenerica);
         }
 
         [HttpGet("{pk_idTaskItem}")]
-        public IActionResult obtenerTask(long pk_idTaskItem)
+        public IActionResult getTask(long pk_idTaskItem)
         {
-            RespuestaGenerica respuestaGenerica = _taskService.obtenerTask(pk_idTaskItem);
+            RespuestaGenerica respuestaGenerica = _taskService.getTask(pk_idTaskItem);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -61,9 +61,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPost]
-        public IActionResult guardarTask(TaskItemDTO taskDTO)
+        public IActionResult createTask(TaskItemDTO taskDTO)
         {
-            RespuestaGenerica respuestaGenerica = _taskService.guardarTask(taskDTO);
+            RespuestaGenerica respuestaGenerica = _taskService.createTask(taskDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -79,9 +79,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPut("{pK_idTaskItem}")]
-        public IActionResult modificarTask(long pK_idTaskItem, TaskItemDTO taskDTO)
+        public IActionResult updateTask(long pK_idTaskItem, TaskItemDTO taskDTO)
         {
-            RespuestaGenerica respuestaGenerica = _taskService.modificarTask(pK_idTaskItem, taskDTO);
+            RespuestaGenerica respuestaGenerica = _taskService.updateTask(pK_idTaskItem, taskDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -102,9 +102,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpDelete("{pK_idTaskItem}")]
-        public IActionResult eliminarTask(long pK_idTaskItem)
+        public IActionResult deleteTask(long pK_idTaskItem)
         {
-            RespuestaGenerica respuestaGenerica = _taskService.eliminarTask(pK_idTaskItem);
+            RespuestaGenerica respuestaGenerica = _taskService.deleteTask(pK_idTaskItem);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -118,10 +118,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{pK_idTaskItem}")]
-        public IActionResult deshabilitarTask(long pK_idTaskItem)
+        [HttpGet("toggle-status/{pK_idTaskItem}")]
+        public IActionResult toggleTaskStatus(long pK_idTaskItem)
         {
-            RespuestaGenerica respuestaGenerica = _taskService.deshabilitarTask(pK_idTaskItem);
+            RespuestaGenerica respuestaGenerica = _taskService.toggleTaskStatus(pK_idTaskItem);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -141,10 +141,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("planesTrabajoXtask/{code}")]
-        public IActionResult planesTrabajoXtask(string code)
+        [HttpGet("projectsByTask/{code}")]
+        public IActionResult projectsByTask(string code)
         {
-            RespuestaGenerica respuestaGenerica = _taskService.planesTrabajoXtask(code);
+            RespuestaGenerica respuestaGenerica = _taskService.projectsByTask(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -159,10 +159,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarTask/{code}/{fk_idProject}")]
-        public IActionResult verificarTask(string code, long fk_idProject)
+        [HttpGet("checkTask/{code}/{fk_idProject}")]
+        public IActionResult checkTask(string code, long fk_idProject)
         {
-            RespuestaGenerica respuestaGenerica = _taskService.verificarTask(code, fk_idProject);
+            RespuestaGenerica respuestaGenerica = _taskService.checkTask(code, fk_idProject);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -172,10 +172,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("taskesXproject/{fk_idProject}")]
-        public IActionResult taskesXproject(long fk_idProject)
+        [HttpGet("tasksByProject/{fk_idProject}")]
+        public IActionResult tasksByProject(long fk_idProject)
         {
-            RespuestaGenerica respuestaGenerica = _taskService.taskesXproject(fk_idProject);
+            RespuestaGenerica respuestaGenerica = _taskService.tasksByProject(fk_idProject);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -190,7 +190,7 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarProgress/{pk_idTaskItem}/{progress}")]
+        [HttpGet("update-progress/{pk_idTaskItem}/{progress}")]
         public IActionResult cambiarProgress(long pk_idTaskItem, string progress)
         {
             RespuestaGenerica respuestaGenerica = _taskService.cambiarTaskStatus(pk_idTaskItem, progress);

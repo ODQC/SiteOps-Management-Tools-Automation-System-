@@ -19,9 +19,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet]
-        public IActionResult obtenerDeliverables()
+        public IActionResult getDeliverables()
         {
-            RespuestaGenerica respuestaGenerica = _servicioDeliverable.obtenerDeliverables();
+            RespuestaGenerica respuestaGenerica = _servicioDeliverable.getDeliverables();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -31,9 +31,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet("{pk_IdDeliverable}")]
-        public IActionResult obtenerDeliverable(long pk_IdDeliverable)
+        public IActionResult getDeliverable(long pk_IdDeliverable)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDeliverable.obtenerDeliverable(pk_IdDeliverable);
+            RespuestaGenerica respuestaGenerica = _servicioDeliverable.getDeliverable(pk_IdDeliverable);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -44,9 +44,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPost]
-        public IActionResult guardarDeliverable(DeliverableDTO deliverableDTO)
+        public IActionResult createDeliverable(DeliverableDTO deliverableDTO)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDeliverable.guardarDeliverable(deliverableDTO);
+            RespuestaGenerica respuestaGenerica = _servicioDeliverable.createDeliverable(deliverableDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -62,9 +62,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPut("{pk_IdDeliverable}")]
-        public IActionResult modificarDeliverable(long pk_IdDeliverable, DeliverableDTO deliverableDTO)
+        public IActionResult updateDeliverable(long pk_IdDeliverable, DeliverableDTO deliverableDTO)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDeliverable.modificarDeliverable(pk_IdDeliverable, deliverableDTO);
+            RespuestaGenerica respuestaGenerica = _servicioDeliverable.updateDeliverable(pk_IdDeliverable, deliverableDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -85,9 +85,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpDelete("{pk_IdDeliverable}")]
-        public IActionResult eliminarDeliverable(long pk_IdDeliverable)
+        public IActionResult deleteDeliverable(long pk_IdDeliverable)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDeliverable.eliminarDeliverable(pk_IdDeliverable);
+            RespuestaGenerica respuestaGenerica = _servicioDeliverable.deleteDeliverable(pk_IdDeliverable);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -101,10 +101,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{pk_IdDeliverable}")]
-        public IActionResult deshabilitarDepartment(long pk_IdDeliverable)
+        [HttpGet("toggle-status/{pk_IdDeliverable}")]
+        public IActionResult toggleDepartmentStatus(long pk_IdDeliverable)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDeliverable.deshabilitarDeliverable(pk_IdDeliverable);
+            RespuestaGenerica respuestaGenerica = _servicioDeliverable.toggleDeliverableStatus(pk_IdDeliverable);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -124,10 +124,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("deliverablesXtask/{fk_idTask}")]
-        public IActionResult deliverablesXtask(long fk_idTask)
+        [HttpGet("deliverablesByTask/{fk_idTask}")]
+        public IActionResult deliverablesByTask(long fk_idTask)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDeliverable.deliverablesXtask(fk_idTask);
+            RespuestaGenerica respuestaGenerica = _servicioDeliverable.deliverablesByTask(fk_idTask);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -141,10 +141,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarDeliverable/{code}/{fk_idTask}")]
-        public IActionResult verificarDeliverable(string code, long fk_idTask)
+        [HttpGet("checkDeliverable/{code}/{fk_idTask}")]
+        public IActionResult checkDeliverable(string code, long fk_idTask)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDeliverable.verificarDeliverable(code, fk_idTask);
+            RespuestaGenerica respuestaGenerica = _servicioDeliverable.checkDeliverable(code, fk_idTask);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {

@@ -27,9 +27,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPost]
-        public IActionResult guardarResourceGoal(ResourceGoalDTO resourceGoalDTO)
+        public IActionResult createResourceGoal(ResourceGoalDTO resourceGoalDTO)
         {
-            RespuestaGenerica respuestaGenerica = _resourceGoalService.guardarResourceGoal(resourceGoalDTO);
+            RespuestaGenerica respuestaGenerica = _resourceGoalService.createResourceGoal(resourceGoalDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -45,9 +45,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpDelete("{pk_idResourceGoal}")]
-        public IActionResult eliminarResourceGoal(long pk_idResourceGoal)
+        public IActionResult deleteResourceGoal(long pk_idResourceGoal)
         {
-            RespuestaGenerica respuestaGenerica = _resourceGoalService.eliminarResourceGoal(pk_idResourceGoal);
+            RespuestaGenerica respuestaGenerica = _resourceGoalService.deleteResourceGoal(pk_idResourceGoal);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -61,10 +61,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpPost("guardarLista")]
-        public IActionResult guardarResourceGoalList(List<ResourceGoalDTO> listResourcegoalDTO)
+        [HttpPost("createBatch")]
+        public IActionResult createResourceGoalList(List<ResourceGoalDTO> listResourcegoalDTO)
         {
-            RespuestaGenerica respuestaGenerica = _resourceGoalService.guardarResourceGoalList(listResourcegoalDTO);
+            RespuestaGenerica respuestaGenerica = _resourceGoalService.createResourceGoalList(listResourcegoalDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -79,10 +79,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(201, respuestaGenerica);
         }
 
-        [HttpGet("verificarRelacionExistente/{fk_idResource2}/{fk_idGoal2}")]
-        public IActionResult verificarRelacionExistente(long fk_idResource2, long fk_idGoal2)
+        [HttpGet("checkExistingLink/{fk_idResource2}/{fk_idGoal2}")]
+        public IActionResult checkExistingLink(long fk_idResource2, long fk_idGoal2)
         {
-            RespuestaGenerica respuestaGenerica = _resourceGoalService.verificarRelacionExistente(fk_idResource2, fk_idGoal2);
+            RespuestaGenerica respuestaGenerica = _resourceGoalService.checkExistingLink(fk_idResource2, fk_idGoal2);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -93,9 +93,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet]
-        public IActionResult obtenerResourcesGoal()
+        public IActionResult getResourceGoals()
         {
-            RespuestaGenerica respuestaGenerica = _resourceGoalService.obtenerResourcesGoal();
+            RespuestaGenerica respuestaGenerica = _resourceGoalService.getResourceGoals();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {

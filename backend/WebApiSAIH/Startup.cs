@@ -115,7 +115,7 @@ namespace WebApiSAIH
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApiSAIH v1"));
-                //app.UseHsts(); Método que se utliliza para implementar protocolo https
+                //app.UseHsts(); Enforces HTTPS via the HSTS protocol
             }
 
             app.UseCors(builder =>
@@ -124,7 +124,7 @@ namespace WebApiSAIH
                 .AllowAnyMethod()
                 .WithExposedHeaders("content-disposition"));
 
-            //app.UseHttpsRedirection(); Redireciona la peticiones para que sean de tipo https
+            //app.UseHttpsRedirection(); Redirects requests to HTTPS
 
             app.UseRouting();
 

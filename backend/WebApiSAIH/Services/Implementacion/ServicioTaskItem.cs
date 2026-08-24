@@ -26,14 +26,14 @@ namespace WebApiSAIH.Services.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica deshabilitarTask(long idTaskDTO)
+        public RespuestaGenerica toggleTaskStatus(long idTaskDTO)
         {
             TaskItem task = _context.Tasks.Where(
                 s => s.PK_idTaskItem == idTaskDTO).FirstOrDefault<TaskItem>();
 
             if (task == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "TaskItem no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Task not found", null);
             }
 
             if (task.TaskStatus == Status.ACTIVE)
@@ -52,20 +52,20 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado de la task ha sido modificado", _mapper.Map<TaskItemDTO>(task));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The task's status has been changed", _mapper.Map<TaskItemDTO>(task));
         }
 
-        public RespuestaGenerica eliminarTask(long idTaskDTO)
+        public RespuestaGenerica deleteTask(long idTaskDTO)
         {
             TaskItem task = _context.Tasks.Where(
                 s => s.PK_idTaskItem == idTaskDTO).FirstOrDefault<TaskItem>();
 
             if (task == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "TaskItem no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Task not found", null);
             }
 
             try
@@ -75,13 +75,13 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "TaskItem: " + task.Code + " eliminado exitosamente", _mapper.Map<TaskItemDTO>(task));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Task: " + task.Code + " deleted successfully", _mapper.Map<TaskItemDTO>(task));
         }
 
-        public RespuestaGenerica guardarTask(TaskItemDTO taskDTO)
+        public RespuestaGenerica createTask(TaskItemDTO taskDTO)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (task != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "La actiidad ya esta registrado en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This task is already registered in the system", null);
                 }
 
                 TaskItem task2 = _mapper.Map<TaskItem>(taskDTO);
@@ -98,19 +98,19 @@ namespace WebApiSAIH.Services.Implementacion
                 _context.Tasks.Add(task2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "TaskItem registrado", _mapper.Map<TaskItemDTO>(task2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Task registered", _mapper.Map<TaskItemDTO>(task2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica modificarTask(long pk_IdTask, TaskItemDTO taskDTO)
+        public RespuestaGenerica updateTask(long pk_IdTask, TaskItemDTO taskDTO)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (task == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "TaskItem no encontrado", "No se actualizo ninguna task");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Task not found", "No task was updated");
                 }
 
                 TaskItem taskCodigo = _context.Tasks.Where(
@@ -127,23 +127,23 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (taskCodigo != null && (taskCodigo != task))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El codigo de la task ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This task code is already in use", "");
                 }
 
                 task = covertirDTOAEntidad(task, taskDTO);
                 _context.Update(task);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "TaskItem actualizado", _mapper.Map<TaskItemDTO>(task));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Task updated", _mapper.Map<TaskItemDTO>(task));
             }
             catch (Exception e)
             {
                 if (!TaskExists(pk_IdTask))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "TaskItem no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Task not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
@@ -153,39 +153,39 @@ namespace WebApiSAIH.Services.Implementacion
             return _context.Tasks.Any(e => e.PK_idTaskItem == pk_IdTask);
         }
 
-        public RespuestaGenerica obtenerTask(long idTaskDTO)
+        public RespuestaGenerica getTask(long idTaskDTO)
         {
             TaskItem task = _context.Tasks.Where(
                 s => s.PK_idTaskItem == idTaskDTO).FirstOrDefault<TaskItem>();
 
             if (task == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro la task", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Task not found", null);
             }
 
             return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "TaskItem", _mapper.Map<TaskItemDTO>(task));
         }
 
-        public RespuestaGenerica obtenerTaskes()
+        public RespuestaGenerica getTasks()
         {
             List<TaskItem> task = _context.Tasks
                        .Where(s => s.Code != "N/A")
                        .ToList();
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Tasks desplegados", _mapper.Map<List<TaskItemDTO>>(task));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Tasks listed", _mapper.Map<List<TaskItemDTO>>(task));
         }
 
-        public RespuestaGenerica obtenerPKTaskNA()
+        public RespuestaGenerica getNATaskId()
         {
             TaskItem task = _context.Tasks
                 .Where(s => s.Code == "N/A").FirstOrDefault<TaskItem>();
 
             if (task == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro la task con N/A", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No N/A task found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "PK task con N/A", task.PK_idTaskItem);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Task PK for N/A", task.PK_idTaskItem);
         }
 
         private TaskItem covertirDTOAEntidad(TaskItem task, TaskItemDTO taskDTO)
@@ -202,7 +202,7 @@ namespace WebApiSAIH.Services.Implementacion
             return task;
         }
 
-        public RespuestaGenerica planesTrabajoXtask(string code)
+        public RespuestaGenerica projectsByTask(string code)
         {
             try
             {
@@ -211,7 +211,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (task == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro la task", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Task not found", null);
                 }
 
                 List<ProjectTask> listProjectTask = _context.ProjectTasks.Where(
@@ -225,16 +225,16 @@ namespace WebApiSAIH.Services.Implementacion
                         s => s.PK_idProject == listProjectTask[i].FK_idProject).FirstOrDefault<Project>());
                 }
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Planes Trabajo asociados a la task " + code,
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Projects associated with the task " + code,
                     _mapper.Map<List<ProjectDTO>>(projects));
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica verificarTask(string code, long fk_idProject)
+        public RespuestaGenerica checkTask(string code, long fk_idProject)
         {
             try
             {
@@ -250,11 +250,11 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica taskesXproject(long fk_idProject)
+        public RespuestaGenerica tasksByProject(long fk_idProject)
         {
             try
             {
@@ -266,7 +266,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_NOT_FOUND,
-                        Mensaje = "No se encontraron tasks asociadas al plan de trabajo",
+                        Mensaje = "No tasks found for this project",
                         Object = null
                     };
                 }
@@ -274,7 +274,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Tasks asociadas al plan de trabajo " + fk_idProject,
+                    Mensaje = "Tasks associated with the project " + fk_idProject,
                     Object = _mapper.Map<List<TaskItemDTO>>(tasks)
                 };
             }
@@ -283,7 +283,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Error Interno del Servidor",
+                    Mensaje = "Internal Server Error",
                     Object = e.Message
                 };
             }
@@ -296,7 +296,7 @@ namespace WebApiSAIH.Services.Implementacion
 
             if (task == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "TaskItem no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Task not found", null);
             }
 
             if (estado != Status.COMPLETED && estado != Status.IN_PROGRESS && estado != Status.PENDING)
@@ -304,7 +304,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_BAD_REQUEST,
-                    Mensaje = "El estado no es valido",
+                    Mensaje = "The status is not valid",
                     Object = null
                 };
             }
@@ -318,10 +318,10 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado de la task ha sido modificado", _mapper.Map<TaskItemDTO>(task));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The task's status has been changed", _mapper.Map<TaskItemDTO>(task));
         }
     }
 }

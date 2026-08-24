@@ -26,15 +26,15 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpGet]
-        public IActionResult obtenerDepartments()
+        public IActionResult getDepartments()
         {
-            return Ok(_departmentService.obtenerDepartments());
+            return Ok(_departmentService.getDepartments());
         }
 
         [HttpGet("departmentNA")]
-        public IActionResult obtenerPKDepartmentNA()
+        public IActionResult getNADepartmentId()
         {
-            RespuestaGenerica respuestaGenerica = _departmentService.obtenerPKDepartmentNA();
+            RespuestaGenerica respuestaGenerica = _departmentService.getNADepartmentId();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -44,10 +44,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("{codigoDepartment}")]
-        public IActionResult obtenerDepartment(string codigoDepartment)
+        [HttpGet("{code}")]
+        public IActionResult getDepartment(string code)
         {
-            RespuestaGenerica respuestaGenerica = _departmentService.obtenerDepartment(codigoDepartment);
+            RespuestaGenerica respuestaGenerica = _departmentService.getDepartment(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -58,9 +58,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPost]
-        public IActionResult guardarDepartment(DepartmentDTO departmentDTO)
+        public IActionResult createDepartment(DepartmentDTO departmentDTO)
         {
-            RespuestaGenerica respuestaGenerica = _departmentService.guardarDepartment(departmentDTO);
+            RespuestaGenerica respuestaGenerica = _departmentService.createDepartment(departmentDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -76,9 +76,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPut("{pk_IdDepartment}")]
-        public IActionResult modificarDepartment(long pk_IdDepartment, DepartmentDTO departmentDTO)
+        public IActionResult updateDepartment(long pk_IdDepartment, DepartmentDTO departmentDTO)
         {
-            RespuestaGenerica respuestaGenerica = _departmentService.modificarDepartment(pk_IdDepartment, departmentDTO);
+            RespuestaGenerica respuestaGenerica = _departmentService.updateDepartment(pk_IdDepartment, departmentDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -98,10 +98,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpDelete("{codigoDepartment}")]
-        public IActionResult eliminarDepartment(string codigoDepartment)
+        [HttpDelete("{code}")]
+        public IActionResult deleteDepartment(string code)
         {
-            RespuestaGenerica respuestaGenerica = _departmentService.eliminarDepartment(codigoDepartment);
+            RespuestaGenerica respuestaGenerica = _departmentService.deleteDepartment(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -115,10 +115,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{codigoDepartment}")]
-        public IActionResult deshabilitarDepartment(string codigoDepartment)
+        [HttpGet("toggle-status/{code}")]
+        public IActionResult toggleDepartmentStatus(string code)
         {
-            RespuestaGenerica respuestaGenerica = _departmentService.deshabilitarDepartment(codigoDepartment);
+            RespuestaGenerica respuestaGenerica = _departmentService.toggleDepartmentStatus(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -138,10 +138,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarDepartment/{codigoDepartment}")]
-        public IActionResult verificarDepartment(string codigoDepartment)
+        [HttpGet("checkDepartment/{code}")]
+        public IActionResult checkDepartment(string code)
         {
-            RespuestaGenerica respuestaGenerica = _departmentService.verificarDepartment(codigoDepartment);
+            RespuestaGenerica respuestaGenerica = _departmentService.checkDepartment(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {

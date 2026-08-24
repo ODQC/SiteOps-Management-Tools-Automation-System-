@@ -9,13 +9,13 @@ namespace SAIH_Backend.Servicios.Interfaces
 {
     public interface IServicioDepartment
     {
-        RespuestaGenerica guardarDepartment(DepartmentDTO departmentDTO);
-        RespuestaGenerica obtenerDepartment(string idDepartmentDTO);
-        RespuestaGenerica obtenerDepartments();
-        RespuestaGenerica deshabilitarDepartment(string idDepartmentDTO);
-        RespuestaGenerica eliminarDepartment(string idDepartmentDTO);
-        RespuestaGenerica modificarDepartment(long pk_IdDepartment, DepartmentDTO departmentDTO);
-        RespuestaGenerica obtenerPKDepartmentNA();
-        RespuestaGenerica verificarDepartment(string codigoDepartment);
+        RespuestaGenerica createDepartment(DepartmentDTO departmentDTO);
+        RespuestaGenerica getDepartment(string idDepartmentDTO);
+        RespuestaGenerica getDepartments();
+        RespuestaGenerica toggleDepartmentStatus(string idDepartmentDTO);
+        RespuestaGenerica deleteDepartment(string idDepartmentDTO);
+        RespuestaGenerica updateDepartment(long pk_IdDepartment, DepartmentDTO departmentDTO);
+        RespuestaGenerica getNADepartmentId();
+        RespuestaGenerica checkDepartment(string code);
     }
 }

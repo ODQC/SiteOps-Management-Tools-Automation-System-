@@ -9,16 +9,16 @@ namespace WebApiSAIH.Services.Interfaces
 {
     public interface IServicioTaskItem
     {
-        RespuestaGenerica guardarTask(TaskItemDTO taskDTO);
-        RespuestaGenerica obtenerTask(long idTaskDTO);
-        RespuestaGenerica obtenerTaskes();
-        RespuestaGenerica deshabilitarTask(long idTaskDTO);
-        RespuestaGenerica eliminarTask(long idTaskDTO);
-        RespuestaGenerica modificarTask(long pk_IdTask, TaskItemDTO taskDTO);
-        RespuestaGenerica obtenerPKTaskNA();
-        RespuestaGenerica planesTrabajoXtask(String code);
-        RespuestaGenerica verificarTask(String code, long fk_idProject);
-        RespuestaGenerica taskesXproject(long fk_idProject);
+        RespuestaGenerica createTask(TaskItemDTO taskDTO);
+        RespuestaGenerica getTask(long idTaskDTO);
+        RespuestaGenerica getTasks();
+        RespuestaGenerica toggleTaskStatus(long idTaskDTO);
+        RespuestaGenerica deleteTask(long idTaskDTO);
+        RespuestaGenerica updateTask(long pk_IdTask, TaskItemDTO taskDTO);
+        RespuestaGenerica getNATaskId();
+        RespuestaGenerica projectsByTask(String code);
+        RespuestaGenerica checkTask(String code, long fk_idProject);
+        RespuestaGenerica tasksByProject(long fk_idProject);
         RespuestaGenerica cambiarTaskStatus(long pk_idTaskItem, string estado);
     }
 }

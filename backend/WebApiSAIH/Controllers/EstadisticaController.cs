@@ -25,10 +25,10 @@ namespace WebApiSAIH.Controllers
             _servicioEstadistica = servicioEstadistica;
         }
 
-        [HttpGet("employeesActivos")]
-        public IActionResult employeesActivos()
+        [HttpGet("activeEmployees")]
+        public IActionResult activeEmployees()
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.employeesActivos();
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.activeEmployees();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -37,10 +37,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("employeesInactivos")]
-        public IActionResult employeesInactivos()
+        [HttpGet("inactiveEmployees")]
+        public IActionResult inactiveEmployees()
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.employeesInactivos();
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.inactiveEmployees();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -49,10 +49,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("employeesRegistradosTotal")]
-        public IActionResult employeesRegistradosTotal()
+        [HttpGet("totalRegisteredEmployees")]
+        public IActionResult totalRegisteredEmployees()
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.employeesRegistradosTotal();
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.totalRegisteredEmployees();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -62,10 +62,10 @@ namespace WebApiSAIH.Controllers
         }
 
 
-        [HttpGet("employeesActivosXAsp/{name}")]
-        public IActionResult employeesActivosXAsp(String name)
+        [HttpGet("activeEmployeesBySite/{name}")]
+        public IActionResult activeEmployeesBySite(String name)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.employeesActivosXAsp(name);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.activeEmployeesBySite(name);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -74,10 +74,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("taskesCompletadas{name}")]
-        public IActionResult taskesCompletadas(String name)
+        [HttpGet("completedTasks{name}")]
+        public IActionResult completedTasks(String name)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.taskesCompletadas(name);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.completedTasks(name);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -86,10 +86,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("planesCompletados{nombreASP}")]
-        public IActionResult planesCompletados(String nombreASP)
+        [HttpGet("completedProjects{siteName}")]
+        public IActionResult completedProjects(String siteName)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.planesCompletados(nombreASP);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.completedProjects(siteName);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -98,10 +98,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("porcentajeTaskesCompletadasParque{nombreASP}")]
-        public IActionResult porcentajeTaskesCompletadasParque(String nombreASP)
+        [HttpGet("percentageOfCompletedTasksBySite{siteName}")]
+        public IActionResult percentageOfCompletedTasksBySite(String siteName)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.porcentajeTaskesCompletadasParque(nombreASP);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfCompletedTasksBySite(siteName);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -110,10 +110,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("porcentajeTaskesEnProcesoParque{nombreASP}")]
-        public IActionResult porcentajeTaskesEnProcesoParque(String nombreASP)
+        [HttpGet("percentageOfInProgressTasksBySite{siteName}")]
+        public IActionResult percentageOfInProgressTasksBySite(String siteName)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.porcentajeTaskesEnProcesoParque(nombreASP);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfInProgressTasksBySite(siteName);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -122,10 +122,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("porcentajeTaskesPendientesParque{nombreASP}")]
-        public IActionResult porcentajeTaskesPendientesParque(String nombreASP)
+        [HttpGet("percentageOfPendingTasksBySite{siteName}")]
+        public IActionResult percentageOfPendingTasksBySite(String siteName)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.porcentajeTaskesPendientesParque(nombreASP);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfPendingTasksBySite(siteName);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -134,10 +134,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("porcentajeTaskesCompletadasEmployee{nationalId}")]
-        public IActionResult porcentajeTaskesCompletadasEmployee(String nationalId)
+        [HttpGet("percentageOfCompletedTasksByEmployee{nationalId}")]
+        public IActionResult percentageOfCompletedTasksByEmployee(String nationalId)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.porcentajeTaskesCompletadasEmployee(nationalId);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfCompletedTasksByEmployee(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -146,10 +146,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("porcentajeTaskesEnProcesoEmployee{nationalId}")]
-        public IActionResult porcentajeTaskesEnProcesoEmployee(String nationalId)
+        [HttpGet("percentageOfInProgressTasksByEmployee{nationalId}")]
+        public IActionResult percentageOfInProgressTasksByEmployee(String nationalId)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.porcentajeTaskesEnProcesoEmployee(nationalId);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfInProgressTasksByEmployee(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -158,10 +158,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("porcentajeTaskesPendientesEmployee{nationalId}")]
-        public IActionResult porcentajeTaskesPendientesEmployee(String nationalId)
+        [HttpGet("percentageOfPendingTasksByEmployee{nationalId}")]
+        public IActionResult percentageOfPendingTasksByEmployee(String nationalId)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.porcentajeTaskesPendientesEmployee(nationalId);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfPendingTasksByEmployee(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -170,10 +170,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("porcentajeGeneralTaskesEmployee{nationalId}")]
-        public IActionResult porcentajeGeneralTaskesEmployee(String nationalId)
+        [HttpGet("percentageOfTasksByEmployee{nationalId}")]
+        public IActionResult percentageOfTasksByEmployee(String nationalId)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.porcentajeGeneralTaskesEmployee(nationalId);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfTasksByEmployee(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -182,10 +182,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("cantidadAdministradorParque")]
-        public IActionResult cantidadAdministradorParque()
+        [HttpGet("countSiteManagers")]
+        public IActionResult countSiteManagers()
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.cantidadAdministradorParque();
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.countSiteManagers();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -194,10 +194,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("cantidadGuardaparques")]
-        public IActionResult cantidadGuardaparques()
+        [HttpGet("countEmployees")]
+        public IActionResult countEmployees()
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.cantidadGuardaparques();
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.countEmployees();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -206,10 +206,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("planesDeTrabajoAsignados/{nombreAsp}")]
-        public IActionResult planesDeTrabajoAsignados(String nombreAsp)
+        [HttpGet("assignedProjects/{siteName}")]
+        public IActionResult assignedProjects(String nombreAsp)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.planesDeTrabajoAsignados(nombreAsp);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.assignedProjects(nombreAsp);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -218,10 +218,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("areasConservacionActivas")]
-        public IActionResult areasConservacionActivas()
+        [HttpGet("activeRegions")]
+        public IActionResult activeRegions()
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.areasConservacionActivas();
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.activeRegions();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -230,10 +230,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("siteesActivos")]
-        public IActionResult siteesActivos()
+        [HttpGet("activeSites")]
+        public IActionResult activeSites()
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.siteesActivos();
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.activeSites();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -242,10 +242,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("cantidadSupervisores")]
-        public IActionResult cantidadSupervisores()
+        [HttpGet("countSupervisors")]
+        public IActionResult countSupervisors()
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.cantidadSupervisores();
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.countSupervisors();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
@@ -254,10 +254,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("cantidadAdminTI")]
-        public IActionResult cantidadAdminTI()
+        [HttpGet("countAdmins")]
+        public IActionResult countAdmins()
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.cantidadAdminTI();
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.countAdmins();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {

@@ -26,14 +26,14 @@ namespace SAIH_Backend.Servicios.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica deshabilitarSite(string code)
+        public RespuestaGenerica toggleSiteStatus(string code)
         {
             Site site = _context.Sites.Where(
                 s => s.Code == code).FirstOrDefault<Site>();
 
             if (site == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Parque Nacional no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Site not found", null);
             }
 
             if (site.Status == Status.ACTIVE)
@@ -52,20 +52,20 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado del Parque Nacional ha sido modificado", _mapper.Map<SiteDTO>(site));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The site's status has been changed", _mapper.Map<SiteDTO>(site));
         }
 
-        public RespuestaGenerica eliminarSite(string code)
+        public RespuestaGenerica deleteSite(string code)
         {
             Site site = _context.Sites.Where(
                 s => s.Code == code).FirstOrDefault<Site>();
 
             if (site == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Parque Nacional no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Site not found", null);
             }
 
             try
@@ -75,13 +75,13 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Area Conservacion " + site.Code + " eliminada exitosamente", _mapper.Map<SiteDTO>(site));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Site " + site.Code + " deleted successfully", _mapper.Map<SiteDTO>(site));
         }
 
-        public RespuestaGenerica guardarSite(SiteDTO siteDTO)
+        public RespuestaGenerica createSite(SiteDTO siteDTO)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (site != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El parque nacional ya esta registrado en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This site is already registered in the system", null);
                 }
 
                 Site site2 = _mapper.Map<Site>(siteDTO);
@@ -103,15 +103,15 @@ namespace SAIH_Backend.Servicios.Implementacion
                 _context.Sites.Add(site2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Parque Nacional registrada", _mapper.Map<SiteDTO>(site2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Site registered", _mapper.Map<SiteDTO>(site2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
@@ -132,10 +132,10 @@ namespace SAIH_Backend.Servicios.Implementacion
                 return null;
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Error de validaciones", listaErrores);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Validation error", listaErrores);
         }
 
-        public RespuestaGenerica modificarSite(long pk_IdSite, SiteDTO siteDTO)
+        public RespuestaGenerica updateSite(long pk_IdSite, SiteDTO siteDTO)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (site == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Parque Nacional no encontrado", "No se actualizo ningun parque");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Site not found", "No site was updated");
                 }
 
                 Site parqueCodigo = _context.Sites.Where(
@@ -152,23 +152,23 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (parqueCodigo != null && parqueCodigo != site)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El codigo de parque ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This site code is already in use", "");
                 }
 
                 site = covertirDTOAEntidad(site, siteDTO);
                 _context.Update(site);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Parque Nacional actualizado", _mapper.Map<Site>(site));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Site updated", _mapper.Map<Site>(site));
             }
             catch (Exception e)
             {
                 if (!ParqueExists(pk_IdSite))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Parque Nacional no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Site not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
@@ -188,20 +188,20 @@ namespace SAIH_Backend.Servicios.Implementacion
             return site;
         }
 
-        public RespuestaGenerica obtenerSite(string code)
+        public RespuestaGenerica getSite(string code)
         {
             Site site = _context.Sites
                  .Where(s => s.Code == code).FirstOrDefault<Site>();
 
             if (site == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el parque Nacional", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Site not found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Parque Nacional", _mapper.Map<SiteDTO>(site));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Site", _mapper.Map<SiteDTO>(site));
         }
 
-        public RespuestaGenerica obtenerParquesNacionales(int idRegion)
+        public RespuestaGenerica getSitesByRegion(int idRegion)
         {
             List<Site> parquesNacionales = _context.Sites
                        .Where(s => s.Code != "N/A" && s.FK_idRegion1 == idRegion)
@@ -209,39 +209,39 @@ namespace SAIH_Backend.Servicios.Implementacion
 
             if (parquesNacionales == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontraron parques Nacionales", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No sites found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Parques Nacionales desplegados", _mapper.Map<List<SiteDTO>>(parquesNacionales));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Sites listed", _mapper.Map<List<SiteDTO>>(parquesNacionales));
         }
 
-        public RespuestaGenerica obtenerPKParqueNA()
+        public RespuestaGenerica getNASiteId()
         {
             Site site = _context.Sites
                 .Where(s => s.Code == "N/A").FirstOrDefault<Site>();
 
             if (site == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro parque Nacional con N/A", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No N/A site found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "PK parque nacional con N/A", site.PK_IdSite);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Site PK for N/A", site.PK_IdSite);
         }
 
-        public RespuestaGenerica obtenerTodosParquesNacionales()
+        public RespuestaGenerica getAllSites()
         {
             List<Site> parquesNacionales = _context.Sites
                 .Where(s => s.Code != "N/A").ToList();
 
             if (parquesNacionales == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND,"No se encontraron parques",null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND,"No sites found",null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Parques desplegados", _mapper.Map<List<SiteDTO>>(parquesNacionales));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Sites listed", _mapper.Map<List<SiteDTO>>(parquesNacionales));
         }
 
-        public RespuestaGenerica verificarParque(string code)
+        public RespuestaGenerica checkSite(string code)
         {
             try
             {
@@ -250,18 +250,18 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (site != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Codigo Parque en uso", true);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Site code in use", true);
                 }
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Codigo Parque disponible", false);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Site code available", false);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica verificarAdminParque(string code)
+        public RespuestaGenerica checkSiteManager(string code)
         {
             try
             {
@@ -270,18 +270,18 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (administradoresParqueActivos(site.PK_IdSite) == true)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El parque " + site.Name + 
-                        " ya tiene un administrador activo", true);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The site " + site.Name + 
+                        " already has an active manager", true);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El parque " + site.Name +
-                        " no tiene un administrador activo", false);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The site " + site.Name +
+                        " has no active manager", false);
                 }
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 

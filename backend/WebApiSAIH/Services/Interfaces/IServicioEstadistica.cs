@@ -9,34 +9,34 @@ namespace WebApiSAIH.Services.Interfaces
     public interface IServicioEstadistica
     {
         //Admin TI
-        RespuestaGenerica employeesActivos();
-        RespuestaGenerica employeesInactivos();
-        RespuestaGenerica employeesRegistradosTotal();
+        RespuestaGenerica activeEmployees();
+        RespuestaGenerica inactiveEmployees();
+        RespuestaGenerica totalRegisteredEmployees();
 
         //Administrador de ASP
-        RespuestaGenerica employeesActivosXAsp(String name);
-        RespuestaGenerica planesDeTrabajoAsignados(String name);
-        RespuestaGenerica taskesCompletadas(String name);
-        RespuestaGenerica planesCompletados(String name);
+        RespuestaGenerica activeEmployeesBySite(String name);
+        RespuestaGenerica assignedProjects(String name);
+        RespuestaGenerica completedTasks(String name);
+        RespuestaGenerica completedProjects(String name);
 
-        //Cantidad por rol de employee
-        RespuestaGenerica cantidadAdministradorParque();
-        RespuestaGenerica cantidadGuardaparques();
-        RespuestaGenerica cantidadSupervisores();
+        //Count by employee role
+        RespuestaGenerica countSiteManagers();
+        RespuestaGenerica countEmployees();
+        RespuestaGenerica countSupervisors();
 
-        RespuestaGenerica cantidadAdminTI();
-        RespuestaGenerica areasConservacionActivas();
-        RespuestaGenerica siteesActivos();
+        RespuestaGenerica countAdmins();
+        RespuestaGenerica activeRegions();
+        RespuestaGenerica activeSites();
 
         //Porcentajes
-        RespuestaGenerica porcentajeTaskesCompletadasParque(String nombreASP);
-        RespuestaGenerica porcentajeTaskesEnProcesoParque(String nombreASP);
-        RespuestaGenerica porcentajeTaskesPendientesParque(String nombreASP);
+        RespuestaGenerica percentageOfCompletedTasksBySite(String siteName);
+        RespuestaGenerica percentageOfInProgressTasksBySite(String siteName);
+        RespuestaGenerica percentageOfPendingTasksBySite(String siteName);
 
-        RespuestaGenerica porcentajeTaskesCompletadasEmployee(String nationalId);
-        RespuestaGenerica porcentajeTaskesEnProcesoEmployee(String nationalId);
-        RespuestaGenerica porcentajeTaskesPendientesEmployee(String nationalId);
+        RespuestaGenerica percentageOfCompletedTasksByEmployee(String nationalId);
+        RespuestaGenerica percentageOfInProgressTasksByEmployee(String nationalId);
+        RespuestaGenerica percentageOfPendingTasksByEmployee(String nationalId);
 
-        RespuestaGenerica porcentajeGeneralTaskesEmployee(String nationalId);
+        RespuestaGenerica percentageOfTasksByEmployee(String nationalId);
     }
 }

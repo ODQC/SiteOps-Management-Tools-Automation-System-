@@ -26,7 +26,7 @@ namespace SAIH_Backend.Servicios.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica actualizarRegion(int pkIdRegion, RegionDTO regionDTO)
+        public RespuestaGenerica updateRegion(int pkIdRegion, RegionDTO regionDTO)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (region == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Area Conservacion no encontrada", "No se actualizo ningun area");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Region not found", "No region was updated");
                 }
 
                 Region areaCodigo = _context.Regions.Where(
@@ -43,23 +43,23 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (areaCodigo != null && areaCodigo != region)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El codigo de area ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This region code is already in use", "");
                 }
 
                 region = covertirDTOAEntidad(region, regionDTO);
                 _context.Update(region);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Area de Conservacion actualizada", _mapper.Map<RegionDTO>(region));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Region updated", _mapper.Map<RegionDTO>(region));
             }
             catch (Exception e)
             {
                 if (!AreaExists(pkIdRegion))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Area de conservacion no encontrada", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Region not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
@@ -79,14 +79,14 @@ namespace SAIH_Backend.Servicios.Implementacion
             return region;
         }
 
-        public RespuestaGenerica eliminarRegion(string code)
+        public RespuestaGenerica deleteRegion(string code)
         {
             Region region = _context.Regions.Where(
                 s => s.Code == code).FirstOrDefault<Region>();
 
             if (region == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Area Conservacion no encontrada", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Region not found", null);
             }
 
             try
@@ -96,13 +96,13 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Area Conservacion " + region.Code + " eliminada exitosamente", _mapper.Map<RegionDTO>(region));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Region " + region.Code + " deleted successfully", _mapper.Map<RegionDTO>(region));
         }
 
-        public RespuestaGenerica guardarRegion(RegionDTO regionDTO)
+        public RespuestaGenerica createRegion(RegionDTO regionDTO)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (region != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El area de conservacion ya esta registrada en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This region is already registered in the system", null);
                 }
 
                 Region region2 = _mapper.Map<Region>(regionDTO);
@@ -124,15 +124,15 @@ namespace SAIH_Backend.Servicios.Implementacion
                 _context.Regions.Add(region2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Area Conservacion registrada", _mapper.Map<RegionDTO>(region2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Region registered", _mapper.Map<RegionDTO>(region2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
@@ -153,52 +153,52 @@ namespace SAIH_Backend.Servicios.Implementacion
                 return null;
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Error de validaciones", listaErrores);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Validation error", listaErrores);
         }
 
-        public RespuestaGenerica obtenerRegion(string code)
+        public RespuestaGenerica getRegion(string code)
         {
             Region region = _context.Regions
                 .Where(s => s.Code == code).FirstOrDefault<Region>();
 
             if (region == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el area de conservacion", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Region not found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Area de Conservacion", region);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Region", region);
         }
 
-        public RespuestaGenerica obtenerAreasConservacion()
+        public RespuestaGenerica getRegions()
         {
             List<Region> areasConservacion = _context.Regions
                        .Where(s => s.Code != "N/A")
                        .ToList();
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Areas de Conservacion desplegadas", _mapper.Map<List<Region>>(areasConservacion));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Regions listed", _mapper.Map<List<Region>>(areasConservacion));
         }
 
-        public RespuestaGenerica obtenerPKRegionNA()
+        public RespuestaGenerica getNARegionId()
         {
             Region region = _context.Regions
                 .Where(s => s.Code == "N/A").FirstOrDefault<Region>();
 
             if (region == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro area de conservacion con N/A", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No N/A region found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "PK area de conservacion con N/A", region.PK_IdRegion);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Region PK for N/A", region.PK_IdRegion);
         }
 
-        public RespuestaGenerica deshabilitarRegion(string code)
+        public RespuestaGenerica toggleRegionStatus(string code)
         {
             Region region = _context.Regions.Where(
                 s => s.Code == code).FirstOrDefault<Region>();
 
             if (region == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Area de Conservacion no encontrada", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Region not found", null);
             }
 
             if (region.Status == Status.ACTIVE)
@@ -217,13 +217,13 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado del Area de conservacion ha sido modificado", _mapper.Map<RegionDTO>(region));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The region's status has been changed", _mapper.Map<RegionDTO>(region));
         }
 
-        public RespuestaGenerica verificarArea(string code)
+        public RespuestaGenerica checkRegion(string code)
         {
             try
             {
@@ -239,16 +239,16 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica obtenerAreaXparque(long pk_idParque)
+        public RespuestaGenerica getRegionBySite(long pk_idSite)
         {
             try
             {
                 Site site = _context.Sites.Where(
-                s => s.PK_IdSite == pk_idParque).FirstOrDefault<Site>();
+                s => s.PK_IdSite == pk_idSite).FirstOrDefault<Site>();
 
                 Region region = _context.Regions.Where(
                 s => s.PK_IdRegion == site.FK_idRegion1).FirstOrDefault<Region>();
@@ -258,7 +258,7 @@ namespace SAIH_Backend.Servicios.Implementacion
                     return new RespuestaGenerica 
                     {
                        Codigo =  CodigosEstadoHTTP.HTTP_NOT_FOUND,
-                       Mensaje = "Area no encontrada", 
+                       Mensaje = "Region not found", 
                        Object = null
                     };
                 }
@@ -266,13 +266,13 @@ namespace SAIH_Backend.Servicios.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Area de conservacion asociada al parque " + pk_idParque,
+                    Mensaje = "Region associated with the site " + pk_idSite,
                     Object = _mapper.Map<RegionDTO>(region)
                 };
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
     }

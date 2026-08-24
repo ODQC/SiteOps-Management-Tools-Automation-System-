@@ -33,7 +33,7 @@ namespace WebApiSAIH.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _userService.guardarEmployee(model);
+                var result = await _userService.createEmployee(model);
 
                 if (result.Codigo == CodigosEstadoHTTP.HTTP_STATUS_CREATED)
                     return StatusCode(201,result); 
@@ -41,7 +41,7 @@ namespace WebApiSAIH.Controllers
                 return BadRequest(result);
             }
 
-            return BadRequest(new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "Algunas propiedades son invalidas", null));
+            return BadRequest(new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "Some properties are invalid", null));
         }
 
         [HttpPost("Login")]

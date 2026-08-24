@@ -23,9 +23,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpGet("{idRegion}")]
-        public IActionResult obtenerParquesNacional(int idRegion)
+        public IActionResult getSitesByRegion(int idRegion)
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.obtenerParquesNacionales(idRegion);
+            RespuestaGenerica respuestaGenerica = _servicioSite.getSitesByRegion(idRegion);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -35,10 +35,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("parqueNA")]
-        public IActionResult obtenerPKParqueNA()
+        [HttpGet("siteNA")]
+        public IActionResult getNASiteId()
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.obtenerPKParqueNA();
+            RespuestaGenerica respuestaGenerica = _servicioSite.getNASiteId();
 
             if(respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -49,9 +49,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpGet]
-        public IActionResult obtenerTodosParquesNacionales()
+        public IActionResult getAllSites()
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.obtenerTodosParquesNacionales();
+            RespuestaGenerica respuestaGenerica = _servicioSite.getAllSites();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -61,10 +61,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("parque/{code}")]
-        public IActionResult obtenerSite(string code)
+        [HttpGet("site/{code}")]
+        public IActionResult getSite(string code)
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.obtenerSite(code);
+            RespuestaGenerica respuestaGenerica = _servicioSite.getSite(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -75,9 +75,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPost]
-        public IActionResult guardarSite(SiteDTO siteDTO)
+        public IActionResult createSite(SiteDTO siteDTO)
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.guardarSite(siteDTO);
+            RespuestaGenerica respuestaGenerica = _servicioSite.createSite(siteDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -93,9 +93,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPut("{pk_IdSite}")]
-        public IActionResult modificarSite(long pk_IdSite, SiteDTO siteDTO)
+        public IActionResult updateSite(long pk_IdSite, SiteDTO siteDTO)
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.modificarSite(pk_IdSite, siteDTO);
+            RespuestaGenerica respuestaGenerica = _servicioSite.updateSite(pk_IdSite, siteDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -116,9 +116,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpDelete("{code}")]
-        public IActionResult eliminarSite(string code)
+        public IActionResult deleteSite(string code)
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.eliminarSite(code);
+            RespuestaGenerica respuestaGenerica = _servicioSite.deleteSite(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -132,10 +132,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{code}")]
-        public IActionResult deshabilitarSite(string code)
+        [HttpGet("toggle-status/{code}")]
+        public IActionResult toggleSiteStatus(string code)
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.deshabilitarSite(code);
+            RespuestaGenerica respuestaGenerica = _servicioSite.toggleSiteStatus(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -155,10 +155,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarParque/{code}")]
-        public IActionResult verificarParque(string code)
+        [HttpGet("checkSite/{code}")]
+        public IActionResult checkSite(string code)
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.verificarParque(code);
+            RespuestaGenerica respuestaGenerica = _servicioSite.checkSite(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -168,10 +168,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarAdminParque/{code}")]
-        public IActionResult verificarAdminParque(string code)
+        [HttpGet("checkSiteManager/{code}")]
+        public IActionResult checkSiteManager(string code)
         {
-            RespuestaGenerica respuestaGenerica = _servicioSite.verificarAdminParque(code);
+            RespuestaGenerica respuestaGenerica = _servicioSite.checkSiteManager(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {

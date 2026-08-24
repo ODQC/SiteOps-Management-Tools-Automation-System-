@@ -24,7 +24,7 @@ namespace SAIH_Backend.Servicios.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica guardarAuditLog(DTO.AuditLogDTO auditLogDTO)
+        public RespuestaGenerica createAuditLog(DTO.AuditLogDTO auditLogDTO)
         {
             try
             {
@@ -33,26 +33,26 @@ namespace SAIH_Backend.Servicios.Implementacion
                 _context.AuditLogs.Add(auditLog);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "task registrada", _mapper.Map<AuditLogDTO>(auditLog));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "task registered", _mapper.Map<AuditLogDTO>(auditLog));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
 
 
-        public RespuestaGenerica obtenerTaskesDeEmployees()
+        public RespuestaGenerica getAuditLog()
         {
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Bitacora de employees desplegados", _context.AuditLogs.ToList());
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Employee activity log listed", _context.AuditLogs.ToList());
         }
 
-        public RespuestaGenerica obtenerTaskesPorEmployee(int idEmployee)
+        public RespuestaGenerica getAuditLogByEmployee(int idEmployee)
         {
             try
             {
@@ -61,17 +61,17 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (auditLog == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No hay tasks reuistradas es este employee", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No tasks registered for this employee", null);
                 }
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Task completa de usario desplegada", _context.AuditLogs.ToList());
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Full employee task list retrieved", _context.AuditLogs.ToList());
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
         }

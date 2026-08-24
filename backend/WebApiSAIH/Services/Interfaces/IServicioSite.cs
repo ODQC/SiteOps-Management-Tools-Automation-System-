@@ -9,15 +9,15 @@ namespace SAIH_Backend.Servicios.Interfaces
 {
     public interface IServicioSite
     {
-        RespuestaGenerica obtenerParquesNacionales(int idRegion);
-        RespuestaGenerica obtenerPKParqueNA();
-        RespuestaGenerica obtenerTodosParquesNacionales();
-        RespuestaGenerica guardarSite(SiteDTO siteDTO);
-        RespuestaGenerica obtenerSite(string code);
-        RespuestaGenerica deshabilitarSite(string code);
-        RespuestaGenerica eliminarSite(string code);
-        RespuestaGenerica modificarSite(long pk_IdSite, SiteDTO siteDTO);
-        RespuestaGenerica verificarParque(string code);
-        RespuestaGenerica verificarAdminParque(string code);
+        RespuestaGenerica getSitesByRegion(int idRegion);
+        RespuestaGenerica getNASiteId();
+        RespuestaGenerica getAllSites();
+        RespuestaGenerica createSite(SiteDTO siteDTO);
+        RespuestaGenerica getSite(string code);
+        RespuestaGenerica toggleSiteStatus(string code);
+        RespuestaGenerica deleteSite(string code);
+        RespuestaGenerica updateSite(long pk_IdSite, SiteDTO siteDTO);
+        RespuestaGenerica checkSite(string code);
+        RespuestaGenerica checkSiteManager(string code);
     }
 }

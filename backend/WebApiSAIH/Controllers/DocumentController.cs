@@ -25,7 +25,7 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPost, DisableRequestSizeLimit]
-        public IActionResult guardarDocument()
+        public IActionResult createDocument()
         {
             FormFile document = null;
 
@@ -35,10 +35,10 @@ namespace WebApiSAIH.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error en el servidor", e.Message));
+                return StatusCode(500, new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Server error", e.Message));
             }
             
-            RespuestaGenerica respuestaGenerica = _servicioDocument.guardarDocument(document);
+            RespuestaGenerica respuestaGenerica = _servicioDocument.createDocument(document);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -54,15 +54,15 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet]
-        public IActionResult obtenerDocuments()
+        public IActionResult getDocuments()
         {
-            return Ok(_servicioDocument.obtenerDocuments());
+            return Ok(_servicioDocument.getDocuments());
         }
 
-        [HttpGet("imagenEmployeeCedula/{cedula}")]
-        public IActionResult obtenerDocumentXemployee(string cedula)
+        [HttpGet("employeeImageByNationalId/{nationalId}")]
+        public IActionResult getDocumentByEmployee(string nationalId)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDocument.obtenerDocumentXemployee(cedula);
+            RespuestaGenerica respuestaGenerica = _servicioDocument.getDocumentByEmployee(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -81,9 +81,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult eliminarDocument(long id)
+        public IActionResult deleteDocument(long id)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDocument.eliminarDocument(id);
+            RespuestaGenerica respuestaGenerica = _servicioDocument.deleteDocument(id);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -116,10 +116,10 @@ namespace WebApiSAIH.Controllers
             return File(datosDocument.Memory, datosDocument.ContentType, datosDocument.FileName);
         }
 
-        [HttpGet("imagenEmployee/{nationalId}")]
-        public IActionResult obtenerImagenEmployee(string nationalId)
+        [HttpGet("employeeImage/{nationalId}")]
+        public IActionResult getEmployeeImage(string nationalId)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDocument.obtenerDocumentXemployeeBytes(nationalId);
+            RespuestaGenerica respuestaGenerica = _servicioDocument.getDocumentBytesByEmployee(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -133,10 +133,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("obtenerNombrePkDocument/{pk_idDocument}")]
-        public IActionResult obtenerNombrePkDocument(long pk_idDocument)
+        [HttpGet("getDocumentNameByPk/{pk_idDocument}")]
+        public IActionResult getDocumentNameByPk(long pk_idDocument)
         {
-            RespuestaGenerica respuestaGenerica = _servicioDocument.obtenerNombrePkDocument(pk_idDocument);
+            RespuestaGenerica respuestaGenerica = _servicioDocument.getDocumentNameByPk(pk_idDocument);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {

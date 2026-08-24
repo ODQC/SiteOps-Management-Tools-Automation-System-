@@ -18,22 +18,22 @@ namespace WebApiSAIH.Services.Interfaces
         Task<RespuestaGenerica> ForgetPasswordAsync(string email);
 
         Task<RespuestaGenerica> ResetPasswordAsync(ResetPasswordViewModel model);
-        Task<RespuestaGenerica> guardarEmployee(EmployeeDTO employeeDTO);
+        Task<RespuestaGenerica> createEmployee(EmployeeDTO employeeDTO);
 
-        RespuestaGenerica obtenerEmployee(string employeeCedula);
+        RespuestaGenerica getEmployee(string nationalId);
 
-        RespuestaGenerica obtenerEmployeerios();
+        RespuestaGenerica getEmployees();
 
-        RespuestaGenerica deshabilitarEmployee(string employeeCedula);
+        RespuestaGenerica toggleEmployeeStatus(string nationalId);
 
-        Task<RespuestaGenerica> eliminarEmployee(string employeeCedula);
+        Task<RespuestaGenerica> deleteEmployee(string nationalId);
 
-        RespuestaGenerica modificarEmployee(int pK_idEmployee, EmployeeDTO employeeDTO);
+        RespuestaGenerica updateEmployee(int pK_idEmployee, EmployeeDTO employeeDTO);
 
-        RespuestaGenerica actualizarPerfilPropio(string cedula, ActualizarPerfilDTO perfilDTO);
+        RespuestaGenerica updateOwnProfile(string nationalId, ActualizarPerfilDTO perfilDTO);
 
-        RespuestaGenerica verificarEmail(string email);
+        RespuestaGenerica checkEmail(string email);
 
-        RespuestaGenerica verificarCedula(string employeeCedula);
+        RespuestaGenerica checkNationalId(string nationalId);
     }
 }

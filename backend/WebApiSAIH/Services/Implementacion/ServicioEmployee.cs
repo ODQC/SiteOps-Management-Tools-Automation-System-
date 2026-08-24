@@ -48,15 +48,15 @@ namespace WebApiSAIH.Services.Implementacion
             _sendGridService = sendGridService;
         }
 
-        private const string MensajeForgetPasswordGenerico = "Si el correo está registrado, se enviará un enlace para restablecer la password";
+        private const string MensajeForgetPasswordGenerico = "If the email is registered, a password reset link will be sent";
 
         public async Task<RespuestaGenerica> ForgetPasswordAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                // No revelar si el correo existe o no (evita enumeración de employees):
-                // se responde igual que en el caso exitoso, sin enviar ningún correo.
+                // Don't reveal whether the email exists (avoids employee enumeration):
+                // respond the same way as the success case, without sending any email.
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
@@ -71,7 +71,7 @@ namespace WebApiSAIH.Services.Implementacion
 
             string url = $"{_configuration["AppAngular"]}/reset?email={email}&token={validToken}";
 
-            EmailTemplate emailTemplate = _context.EmailTemplates.Where(s => s.Name == "Cambiar Password").FirstOrDefault<EmailTemplate>();
+            EmailTemplate emailTemplate = _context.EmailTemplates.Where(s => s.Name == "Change Password").FirstOrDefault<EmailTemplate>();
 
             string htmlString = emailTemplate.Content;
 
@@ -83,7 +83,7 @@ namespace WebApiSAIH.Services.Implementacion
 
             htmlString = Regex.Replace(htmlString, "URL", url);
 
-            await _sendGridService.SendEmailAsyn(email, "Recuperar Password", htmlString);
+            await _sendGridService.SendEmailAsyn(email, "Password Recovery", htmlString);
 
             Email emailToSave = new Email();
             emailToSave.De = "noreply@example.com";
@@ -110,7 +110,7 @@ namespace WebApiSAIH.Services.Implementacion
             {
                 return new RespuestaGenerica
                 {
-                    Mensaje = "Correo o password incorrectos",
+                    Mensaje = "Incorrect email or password",
                     Codigo = CodigosEstadoHTTP.HTTP_BAD_REQUEST,
                     Object = null
                 };
@@ -121,7 +121,7 @@ namespace WebApiSAIH.Services.Implementacion
             if (!result)
                 return new RespuestaGenerica
                 {
-                    Mensaje = "Correo o password incorrectos",
+                    Mensaje = "Incorrect email or password",
                     Codigo = CodigosEstadoHTTP.HTTP_BAD_REQUEST,
                     Object = null
                 };
@@ -148,8 +148,8 @@ namespace WebApiSAIH.Services.Implementacion
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                // Ventana de exposición acotada: al no haber revocación server-side de tokens
-                // (no hay logout ni refresh tokens), 8h limita el riesgo si un token es robado.
+                // Bounded exposure window: since there's no server-side token revocation
+                // (no logout, no refresh tokens), 8h limits the blast radius of a stolen token.
                 expires: DateTime.Now.AddHours(8),
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
 
@@ -159,7 +159,7 @@ namespace WebApiSAIH.Services.Implementacion
             {
                 return new RespuestaGenerica
                 {
-                    Mensaje = "El employee esta inactivo",
+                    Mensaje = "This employee is inactive",
                     Codigo = CodigosEstadoHTTP.HTTP_BAD_REQUEST,
                     Object = null
                 };
@@ -176,7 +176,7 @@ namespace WebApiSAIH.Services.Implementacion
             htmlString = Regex.Replace(htmlString, "DATETIME", DateTime.Now.ToString("dd-MM-yyyy") + ", " + 
                 DateTime.Now.ToString("hh:mm:ss"));
 
-            await _sendGridService.SendEmailAsyn(model.Email, "Nuevo inicio de sesión", htmlString);
+            await _sendGridService.SendEmailAsyn(model.Email, "New login", htmlString);
 
             Email emailToSave = new Email();
             emailToSave.De = "noreply@example.com";
@@ -203,7 +203,7 @@ namespace WebApiSAIH.Services.Implementacion
             if (model.Password != model.ConfirmPassword)
                 return new RespuestaGenerica
                 {
-                    Mensaje = "Confirmar password no es igual a la password",
+                    Mensaje = "Password confirmation does not match the password",
                     Codigo = CodigosEstadoHTTP.HTTP_BAD_REQUEST,
                     Object = true
                 };
@@ -218,7 +218,7 @@ namespace WebApiSAIH.Services.Implementacion
 
             if (result.Succeeded)
             {
-                EmailTemplate emailTemplate = _context.EmailTemplates.Where(s => s.Name == "Datos de employee").FirstOrDefault<EmailTemplate>();
+                EmailTemplate emailTemplate = _context.EmailTemplates.Where(s => s.Name == "Employee data").FirstOrDefault<EmailTemplate>();
 
                 string htmlString = emailTemplate.Content;
 
@@ -265,7 +265,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_CREATED,
-                    Mensaje = "Employee registrado exitosamente!",
+                    Mensaje = "Employee registered successfully!",
                     Object = true,
                 };
             }
@@ -273,7 +273,7 @@ namespace WebApiSAIH.Services.Implementacion
             return new RespuestaGenerica
             {
                 Codigo = CodigosEstadoHTTP.HTTP_BAD_REQUEST,
-                Mensaje = "Employee no creado",
+                Mensaje = "Employee not created",
                 Object = result.Errors.Select(e => e.Description)
             };
 
@@ -283,11 +283,11 @@ namespace WebApiSAIH.Services.Implementacion
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
-                // No revelar si el correo existe o no (evita enumeración de employees).
+                // Don't reveal whether the email exists (avoids employee enumeration).
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_BAD_REQUEST,
-                    Mensaje = "El enlace no es válido o ha expirado",
+                    Mensaje = "The link is invalid or has expired",
                     Object = null
                 };
 
@@ -295,7 +295,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Las passwords no son iguales",
+                    Mensaje = "Passwords do not match",
                     Object = null
                 };
 
@@ -320,7 +320,7 @@ namespace WebApiSAIH.Services.Implementacion
             };
         }
 
-        public async Task<RespuestaGenerica> guardarEmployee(EmployeeDTO employeeDTO)
+        public async Task<RespuestaGenerica> createEmployee(EmployeeDTO employeeDTO)
         {
             try
             {
@@ -329,7 +329,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (employee != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El employee ya esta registrado en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This employee is already registered in the system", null);
                 }
 
                 Employee employee2 = _mapper.Map<Employee>(employeeDTO);
@@ -344,7 +344,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (employee2.FK_idRole1 == rolAdminParque.PK_idRole && administradoresParqueActivos(employee2.FK_idSite1))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Ya existe un administrador activo para ese parque", _context.Employees.Where(
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "There is already an active manager for that site", _context.Employees.Where(
                         s => s.Status == Status.ACTIVE && s.FK_idRole1 == rolAdminParque.PK_idRole && s.FK_idSite1 == employee2.FK_idSite1));
                 }
 
@@ -362,7 +362,7 @@ namespace WebApiSAIH.Services.Implementacion
                 {
                     _context.Employees.Add(employee2);
                     _context.SaveChanges();
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Employee registrado", _mapper.Map<EmployeeDTO>(employee2));
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Employee registered", _mapper.Map<EmployeeDTO>(employee2));
                 }
                 else
                 {
@@ -372,11 +372,11 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
@@ -417,14 +417,14 @@ namespace WebApiSAIH.Services.Implementacion
                 return null;
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Error de validaciones", listaErrores);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Validation error", listaErrores);
         }
 
-        public RespuestaGenerica modificarEmployee(int pK_idEmployee, EmployeeDTO employeeDTO)
+        public RespuestaGenerica updateEmployee(int pK_idEmployee, EmployeeDTO employeeDTO)
         {
             if (pK_idEmployee != employeeDTO.PK_idEmployee)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "Peticion Erronea", "El formato de la peticion es erronea");
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "Bad Request", "The request format is invalid");
             }
 
             try
@@ -434,36 +434,36 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (employee == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee no encontrado", "No se actualizo ningun employee");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", "No employee was updated");
                 }
 
-                Employee employeeCedula1 = _context.Employees.Where(
+                Employee employeeWithSameEmail = _context.Employees.Where(
                  s => s.Email == employeeDTO.Email).FirstOrDefault<Employee>();
 
-                if (employeeCedula1 != employee)
+                if (employeeWithSameEmail != employee)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El correo electrónico ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This email is already in use", "");
                 }
 
                 employee = covertirDTOAEntidad(employee, employeeDTO);
                 _context.Update(employee);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Employee actualizado", _mapper.Map<EmployeeDTO>(employee));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Employee updated", _mapper.Map<EmployeeDTO>(employee));
             }
             catch (Exception e)
             {
                 if (!EmployeeExists(pK_idEmployee))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
 
-        public RespuestaGenerica actualizarPerfilPropio(string cedula, ActualizarPerfilDTO perfilDTO)
+        public RespuestaGenerica updateOwnProfile(string cedula, ActualizarPerfilDTO perfilDTO)
         {
             try
             {
@@ -472,7 +472,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (employee == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", null);
                 }
 
                 employee.PhoneEmployee = perfilDTO.PhoneEmployee;
@@ -484,11 +484,11 @@ namespace WebApiSAIH.Services.Implementacion
 
                 _context.Update(employee);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Perfil actualizado", _mapper.Map<EmployeeDTO>(employee));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Profile updated", _mapper.Map<EmployeeDTO>(employee));
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
@@ -514,34 +514,34 @@ namespace WebApiSAIH.Services.Implementacion
             return Employee;
         }
 
-        public RespuestaGenerica obtenerEmployee(string employeeCedula)
+        public RespuestaGenerica getEmployee(string nationalId)
         {
             Employee employee = _context.Employees.Where(
-                s => s.NationalId == employeeCedula).FirstOrDefault<Employee>();
+                s => s.NationalId == nationalId).FirstOrDefault<Employee>();
 
             if (employee == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Employee encontrado", _mapper.Map<EmployeeDTO>(employee));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Employee found", _mapper.Map<EmployeeDTO>(employee));
         }
 
-        public RespuestaGenerica obtenerEmployeerios()
+        public RespuestaGenerica getEmployees()
         {
             List<Employee> employees = _context.Employees.ToList();
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Employees desplegados", _mapper.Map<List<EmployeeDTO>>(employees));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Employees listed", _mapper.Map<List<EmployeeDTO>>(employees));
         }
 
-        public RespuestaGenerica deshabilitarEmployee(string employeeCedula)
+        public RespuestaGenerica toggleEmployeeStatus(string nationalId)
         {
             Employee employee = _context.Employees.Where(
-                s => s.NationalId == employeeCedula).FirstOrDefault<Employee>();
+                s => s.NationalId == nationalId).FirstOrDefault<Employee>();
 
             if (employee == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", null);
             }
 
             Role rolAdminParque = _context.EmployeeRoles.Where(
@@ -552,7 +552,7 @@ namespace WebApiSAIH.Services.Implementacion
 
             if (rolAdminParque == null || site == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", "Algo pasó");
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", "Something went wrong");
             }
 
             if (employee.FK_idRole1 == rolAdminParque.PK_idRole && employee.Status != Status.ACTIVE)
@@ -563,7 +563,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (employees.Count != 0)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "Peticion Erronea", "Ya existe un administrador de parque activo para ese parque");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "Bad Request", "There is already an active site manager for that site");
                 }
             }
 
@@ -583,20 +583,20 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado del Employee ha sido modificado", _mapper.Map<EmployeeDTO>(employee));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The employee's status has been changed", _mapper.Map<EmployeeDTO>(employee));
         }
 
-        public async Task<RespuestaGenerica> eliminarEmployee(string employeeCedula)
+        public async Task<RespuestaGenerica> deleteEmployee(string nationalId)
         {
             Employee employee = _context.Employees.Where(
-                s => s.NationalId == employeeCedula).FirstOrDefault<Employee>();
+                s => s.NationalId == nationalId).FirstOrDefault<Employee>();
 
             if (employee == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", null);
             }
 
             try
@@ -610,13 +610,13 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Employee " + employee.NationalId + " eliminado exitosamente", _mapper.Map<EmployeeDTO>(employee));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Employee " + employee.NationalId + " deleted successfully", _mapper.Map<EmployeeDTO>(employee));
         }
 
-        public RespuestaGenerica verificarEmail(string email)
+        public RespuestaGenerica checkEmail(string email)
         {
             try
             {
@@ -632,16 +632,16 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica verificarCedula(string employeeCedula)
+        public RespuestaGenerica checkNationalId(string nationalId)
         {
             try
             {
                 Employee employee = _context.Employees.Where(
-                s => s.NationalId == employeeCedula).FirstOrDefault<Employee>();
+                s => s.NationalId == nationalId).FirstOrDefault<Employee>();
 
                 if (employee != null)
                 {
@@ -652,7 +652,7 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
     }

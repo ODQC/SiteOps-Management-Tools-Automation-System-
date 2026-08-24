@@ -9,14 +9,14 @@ namespace SAIH_Backend.Servicios.Interfaces
 {
     public interface IServicioRegion
     {
-        RespuestaGenerica obtenerAreasConservacion();
-        RespuestaGenerica obtenerPKRegionNA();
-        RespuestaGenerica obtenerRegion(string code);
-        RespuestaGenerica guardarRegion(RegionDTO regionDTO);
-        RespuestaGenerica actualizarRegion(int pkIdRegion, RegionDTO regionDTO);
-        RespuestaGenerica eliminarRegion(string code);
-        RespuestaGenerica deshabilitarRegion(string code);
-        RespuestaGenerica verificarArea(string code);
-        RespuestaGenerica obtenerAreaXparque(long pk_idParque);
+        RespuestaGenerica getRegions();
+        RespuestaGenerica getNARegionId();
+        RespuestaGenerica getRegion(string code);
+        RespuestaGenerica createRegion(RegionDTO regionDTO);
+        RespuestaGenerica updateRegion(int pkIdRegion, RegionDTO regionDTO);
+        RespuestaGenerica deleteRegion(string code);
+        RespuestaGenerica toggleRegionStatus(string code);
+        RespuestaGenerica checkRegion(string code);
+        RespuestaGenerica getRegionBySite(long pk_idSite);
     }
 }

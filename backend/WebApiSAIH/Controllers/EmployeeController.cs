@@ -29,9 +29,9 @@ namespace SAIH_Backend.Controladores
 
         [HttpPost]
         [Authorize(Roles = Roles.ROLE_ADMIN)]
-        public async Task<IActionResult> guardarEmployee(EmployeeDTO employeeDTO)
+        public async Task<IActionResult> createEmployee(EmployeeDTO employeeDTO)
         {
-            RespuestaGenerica respuestaGenerica = await _employeeService.guardarEmployee(employeeDTO);
+            RespuestaGenerica respuestaGenerica = await _employeeService.createEmployee(employeeDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -49,17 +49,17 @@ namespace SAIH_Backend.Controladores
         [HttpGet]
         [Authorize(Roles = Roles.ROLE_SUPERVISOR + "," + Roles.ROLE_SITE_MANAGER + "," +
             Roles.ROLE_ADMIN + "," + Roles.ROLE_EMPLOYEE)]
-        public IActionResult obtenerEmployeerios()
+        public IActionResult getEmployees()
         {
-            return Ok(_employeeService.obtenerEmployeerios());
+            return Ok(_employeeService.getEmployees());
         }
 
         [HttpGet("{nationalId}")]
         [Authorize(Roles = Roles.ROLE_SUPERVISOR + "," + Roles.ROLE_SITE_MANAGER + "," +
             Roles.ROLE_ADMIN + "," + Roles.ROLE_EMPLOYEE)]
-        public IActionResult obtenerEmployee(string nationalId)
+        public IActionResult getEmployee(string nationalId)
         {
-            RespuestaGenerica respuestaGenerica = _employeeService.obtenerEmployee(nationalId);
+            RespuestaGenerica respuestaGenerica = _employeeService.getEmployee(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -69,11 +69,11 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarEmail/{email}")]
+        [HttpGet("checkEmail/{email}")]
         [Authorize(Roles = Roles.ROLE_ADMIN)]
-        public IActionResult verificarEmail(string email)
+        public IActionResult checkEmail(string email)
         {
-            RespuestaGenerica respuestaGenerica = _employeeService.verificarEmail(email);
+            RespuestaGenerica respuestaGenerica = _employeeService.checkEmail(email);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -83,11 +83,11 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarCedula/{employeeCedula}")]
+        [HttpGet("checkNationalId/{nationalId}")]
         [Authorize(Roles = Roles.ROLE_ADMIN)]
-        public IActionResult verificarCedula(string employeeCedula)
+        public IActionResult checkNationalId(string nationalId)
         {
-            RespuestaGenerica respuestaGenerica = _employeeService.verificarCedula(employeeCedula);
+            RespuestaGenerica respuestaGenerica = _employeeService.checkNationalId(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -100,9 +100,9 @@ namespace SAIH_Backend.Controladores
         [HttpPut("{pK_idEmployee}")]
         [Authorize(Roles = Roles.ROLE_SUPERVISOR + "," + Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_EMPLOYEE + "," +
             Roles.ROLE_ADMIN)]
-        public IActionResult modificarEmployee(int pK_idEmployee, EmployeeDTO employeeDTO)
+        public IActionResult updateEmployee(int pK_idEmployee, EmployeeDTO employeeDTO)
         {
-            RespuestaGenerica respuestaGenerica = _employeeService.modificarEmployee(pK_idEmployee, employeeDTO);
+            RespuestaGenerica respuestaGenerica = _employeeService.updateEmployee(pK_idEmployee, employeeDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -122,18 +122,18 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpPut("mi-perfil")]
+        [HttpPut("my-profile")]
         [Authorize]
-        public IActionResult actualizarMiPerfil(ActualizarPerfilDTO perfilDTO)
+        public IActionResult updateMyProfile(ActualizarPerfilDTO perfilDTO)
         {
-            string cedula = User.FindFirst("Cedula")?.Value;
+            string nationalId = User.FindFirst("Cedula")?.Value;
 
-            if (string.IsNullOrEmpty(cedula))
+            if (string.IsNullOrEmpty(nationalId))
             {
                 return Unauthorized();
             }
 
-            RespuestaGenerica respuestaGenerica = _employeeService.actualizarPerfilPropio(cedula, perfilDTO);
+            RespuestaGenerica respuestaGenerica = _employeeService.updateOwnProfile(nationalId, perfilDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -149,9 +149,9 @@ namespace SAIH_Backend.Controladores
 
         [HttpDelete("{nationalId}")]
         [Authorize(Roles = Roles.ROLE_ADMIN)]
-        public async Task<IActionResult> eliminarEmployee(string nationalId)
+        public async Task<IActionResult> deleteEmployee(string nationalId)
         {
-            RespuestaGenerica respuestaGenerica = await _employeeService.eliminarEmployee(nationalId);
+            RespuestaGenerica respuestaGenerica = await _employeeService.deleteEmployee(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -165,12 +165,12 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{nationalId}")]
+        [HttpGet("toggle-status/{nationalId}")]
         [Authorize(Roles = Roles.ROLE_SUPERVISOR + "," + Roles.ROLE_SITE_MANAGER + ","  +
             Roles.ROLE_ADMIN)]
-        public IActionResult deshabilitarEmployee(string nationalId)
+        public IActionResult toggleEmployeeStatus(string nationalId)
         {
-            RespuestaGenerica respuestaGenerica = _employeeService.deshabilitarEmployee(nationalId);
+            RespuestaGenerica respuestaGenerica = _employeeService.toggleEmployeeStatus(nationalId);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {

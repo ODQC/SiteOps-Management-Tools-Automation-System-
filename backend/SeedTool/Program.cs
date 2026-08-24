@@ -98,25 +98,25 @@ var areaGuanacaste = GetOrCreateArea("AC-02", "Área de Conservación Guanacaste
 var deptoTI = GetOrCreateDepto("DEP-01", "Department TI");
 var deptoAdmin = GetOrCreateDepto("DEP-02", "Department Administración");
 // Department "N/A" para roles que no tienen uno propio (Administrador de Parque,
-// Guardaparque) -- lo busca ServicioDepartment.obtenerPKDepartmentNA por CodigoDepartment.
+// Guardaparque) -- lo busca ServicioDepartment.getNADepartmentId por CodigoDepartment.
 var deptoNA = GetOrCreateDepto("N/A", "N/A");
 
 var parqueUno = GetOrCreateParque("PN-01", "Parque Nacional de Prueba", areaCentral.PK_IdRegion);
 var parqueDos = GetOrCreateParque("PN-02", "Volcán Arenal", areaGuanacaste.PK_IdRegion);
 // Parque "N/A" para roles que no tienen uno propio (Supervisor, Administrador TI) -- lo
-// busca ServicioSite.obtenerPKParqueNA por Code.
-var parqueNA = GetOrCreateParque("N/A", "N/A", areaCentral.PK_IdRegion);
+// busca ServicioSite.getNASiteId por Code.
+var siteNA = GetOrCreateParque("N/A", "N/A", areaCentral.PK_IdRegion);
 
 var rolAdminTI = GetOrCreateRol("ROL-01", Roles.ROLE_ADMIN);
 var rolAdminParque = GetOrCreateRol("ROL-02", Roles.ROLE_SITE_MANAGER);
 var rolGuardaparque = GetOrCreateRol("ROL-03", Roles.ROLE_EMPLOYEE);
 var rolSupervisor = GetOrCreateRol("ROL-04", Roles.ROLE_SUPERVISOR);
 
-foreach (var name in new[] { "Login", "Cambiar Password", "Datos de employee" })
+foreach (var name in new[] { "Login", "Change Password", "Employee data" })
 {
     if (!db.EmailTemplates.Any(t => t.Name == name))
     {
-        db.EmailTemplates.Add(new EmailTemplate { Name = name, Content = "<p>Plantilla de prueba</p>" });
+        db.EmailTemplates.Add(new EmailTemplate { Name = name, Content = "<p>Test template</p>" });
     }
 }
 db.SaveChanges();

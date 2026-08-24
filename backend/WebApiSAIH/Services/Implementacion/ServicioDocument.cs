@@ -42,14 +42,14 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (file == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Document no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Document not found", null);
                 }
 
                 var path = Path.Combine(AppDirectory, file.FilePath);
 
                 if (!File.Exists(path))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Document no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Document not found", null);
                 }
 
                 var memory = new MemoryStream();
@@ -71,11 +71,11 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica eliminarDocument(long id)
+        public RespuestaGenerica deleteDocument(long id)
         {
             try
             {
@@ -92,21 +92,21 @@ namespace WebApiSAIH.Services.Implementacion
 
                     File.Delete(fullPath);
 
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Document eliminado", file.Name);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Document deleted", file.Name);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Document no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Document not found", null);
                 }
 
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error interno del servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal server error", e.Message);
             }
         }
 
-        public RespuestaGenerica guardarDocument(FormFile files)
+        public RespuestaGenerica createDocument(FormFile files)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace WebApiSAIH.Services.Implementacion
                     _context.Documents.Add(objFiles);
                     _context.SaveChanges();
 
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK,"Document guardado", objFiles);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK,"Document saved", objFiles);
                 }
                 else
                 {
@@ -163,7 +163,7 @@ namespace WebApiSAIH.Services.Implementacion
             }
         }
 
-        public RespuestaGenerica obtenerNombrePkDocument(long pk_idDocument)
+        public RespuestaGenerica getDocumentNameByPk(long pk_idDocument)
         {
             try
             {
@@ -172,19 +172,19 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (document == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "No hay document con esa pk", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "No document with that ID", null);
                 }
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Nombre del document", document.Name);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Document name", document.Name);
 
             }
             catch(Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica obtenerDocuments()
+        public RespuestaGenerica getDocuments()
         {
             List<Document> documents = _context.Documents.Select(n => new Document
             {
@@ -195,69 +195,10 @@ namespace WebApiSAIH.Services.Implementacion
                 CreatedOn = n.CreatedOn
             }).ToList();
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Documents desplegados", _mapper.Map<List<DocumentDTO>>(documents));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Documents listed", _mapper.Map<List<DocumentDTO>>(documents));
         }
 
-        public RespuestaGenerica obtenerDocumentXemployee(string cedula)
-        {
-            try
-            {
-                Employee employee = _context.Employees
-                    .Where(s => s.NationalId == cedula).FirstOrDefault<Employee>();
-
-                if (employee == null)
-                {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el employee", null);
-                }
-
-                Document document = _context.Documents.
-                    Where(s => s.DocumentId == employee.FK_idDocument1).FirstOrDefault<Document>();
-
-                if(document == null)
-                {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "No hay imagen employee a este employee " + cedula, null);
-                }
-
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Imagen asociada al employee " + cedula, document);
-            }
-            catch (Exception e)
-            {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
-            }
-        }
-
-        public RespuestaGenerica obtenerDocumentXemployeeBytes(string cedula)
-        {
-            try
-            {
-                Employee employee = _context.Employees
-                    .Where(s => s.NationalId == cedula).FirstOrDefault<Employee>();
-
-                if (employee == null)
-                {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el employee", null);
-                }
-
-                Document document = _context.Documents.
-                    Where(s => s.DocumentId == employee.FK_idDocument1).FirstOrDefault<Document>();
-
-                if (document == null)
-                {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "No hay imagen employee a este employee " + cedula, null);
-                }
-
-                var byteArrImg = File.ReadAllBytes(document.FilePath);
-                var base64Img = Convert.ToBase64String(byteArrImg);
-
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Imagen asociada al employee " + cedula, base64Img);
-            }
-            catch (Exception e)
-            {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
-            }
-        }
-
-        public RespuestaGenerica obtenerImagenEmployee(string nationalId)
+        public RespuestaGenerica getDocumentByEmployee(string nationalId)
         {
             try
             {
@@ -266,7 +207,66 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (employee == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el employee", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", null);
+                }
+
+                Document document = _context.Documents.
+                    Where(s => s.DocumentId == employee.FK_idDocument1).FirstOrDefault<Document>();
+
+                if(document == null)
+                {
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "No image for this employee " + nationalId, null);
+                }
+
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Image associated with employee " + nationalId, document);
+            }
+            catch (Exception e)
+            {
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
+            }
+        }
+
+        public RespuestaGenerica getDocumentBytesByEmployee(string nationalId)
+        {
+            try
+            {
+                Employee employee = _context.Employees
+                    .Where(s => s.NationalId == nationalId).FirstOrDefault<Employee>();
+
+                if (employee == null)
+                {
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", null);
+                }
+
+                Document document = _context.Documents.
+                    Where(s => s.DocumentId == employee.FK_idDocument1).FirstOrDefault<Document>();
+
+                if (document == null)
+                {
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_BAD_REQUEST, "No image for this employee " + nationalId, null);
+                }
+
+                var byteArrImg = File.ReadAllBytes(document.FilePath);
+                var base64Img = Convert.ToBase64String(byteArrImg);
+
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Image associated with employee " + nationalId, base64Img);
+            }
+            catch (Exception e)
+            {
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
+            }
+        }
+
+        public RespuestaGenerica getEmployeeImage(string nationalId)
+        {
+            try
+            {
+                Employee employee = _context.Employees
+                    .Where(s => s.NationalId == nationalId).FirstOrDefault<Employee>();
+
+                if (employee == null)
+                {
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Employee not found", null);
                 }
 
                 Document document = _context.Documents.
@@ -282,11 +282,11 @@ namespace WebApiSAIH.Services.Implementacion
 
                 filePath = Regex.Replace(filePath, replaceCharacters, "http://127.0.0.1:8887");
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Ruta de la imagen: ", filePath);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Image path: ", filePath);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
     }

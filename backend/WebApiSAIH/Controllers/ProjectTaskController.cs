@@ -27,9 +27,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPost]
-        public IActionResult guardarProjectTask(ProjectTaskDTO projectTaskDTO)
+        public IActionResult createProjectTask(ProjectTaskDTO projectTaskDTO)
         {
-            RespuestaGenerica respuestaGenerica = _servicioProjectTask.guardarProjectTask(projectTaskDTO);
+            RespuestaGenerica respuestaGenerica = _servicioProjectTask.createProjectTask(projectTaskDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -45,9 +45,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpDelete("{pK_idProjectTask}")]
-        public IActionResult eliminarProjectTask(long pK_idProjectTask)
+        public IActionResult deleteProjectTask(long pK_idProjectTask)
         {
-            RespuestaGenerica respuestaGenerica = _servicioProjectTask.eliminarProjectTask(pK_idProjectTask);
+            RespuestaGenerica respuestaGenerica = _servicioProjectTask.deleteProjectTask(pK_idProjectTask);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -61,10 +61,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpPost("guardarLista")]
-        public IActionResult guardarProjectTaskList(List<ProjectTaskDTO> listProjectTaskDTO)
+        [HttpPost("createBatch")]
+        public IActionResult createProjectTaskList(List<ProjectTaskDTO> listProjectTaskDTO)
         {
-            RespuestaGenerica respuestaGenerica = _servicioProjectTask.guardarProjectTaskList(listProjectTaskDTO);
+            RespuestaGenerica respuestaGenerica = _servicioProjectTask.createProjectTaskList(listProjectTaskDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -79,10 +79,10 @@ namespace WebApiSAIH.Controllers
             return StatusCode(201, respuestaGenerica);
         }
 
-        [HttpGet("verificarRelacionExistente/{fk_idProject}/{fk_idTask}")]
-        public IActionResult verificarRelacionExistente(long fk_idProject, long fk_idTask)
+        [HttpGet("checkExistingLink/{fk_idProject}/{fk_idTask}")]
+        public IActionResult checkExistingLink(long fk_idProject, long fk_idTask)
         {
-            RespuestaGenerica respuestaGenerica = _servicioProjectTask.verificarRelacionExistente(fk_idProject, fk_idTask);
+            RespuestaGenerica respuestaGenerica = _servicioProjectTask.checkExistingLink(fk_idProject, fk_idTask);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -93,9 +93,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet]
-        public IActionResult obtenerProjectTask()
+        public IActionResult getProjectTask()
         {
-            RespuestaGenerica respuestaGenerica = _servicioProjectTask.obtenerProjectTask();
+            RespuestaGenerica respuestaGenerica = _servicioProjectTask.getProjectTask();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {

@@ -9,22 +9,22 @@ namespace WebApiSAIH.Services.Interfaces
 {
     public interface IServicioResource
     {
-        RespuestaGenerica guardarResource(ResourceDTO resourceDTO);
+        RespuestaGenerica createResource(ResourceDTO resourceDTO);
 
-        RespuestaGenerica obtenerResource(string idResourceDTO);
+        RespuestaGenerica getResource(string idResourceDTO);
 
-        RespuestaGenerica obtenerResources();
+        RespuestaGenerica getResources();
 
-        RespuestaGenerica deshabilitarResource(string idResourceDTO);
+        RespuestaGenerica toggleResourceStatus(string idResourceDTO);
 
-        RespuestaGenerica eliminarResource(string idResourceDTO);
+        RespuestaGenerica deleteResource(string idResourceDTO);
 
-        RespuestaGenerica modificarResource(long pK_idResource, ResourceDTO resourceDTO);
+        RespuestaGenerica updateResource(long pK_idResource, ResourceDTO resourceDTO);
 
-        RespuestaGenerica obtenerPKResourceNA();
+        RespuestaGenerica getNAResourceId();
 
-        RespuestaGenerica goalsXresource(String code);
+        RespuestaGenerica goalsByResource(String code);
 
-        RespuestaGenerica verificarResource(String code);
+        RespuestaGenerica checkResource(String code);
     }
 }

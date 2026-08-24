@@ -27,28 +27,28 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet]
-        public IActionResult obtenerProjects()
+        public IActionResult getProjects()
         {
-            return Ok(_projectService.obtenerProjects());
+            return Ok(_projectService.getProjects());
         }
 
         [HttpGet("projectNA")]
-        public IActionResult obtenerPKPlanTrabjoNA()
+        public IActionResult getNAProjectId()
         {
-            RespuestaGenerica respuestaGenerica = _projectService.obtenerPKProjectNA();
+            RespuestaGenerica respuestaGenerica = _projectService.getNAProjectId();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
-                NotFound(respuestaGenerica);
+                return NotFound(respuestaGenerica);
             }
 
             return Ok(respuestaGenerica);
         }
 
         [HttpGet("{pk_idProject}")]
-        public IActionResult obtenerProject(long pk_idProject)
+        public IActionResult getProject(long pk_idProject)
         {
-            RespuestaGenerica respuestaGenerica = _projectService.obtenerProject(pk_idProject);
+            RespuestaGenerica respuestaGenerica = _projectService.getProject(pk_idProject);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -61,9 +61,9 @@ namespace WebApiSAIH.Controllers
         [HttpPost]
         [Authorize(Roles = Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_EMPLOYEE + "," +
         Roles.ROLE_ADMIN)]
-        public IActionResult guardarProject(ProjectDTO projectDTO)
+        public IActionResult createProject(ProjectDTO projectDTO)
         {
-            RespuestaGenerica respuestaGenerica = _projectService.guardarProject(projectDTO);
+            RespuestaGenerica respuestaGenerica = _projectService.createProject(projectDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -81,9 +81,9 @@ namespace WebApiSAIH.Controllers
         [HttpPut("{pk_IdProject}")]
         [Authorize(Roles = Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_EMPLOYEE + "," +
             Roles.ROLE_ADMIN)]
-        public IActionResult modificarProject(long pk_IdProject, ProjectDTO projectDTO)
+        public IActionResult updateProject(long pk_IdProject, ProjectDTO projectDTO)
         {
-            RespuestaGenerica respuestaGenerica = _projectService.modificarProject(pk_IdProject, projectDTO);
+            RespuestaGenerica respuestaGenerica = _projectService.updateProject(pk_IdProject, projectDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -105,9 +105,9 @@ namespace WebApiSAIH.Controllers
 
         [HttpDelete("{pk_idProject}")]
         [Authorize(Roles =  Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_ADMIN)]
-        public IActionResult eliminarProject(long pk_idProject)
+        public IActionResult deleteProject(long pk_idProject)
         {
-            RespuestaGenerica respuestaGenerica = _projectService.eliminarProject(pk_idProject);
+            RespuestaGenerica respuestaGenerica = _projectService.deleteProject(pk_idProject);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -121,11 +121,11 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{pk_idPlan}/{pk_idEmployee}")]
+        [HttpGet("toggle-status/{pk_idPlan}/{pk_idEmployee}")]
         [Authorize(Roles = Roles.ROLE_SITE_MANAGER + "," + Roles.ROLE_ADMIN)]
-        public IActionResult deshabilitarProject(long pk_idPlan, long pk_idEmployee)
+        public IActionResult toggleProjectStatus(long pk_idPlan, long pk_idEmployee)
         {
-            RespuestaGenerica respuestaGenerica = _projectService.deshabilitarProject(pk_idPlan, pk_idEmployee);
+            RespuestaGenerica respuestaGenerica = _projectService.toggleProjectStatus(pk_idPlan, pk_idEmployee);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -145,10 +145,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("taskesXproject/{pk_idProject}")]
-        public IActionResult resourcesXgoal(long pk_idProject)
+        [HttpGet("tasksByProject/{pk_idProject}")]
+        public IActionResult resourcesByGoal(long pk_idProject)
         {
-            RespuestaGenerica respuestaGenerica = _projectService.taskesXproject(pk_idProject);
+            RespuestaGenerica respuestaGenerica = _projectService.tasksByProject(pk_idProject);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -163,10 +163,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarProject/{codigoProject}/{fk_idEmployee}")]
-        public IActionResult verificarProject(string codigoProject, long fk_idEmployee)
+        [HttpGet("checkProject/{code}/{fk_idEmployee}")]
+        public IActionResult checkProject(string code, long fk_idEmployee)
         {
-            RespuestaGenerica respuestaGenerica = _projectService.verificarProject(codigoProject, fk_idEmployee);
+            RespuestaGenerica respuestaGenerica = _projectService.checkProject(code, fk_idEmployee);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -176,10 +176,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("projectXemployee/{fk_idEmployee}")]
-        public IActionResult projectXemployee(long fk_idEmployee)
+        [HttpGet("projectByEmployee/{fk_idEmployee}")]
+        public IActionResult projectByEmployee(long fk_idEmployee)
         {
-            RespuestaGenerica respuestaGenerica = _projectService.projectXemployee(fk_idEmployee);
+            RespuestaGenerica respuestaGenerica = _projectService.projectByEmployee(fk_idEmployee);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -194,7 +194,7 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarProgress/{pk_idProject}/{progress}")]
+        [HttpGet("update-progress/{pk_idProject}/{progress}")]
         public IActionResult cambiarProgesoPlan(long pk_idProject, string progress)
         {
             RespuestaGenerica respuestaGenerica = _projectService.cambiarProgesoPlan(pk_idProject, progress);

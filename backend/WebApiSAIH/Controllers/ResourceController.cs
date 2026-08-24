@@ -26,28 +26,28 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet]
-        public IActionResult obtenerResources()
+        public IActionResult getResources()
         {
-            return Ok(_resourceService.obtenerResources());
+            return Ok(_resourceService.getResources());
         }
 
         [HttpGet("resourceNA")]
-        public IActionResult obtenerPKResourceNA()
+        public IActionResult getNAResourceId()
         {
-            RespuestaGenerica respuestaGenerica = _resourceService.obtenerPKResourceNA();
+            RespuestaGenerica respuestaGenerica = _resourceService.getNAResourceId();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
-                NotFound(respuestaGenerica);
+                return NotFound(respuestaGenerica);
             }
 
             return Ok(respuestaGenerica);
         }
 
         [HttpGet("{code}")]
-        public IActionResult obtenerResource(string code)
+        public IActionResult getResource(string code)
         {
-            RespuestaGenerica respuestaGenerica = _resourceService.obtenerResource(code);
+            RespuestaGenerica respuestaGenerica = _resourceService.getResource(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -58,9 +58,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPost]
-        public IActionResult guardarResource(ResourceDTO resourceDTO)
+        public IActionResult createResource(ResourceDTO resourceDTO)
         {
-            RespuestaGenerica respuestaGenerica = _resourceService.guardarResource(resourceDTO);
+            RespuestaGenerica respuestaGenerica = _resourceService.createResource(resourceDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -76,9 +76,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPut("{pK_idResource}")]
-        public IActionResult modificarResource(long pK_idResource, ResourceDTO resourceDTO)
+        public IActionResult updateResource(long pK_idResource, ResourceDTO resourceDTO)
         {
-            RespuestaGenerica respuestaGenerica = _resourceService.modificarResource(pK_idResource, resourceDTO);
+            RespuestaGenerica respuestaGenerica = _resourceService.updateResource(pK_idResource, resourceDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -99,9 +99,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpDelete("{code}")]
-        public IActionResult eliminarResource(string code)
+        public IActionResult deleteResource(string code)
         {
-            RespuestaGenerica respuestaGenerica = _resourceService.eliminarResource(code);
+            RespuestaGenerica respuestaGenerica = _resourceService.deleteResource(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -115,10 +115,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{code}")]
-        public IActionResult deshabilitarResource(string code)
+        [HttpGet("toggle-status/{code}")]
+        public IActionResult toggleResourceStatus(string code)
         {
-            RespuestaGenerica respuestaGenerica = _resourceService.deshabilitarResource(code);
+            RespuestaGenerica respuestaGenerica = _resourceService.toggleResourceStatus(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -138,10 +138,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("goalsXresource/{code}")]
-        public IActionResult goalsXresource(string code)
+        [HttpGet("goalsByResource/{code}")]
+        public IActionResult goalsByResource(string code)
         {
-            RespuestaGenerica respuestaGenerica = _resourceService.goalsXresource(code);
+            RespuestaGenerica respuestaGenerica = _resourceService.goalsByResource(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -156,10 +156,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarResource/{code}")]
-        public IActionResult verificarResource(string code)
+        [HttpGet("checkResource/{code}")]
+        public IActionResult checkResource(string code)
         {
-            RespuestaGenerica respuestaGenerica = _resourceService.verificarResource(code);
+            RespuestaGenerica respuestaGenerica = _resourceService.checkResource(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {

@@ -9,13 +9,13 @@ namespace WebApiSAIH.Services.Interfaces
 {
     public interface IServicioDeliverable
     {
-        RespuestaGenerica guardarDeliverable(DeliverableDTO deliverableDTO);
-        RespuestaGenerica obtenerDeliverable(long pk_idDeliverable);
-        RespuestaGenerica obtenerDeliverables();
-        RespuestaGenerica deshabilitarDeliverable(long pk_idDeliverable);
-        RespuestaGenerica eliminarDeliverable(long pk_idDeliverable);
-        RespuestaGenerica modificarDeliverable(long pk_IdDeliverable, DeliverableDTO deliverableDTO);
-        RespuestaGenerica deliverablesXtask(long fk_idTask);
-        RespuestaGenerica verificarDeliverable(string code, long fk_idTask);
+        RespuestaGenerica createDeliverable(DeliverableDTO deliverableDTO);
+        RespuestaGenerica getDeliverable(long pk_idDeliverable);
+        RespuestaGenerica getDeliverables();
+        RespuestaGenerica toggleDeliverableStatus(long pk_idDeliverable);
+        RespuestaGenerica deleteDeliverable(long pk_idDeliverable);
+        RespuestaGenerica updateDeliverable(long pk_IdDeliverable, DeliverableDTO deliverableDTO);
+        RespuestaGenerica deliverablesByTask(long fk_idTask);
+        RespuestaGenerica checkDeliverable(string code, long fk_idTask);
     }
 }

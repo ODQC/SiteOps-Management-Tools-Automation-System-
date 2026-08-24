@@ -24,14 +24,14 @@ namespace WebApiSAIH.Services.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica eliminarProjectTask(long idProjectTaskDTO)
+        public RespuestaGenerica deleteProjectTask(long idProjectTaskDTO)
         {
             ProjectTask projectTask = _context.ProjectTasks.Where(
                 s => s.PK_idProjectTask == idProjectTaskDTO).FirstOrDefault<ProjectTask>();
 
             if (projectTask == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Project Task no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Project task not found", null);
             }
 
             try
@@ -41,14 +41,14 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Project Task" + projectTask.PK_idProjectTask + " eliminado exitosamente", 
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Project Task" + projectTask.PK_idProjectTask + " deleted successfully", 
                 _mapper.Map<ProjectTaskDTO>(projectTask));
         }
 
-        public RespuestaGenerica guardarProjectTask(ProjectTaskDTO projectTaskDTO)
+        public RespuestaGenerica createProjectTask(ProjectTaskDTO projectTaskDTO)
         {
             try
             {
@@ -57,19 +57,19 @@ namespace WebApiSAIH.Services.Implementacion
                 _context.ProjectTasks.Add(projectTask);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Project Task registrado", _mapper.Map<ProjectTaskDTO>(projectTask));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Project task registered", _mapper.Map<ProjectTaskDTO>(projectTask));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica guardarProjectTaskList(List<ProjectTaskDTO> projectTaskDTOs)
+        public RespuestaGenerica createProjectTaskList(List<ProjectTaskDTO> projectTaskDTOs)
         {
             try
             {
@@ -83,20 +83,20 @@ namespace WebApiSAIH.Services.Implementacion
 
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Planes Trabajo Task registrados", 
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Project tasks registered", 
                     _mapper.Map<List<ProjectTaskDTO>>(listProjectTask1));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica obtenerProjectTask()
+        public RespuestaGenerica getProjectTask()
         {
             List<ProjectTask> projectTasks = null;
             try
@@ -105,13 +105,13 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error del servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Server error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Planes Trabajo Task desplegadas", _mapper.Map<List<ProjectTaskDTO>>(projectTasks));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Project tasks listed", _mapper.Map<List<ProjectTaskDTO>>(projectTasks));
         }
 
-        public RespuestaGenerica verificarRelacionExistente(long fk_idProject, long fk_idTask)
+        public RespuestaGenerica checkExistingLink(long fk_idProject, long fk_idTask)
         {
             try
             {
@@ -120,18 +120,18 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (projectTask != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "ProjectTask existe", true);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Project task already exists", true);
                 }
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "ProjectTask no existe", false);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Project task does not exist", false);
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
     }

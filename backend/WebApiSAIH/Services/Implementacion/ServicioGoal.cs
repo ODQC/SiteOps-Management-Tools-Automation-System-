@@ -27,14 +27,14 @@ namespace WebApiSAIH.Services.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica deshabilitarGoal(string idGoalDTO)
+        public RespuestaGenerica toggleGoalStatus(string idGoalDTO)
         {
             Goal goal = _context.Goals.Where(
                 s => s.Code == idGoalDTO).FirstOrDefault<Goal>();
 
             if (goal == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal not found", null);
             }
 
             if (goal.Status == Status.ACTIVE)
@@ -53,20 +53,20 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado del goal ha sido modificado", _mapper.Map<GoalDTO>(goal));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The goal's status has been changed", _mapper.Map<GoalDTO>(goal));
         }
 
-        public RespuestaGenerica eliminarGoal(string idGoalDTO)
+        public RespuestaGenerica deleteGoal(string idGoalDTO)
         {
             Goal goal = _context.Goals.Where(
                 s => s.Code == idGoalDTO).FirstOrDefault<Goal>();
 
             if (goal == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal not found", null);
             }
 
             try
@@ -76,13 +76,13 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goal " + goal.Code + " eliminado exitosamente", _mapper.Map<GoalDTO>(goal));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goal " + goal.Code + " deleted successfully", _mapper.Map<GoalDTO>(goal));
         }
 
-        public RespuestaGenerica guardarGoal(GoalDTO goalDTO)
+        public RespuestaGenerica createGoal(GoalDTO goalDTO)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (goal != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El goal ya esta registrado en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This goal is already registered in the system", null);
                 }
 
                 Goal goal2 = _mapper.Map<Goal>(goalDTO);
@@ -104,19 +104,19 @@ namespace WebApiSAIH.Services.Implementacion
                 _context.Goals.Add(goal2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Goal registrado", _mapper.Map<GoalDTO>(goal2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Goal registered", _mapper.Map<GoalDTO>(goal2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica modificarGoal(long pK_idGoal, GoalDTO goalDTO)
+        public RespuestaGenerica updateGoal(long pK_idGoal, GoalDTO goalDTO)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (goal == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal no encontrado", "No se actualizo ningun goal");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal not found", "No goal was updated");
                 }
 
                 Goal goalCodigo = _context.Goals.Where(
@@ -133,23 +133,23 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (goalCodigo != null && (goalCodigo != goal))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El codigo de goal ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This goal code is already in use", "");
                 }
 
                 goal = covertirDTOAEntidad(goal, goalDTO);
                 _context.Update(goal);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goal actualizado", _mapper.Map<GoalDTO>(goal));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goal updated", _mapper.Map<GoalDTO>(goal));
             }
             catch (Exception e)
             {
                 if (!GoalExists(pK_idGoal))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
@@ -159,37 +159,37 @@ namespace WebApiSAIH.Services.Implementacion
             return _context.Goals.Any(e => e.PK_idGoal == pK_idGoal);
         }
 
-        public RespuestaGenerica obtenerGoal(string idGoalDTO)
+        public RespuestaGenerica getGoal(string idGoalDTO)
         {
             Goal goal = _context.Goals
                .Where(s => s.Code == idGoalDTO).FirstOrDefault<Goal>();
 
             if (goal == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el goal", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal not found", null);
             }
 
             return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goal", _mapper.Map<GoalDTO>(goal));
         }
 
-        public RespuestaGenerica obtenerGoals()
+        public RespuestaGenerica getGoals()
         {
             List<Goal> goals = _context.Goals.Where(s => s.Code != "N/A").ToList();
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goals desplegados", _mapper.Map<List<GoalDTO>>(goals));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goals listed", _mapper.Map<List<GoalDTO>>(goals));
         }
 
-        public RespuestaGenerica obtenerPKGoalNA()
+        public RespuestaGenerica getNAGoalId()
         {
             Goal goal = _context.Goals
                 .Where(s => s.Code == "N/A").FirstOrDefault<Goal>();
 
             if (goal == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro goal con N/A", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No N/A goal found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "PK goal con N/A", goal.PK_idGoal);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goal PK for N/A", goal.PK_idGoal);
         }
 
         private Goal covertirDTOAEntidad(Goal goal, GoalDTO goalDTO)
@@ -218,10 +218,10 @@ namespace WebApiSAIH.Services.Implementacion
                 return null;
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Error de validaciones", listaErrores);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Validation error", listaErrores);
         }
 
-        public RespuestaGenerica resourcesXgoal(string code)
+        public RespuestaGenerica resourcesByGoal(string code)
         {
             try
             {
@@ -230,7 +230,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (goal == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el goal", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Goal not found", null);
                 }
 
                 List<ResourceGoal> listResourceGoal = _context.ResourceGoals.Where(
@@ -244,16 +244,16 @@ namespace WebApiSAIH.Services.Implementacion
                         s => s.PK_idResource == listResourceGoal[i].Fk_idResource2).FirstOrDefault<Resource>());
                 }
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resources asociadas al goal " + code,
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resources associated with the goal " + code,
                     _mapper.Map<List<ResourceDTO>>(resources));
             }
             catch(Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica verificarGoal(string code)
+        public RespuestaGenerica checkGoal(string code)
         {
             try
             {
@@ -269,7 +269,7 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
     }

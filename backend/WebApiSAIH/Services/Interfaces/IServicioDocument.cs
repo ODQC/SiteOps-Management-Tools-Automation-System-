@@ -9,13 +9,13 @@ namespace WebApiSAIH.Services.Interfaces
 {
     public interface IServicioDocument
     {
-        RespuestaGenerica guardarDocument(FormFile files);
-        RespuestaGenerica obtenerDocuments();
-        RespuestaGenerica obtenerDocumentXemployee(string cedula);
-        RespuestaGenerica obtenerDocumentXemployeeBytes(string cedula);
+        RespuestaGenerica createDocument(FormFile files);
+        RespuestaGenerica getDocuments();
+        RespuestaGenerica getDocumentByEmployee(string nationalId);
+        RespuestaGenerica getDocumentBytesByEmployee(string nationalId);
         Task<RespuestaGenerica> descargarDocument(long id);
-        RespuestaGenerica eliminarDocument(long id);
-        RespuestaGenerica obtenerImagenEmployee(string nationalId);
-        RespuestaGenerica obtenerNombrePkDocument(long pk_idDocument);
+        RespuestaGenerica deleteDocument(long id);
+        RespuestaGenerica getEmployeeImage(string nationalId);
+        RespuestaGenerica getDocumentNameByPk(long pk_idDocument);
     }
 }

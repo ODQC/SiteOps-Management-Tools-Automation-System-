@@ -26,14 +26,14 @@ namespace WebApiSAIH.Services.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica deshabilitarResource(string idResourceDTO)
+        public RespuestaGenerica toggleResourceStatus(string idResourceDTO)
         {
             Resource resource = _context.Resources.Where(
                 s => s.Code == idResourceDTO).FirstOrDefault<Resource>();
 
             if (resource == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource no encontrada", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource not found", null);
             }
 
             if (resource.Status == Status.ACTIVE)
@@ -52,20 +52,20 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado de la resource ha sido modificada", _mapper.Map<ResourceDTO>(resource));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The resource's status has been changed", _mapper.Map<ResourceDTO>(resource));
         }
 
-        public RespuestaGenerica eliminarResource(string idResourceDTO)
+        public RespuestaGenerica deleteResource(string idResourceDTO)
         {
             Resource resource = _context.Resources.Where(
                 s => s.Code == idResourceDTO).FirstOrDefault<Resource>();
 
             if (resource == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource no encontrada", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource not found", null);
             }
 
             try
@@ -75,13 +75,13 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource " + resource.Code + " eliminado exitosamente", _mapper.Map<ResourceDTO>(resource));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource " + resource.Code + " deleted successfully", _mapper.Map<ResourceDTO>(resource));
         }
 
-        public RespuestaGenerica guardarResource(ResourceDTO resourceDTO)
+        public RespuestaGenerica createResource(ResourceDTO resourceDTO)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (resource != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "La resource ya esta registrada en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This resource is already registered in the system", null);
                 }
 
                 Resource resource2 = _mapper.Map<Resource>(resourceDTO);
@@ -103,19 +103,19 @@ namespace WebApiSAIH.Services.Implementacion
                 _context.Resources.Add(resource2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Resource registrada", _mapper.Map<ResourceDTO>(resource2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Resource registered", _mapper.Map<ResourceDTO>(resource2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica modificarResource(long pK_idResource, ResourceDTO resourceDTO)
+        public RespuestaGenerica updateResource(long pK_idResource, ResourceDTO resourceDTO)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (resource == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource no encontrada", "No se actualizo ninguna resource");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource not found", "No resource was updated");
                 }
 
                 Resource resourceCodigo = _context.Resources.Where(
@@ -132,23 +132,23 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (resourceCodigo != null && (resourceCodigo != resource))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El codigo de la resource ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This resource code is already in use", "");
                 }
 
                 resource = covertirDTOAEntidad(resource, resourceDTO);
                 _context.Update(resource);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource actualizado", _mapper.Map<ResourceDTO>(resource));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource updated", _mapper.Map<ResourceDTO>(resource));
             }
             catch (Exception e)
             {
                 if (!ResourceExists(pK_idResource))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource no encontrada", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
@@ -158,37 +158,37 @@ namespace WebApiSAIH.Services.Implementacion
             return _context.Resources.Any(e => e.PK_idResource == pK_idResource);
         }
 
-        public RespuestaGenerica obtenerResource(string idResourceDTO)
+        public RespuestaGenerica getResource(string idResourceDTO)
         {
             Resource resource = _context.Resources
                .Where(s => s.Code == idResourceDTO).FirstOrDefault<Resource>();
 
             if (resource == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro la resource", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource not found", null);
             }
 
             return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource", _mapper.Map<ResourceDTO>(resource));
         }
 
-        public RespuestaGenerica obtenerResources()
+        public RespuestaGenerica getResources()
         {
             List<Resource> resources = _context.Resources.Where(s => s.Code != "N/A").ToList();
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resources desplegados", _mapper.Map<List<ResourceDTO>>(resources));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resources listed", _mapper.Map<List<ResourceDTO>>(resources));
         }
 
-        public RespuestaGenerica obtenerPKResourceNA()
+        public RespuestaGenerica getNAResourceId()
         {
             Resource resource = _context.Resources
                 .Where(s => s.Code == "N/A").FirstOrDefault<Resource>();
 
             if (resource == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro resource con N/A", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No N/A resource found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "PK resource con N/A", resource.PK_idResource);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Resource PK for N/A", resource.PK_idResource);
         }
 
         private Resource covertirDTOAEntidad(Resource resource, ResourceDTO resourceDTO)
@@ -217,10 +217,10 @@ namespace WebApiSAIH.Services.Implementacion
                 return null;
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Error de validaciones", listaErrores);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Validation error", listaErrores);
         }
 
-        public RespuestaGenerica goalsXresource(string code)
+        public RespuestaGenerica goalsByResource(string code)
         {
             try
             {
@@ -229,7 +229,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (resource == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro la resource", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Resource not found", null);
                 }
 
                 List<ResourceGoal> listResourceGoal = _context.ResourceGoals.Where(
@@ -243,16 +243,16 @@ namespace WebApiSAIH.Services.Implementacion
                         s => s.PK_idGoal == listResourceGoal[i].Fk_idGoal2).FirstOrDefault<Goal>());
                 }
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goals asociados a la resource " + code,
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Goals associated with the resource " + code,
                     _mapper.Map<List<GoalDTO>>(goals));
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica verificarResource(string code)
+        public RespuestaGenerica checkResource(string code)
         {
             try
             {
@@ -268,7 +268,7 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
     }

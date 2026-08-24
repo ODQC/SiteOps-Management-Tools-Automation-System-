@@ -12,7 +12,7 @@ using WebApiSAIH.Models;
 namespace WebApiSAIH.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260824172813_InitialCreate")]
+    [Migration("20260824175732_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -443,7 +443,7 @@ namespace WebApiSAIH.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Descripcion")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DocumentName")
@@ -455,7 +455,7 @@ namespace WebApiSAIH.Migrations
                     b.Property<long>("FK_idTask1")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")

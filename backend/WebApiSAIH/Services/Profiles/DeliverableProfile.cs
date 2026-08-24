@@ -26,11 +26,11 @@ namespace WebApiSAIH.Services.Profiles
                    dest.Status,
                    opt => opt.MapFrom(src => src.Status))
                .ForMember(dest =>
-                   dest.Nombre,
-                   opt => opt.MapFrom(src => src.Nombre))
+                   dest.Name,
+                   opt => opt.MapFrom(src => src.Name))
                .ForMember(dest =>
-                   dest.Descripcion,
-                   opt => opt.MapFrom(src => src.Descripcion))
+                   dest.Description,
+                   opt => opt.MapFrom(src => src.Description))
                .ForMember(dest =>
                    dest.FK_idTask1,
                    opt => opt.MapFrom(src => src.FK_idTask1))

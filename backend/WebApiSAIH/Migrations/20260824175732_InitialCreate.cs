@@ -75,8 +75,8 @@ namespace WebApiSAIH.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FK_idDocument = table.Column<long>(type: "bigint", nullable: false),
                     FK_idTask1 = table.Column<long>(type: "bigint", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DocumentName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

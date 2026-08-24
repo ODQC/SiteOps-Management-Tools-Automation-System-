@@ -27,14 +27,14 @@ namespace SAIH_Backend.Servicios.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica deshabilitarDepartment(string idDepartmentDTO)
+        public RespuestaGenerica toggleDepartmentStatus(string idDepartmentDTO)
         {
             Department department = _context.Departments.Where(
                 s => s.CodigoDepartment == idDepartmentDTO).FirstOrDefault<Department>();
 
             if (department == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department not found", null);
             }
 
             if (department.EstadoDepartment == Status.ACTIVE)
@@ -53,20 +53,20 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado del Department ha sido modificado", _mapper.Map<DepartmentDTO>(department));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The department's status has been changed", _mapper.Map<DepartmentDTO>(department));
         }
 
-        public RespuestaGenerica eliminarDepartment(string idDepartmentDTO)
+        public RespuestaGenerica deleteDepartment(string idDepartmentDTO)
         {
             Department department = _context.Departments.Where(
                 s => s.CodigoDepartment == idDepartmentDTO).FirstOrDefault<Department>();
 
             if (department == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department not found", null);
             }
 
             try
@@ -76,13 +76,13 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Department " + department.CodigoDepartment + " eliminado exitosamente", _mapper.Map<DepartmentDTO>(department));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Department " + department.CodigoDepartment + " deleted successfully", _mapper.Map<DepartmentDTO>(department));
         }
 
-        public RespuestaGenerica guardarDepartment(DepartmentDTO departmentDTO)
+        public RespuestaGenerica createDepartment(DepartmentDTO departmentDTO)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (department != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El department ya esta registrado en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This department is already registered in the system", null);
                 }
 
                 Department department2 = _mapper.Map<Department>(departmentDTO);
@@ -104,19 +104,19 @@ namespace SAIH_Backend.Servicios.Implementacion
                 _context.Departments.Add(department2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Department registrado", _mapper.Map<DepartmentDTO>(department2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Department registered", _mapper.Map<DepartmentDTO>(department2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica modificarDepartment(long pk_IdDepartment, DepartmentDTO departmentDTO)
+        public RespuestaGenerica updateDepartment(long pk_IdDepartment, DepartmentDTO departmentDTO)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (department == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department no encontrado", "No se actualizo ningun department");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department not found", "No department was updated");
                 }
 
                 Department departmentCodigo = _context.Departments.Where(
@@ -133,23 +133,23 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (departmentCodigo != null && (departmentCodigo != department))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El codigo de department ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This department code is already in use", "");
                 }
 
                 department = covertirDTOAEntidad(department, departmentDTO);
                 _context.Update(department);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Department actualizado", _mapper.Map<DepartmentDTO>(department));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Department updated", _mapper.Map<DepartmentDTO>(department));
             }
             catch (Exception e)
             {
                 if (!DepartmentExists(pk_IdDepartment))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
@@ -159,39 +159,39 @@ namespace SAIH_Backend.Servicios.Implementacion
             return _context.Departments.Any(e => e.PK_idDepartment == pk_IdDepartment);
         }
 
-        public RespuestaGenerica obtenerDepartment(string idDepartmentDTO)
+        public RespuestaGenerica getDepartment(string idDepartmentDTO)
         {
             Department department = _context.Departments
                 .Where(s => s.CodigoDepartment == idDepartmentDTO).FirstOrDefault<Department>();
 
             if (department == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el department", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department not found", null);
             }
 
             return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Department", _mapper.Map<DepartmentDTO>(department));
         }
 
-        public RespuestaGenerica obtenerDepartments()
+        public RespuestaGenerica getDepartments()
         {
             List<Department> departments = _context.Departments
                        .Where(s => s.CodigoDepartment != "N/A")
                        .ToList();
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Departments desplegados", _mapper.Map<List<DepartmentDTO>>(departments));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Departments listed", _mapper.Map<List<DepartmentDTO>>(departments));
         }
 
-        public RespuestaGenerica obtenerPKDepartmentNA()
+        public RespuestaGenerica getNADepartmentId()
         {
             Department department = _context.Departments
                 .Where(s => s.CodigoDepartment == "N/A").FirstOrDefault<Department>();
 
             if (department == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro department con N/A", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No N/A department found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "PK department con N/A", department.PK_idDepartment);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Department PK for N/A", department.PK_idDepartment);
         }
 
         private Department covertirDTOAEntidad(Department department, DepartmentDTO departmentDTO)
@@ -222,15 +222,15 @@ namespace SAIH_Backend.Servicios.Implementacion
                 return null;
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Error de validaciones", listaErrores);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Validation error", listaErrores);
         }
 
-        public RespuestaGenerica verificarDepartment(string codigoDepartment)
+        public RespuestaGenerica checkDepartment(string code)
         {
             try
             {
                 Department department = _context.Departments.Where(
-                s => s.CodigoDepartment == codigoDepartment).FirstOrDefault<Department>();
+                s => s.CodigoDepartment == code).FirstOrDefault<Department>();
 
                 if (department != null)
                 {
@@ -241,7 +241,7 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
     }

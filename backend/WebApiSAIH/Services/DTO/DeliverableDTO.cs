@@ -26,10 +26,10 @@ namespace WebApiSAIH.Services.DTO
         private long fK_idTask1;
 
         [DataMember]
-        private string descripcion;
+        private string description;
 
         [DataMember]
-        private string nombre;
+        private string name;
 
         [DataMember]
         private string nombreDocument;
@@ -43,11 +43,11 @@ namespace WebApiSAIH.Services.DTO
             this.nombreDocument = "";
         }
 
-        public DeliverableDTO(long pK_idDeliverable, string code, string estado, long fK_idDocument1)
+        public DeliverableDTO(long pK_idDeliverable, string code, string status, long fK_idDocument1)
         {
             this.pK_idDeliverable = pK_idDeliverable;
             this.code = code;
-            this.status = estado;
+            this.status = status;
             this.fK_idDocument = fK_idDocument1;
         }
 
@@ -81,16 +81,16 @@ namespace WebApiSAIH.Services.DTO
             set { fK_idTask1 = value; }
         }
 
-        public string Descripcion
+        public string Description
         {
-            get { return descripcion; }
-            set { descripcion = value; }
+            get { return description; }
+            set { description = value; }
         }
 
-        public string Nombre
+        public string Name
         {
-            get { return nombre; }
-            set { nombre = value; }
+            get { return name; }
+            set { name = value; }
         }
 
         public string DocumentName

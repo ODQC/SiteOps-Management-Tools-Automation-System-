@@ -20,10 +20,10 @@ namespace WebApiSAIH.Models.Entidades
         private string status;
 
         [Required]
-        private string descripcion;
+        private string description;
 
         [Required]
-        private string nombre;
+        private string name;
         
         [ForeignKey("FK_idDocument")]
         private long fK_idDocument;
@@ -43,11 +43,11 @@ namespace WebApiSAIH.Models.Entidades
             this.nombreDocument = "";
         }
 
-        public Deliverable(long pK_idDeliverable, string code, string estado, long fK_idDocument1)
+        public Deliverable(long pK_idDeliverable, string code, string status, long fK_idDocument1)
         {
             this.pK_idDeliverable = pK_idDeliverable;
             this.code = code;
-            this.status = estado;
+            this.status = status;
             this.fK_idDocument = fK_idDocument1;
         }
 
@@ -81,16 +81,16 @@ namespace WebApiSAIH.Models.Entidades
             set { fK_idTask1 = value; }
         }
 
-        public string Descripcion
+        public string Description
         {
-            get { return descripcion; }
-            set { descripcion = value; }
+            get { return description; }
+            set { description = value; }
         }
 
-        public string Nombre
+        public string Name
         {
-            get { return nombre; }
-            set { nombre = value; }
+            get { return name; }
+            set { name = value; }
         }
 
         public string DocumentName

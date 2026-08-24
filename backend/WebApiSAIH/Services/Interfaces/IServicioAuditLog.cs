@@ -9,8 +9,8 @@ namespace SAIH_Backend.Servicios.Interfaces
 {
     public interface IServicioAuditLog
     {
-        RespuestaGenerica guardarAuditLog(AuditLogDTO ActEmployee); 
-        RespuestaGenerica obtenerTaskesPorEmployee(int idEmployee);
-        RespuestaGenerica obtenerTaskesDeEmployees();
+        RespuestaGenerica createAuditLog(AuditLogDTO ActEmployee); 
+        RespuestaGenerica getAuditLogByEmployee(int idEmployee);
+        RespuestaGenerica getAuditLog();
     }
 }

@@ -27,14 +27,14 @@ namespace WebApiSAIH.Services.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica deshabilitarDeliverable(long pk_idDeliverable)
+        public RespuestaGenerica toggleDeliverableStatus(long pk_idDeliverable)
         {
             Deliverable deliverable = _context.Deliverables.Where(
                 s => s.PK_idDeliverable == pk_idDeliverable).FirstOrDefault<Deliverable>();
 
             if (deliverable == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Deliverable no encontrada", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Deliverable not found", null);
             }
 
             if (deliverable.Status == Status.ACTIVE)
@@ -53,20 +53,20 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado de la deliverable ha sido modificada", _mapper.Map<DeliverableDTO>(deliverable));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The deliverable's status has been changed", _mapper.Map<DeliverableDTO>(deliverable));
         }
 
-        public RespuestaGenerica eliminarDeliverable(long pk_idDeliverable)
+        public RespuestaGenerica deleteDeliverable(long pk_idDeliverable)
         {
             Deliverable deliverable = _context.Deliverables.Where(
                 s => s.PK_idDeliverable == pk_idDeliverable).FirstOrDefault<Deliverable>();
 
             if (deliverable == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Department not found", null);
             }
 
             try
@@ -76,13 +76,13 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Deliverable " + deliverable.Code + " eliminada exitosamente", _mapper.Map<DeliverableDTO>(deliverable));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Deliverable " + deliverable.Code + " deleted successfully", _mapper.Map<DeliverableDTO>(deliverable));
         }
 
-        public RespuestaGenerica guardarDeliverable(DeliverableDTO deliverableDTO)
+        public RespuestaGenerica createDeliverable(DeliverableDTO deliverableDTO)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (deliverable != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "La deliverable ya esta registrada en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This deliverable is already registered in the system", null);
                 }
 
                 Deliverable deliverable2 = _mapper.Map<Deliverable>(deliverableDTO);
@@ -99,19 +99,19 @@ namespace WebApiSAIH.Services.Implementacion
                 _context.Deliverables.Add(deliverable2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Deliverable registrada", _mapper.Map<DeliverableDTO>(deliverable2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Deliverable registered", _mapper.Map<DeliverableDTO>(deliverable2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
-        public RespuestaGenerica modificarDeliverable(long pk_IdDeliverable, DeliverableDTO deliverableDTO)
+        public RespuestaGenerica updateDeliverable(long pk_IdDeliverable, DeliverableDTO deliverableDTO)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (deliverable == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Deliverable no encontrada", "No se actualizo ninguna deliverable");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Deliverable not found", "No deliverable was updated");
                 }
 
                 Deliverable deliverableCodigo = _context.Deliverables.Where(
@@ -128,23 +128,23 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (deliverableCodigo != null && (deliverableCodigo != deliverable))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El codigo de deliverable ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This deliverable code is already in use", "");
                 }
 
                 deliverable = covertirDTOAEntidad(deliverable, deliverableDTO);
                 _context.Update(deliverable);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Deliverable actualizada", _mapper.Map<DeliverableDTO>(deliverable));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Deliverable updated", _mapper.Map<DeliverableDTO>(deliverable));
             }
             catch (Exception e)
             {
                 if (!DeliverableExists(pk_IdDeliverable))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Deliverable no encontrada", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Deliverable not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
@@ -159,20 +159,20 @@ namespace WebApiSAIH.Services.Implementacion
             deliverable.Code = deliverableDTO.Code;
             deliverable.Status = deliverableDTO.Status;
             deliverable.FK_idDocument = deliverableDTO.FK_idDocument;
-            deliverable.Nombre = deliverableDTO.Nombre;
-            deliverable.Descripcion = deliverableDTO.Descripcion;
+            deliverable.Name = deliverableDTO.Name;
+            deliverable.Description = deliverableDTO.Description;
 
             return deliverable;
         }
 
-        public RespuestaGenerica obtenerDeliverable(long pk_IdDeliverable)
+        public RespuestaGenerica getDeliverable(long pk_IdDeliverable)
         {
             Deliverable deliverable = _context.Deliverables.Where(
                 s => s.PK_idDeliverable == pk_IdDeliverable).FirstOrDefault<Deliverable>();
 
             if (deliverable == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Deliverable no encontrada", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Deliverable not found", null);
             }
 
             Document document = _context.Documents.Where(
@@ -180,10 +180,10 @@ namespace WebApiSAIH.Services.Implementacion
 
             deliverable.DocumentName = document?.Name;
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Deliverable encontrada", _mapper.Map<DeliverableDTO>(deliverable));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Deliverable found", _mapper.Map<DeliverableDTO>(deliverable));
         }
 
-        public RespuestaGenerica obtenerDeliverables()
+        public RespuestaGenerica getDeliverables()
         {
             List<Deliverable> deliverables = null;
             try
@@ -200,13 +200,13 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error del servidor",e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Server error",e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Deliverables desplegadas", _mapper.Map<List<DeliverableDTO>>(deliverables));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Deliverables listed", _mapper.Map<List<DeliverableDTO>>(deliverables));
         }
 
-        public RespuestaGenerica deliverablesXtask(long fk_idTask)
+        public RespuestaGenerica deliverablesByTask(long fk_idTask)
         {
             try
             {
@@ -218,7 +218,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_NOT_FOUND,
-                        Mensaje = "No se encontraron evidenias asociadas a la task",
+                        Mensaje = "No deliverables found for this task",
                         Object = null
                     };
                 }
@@ -234,7 +234,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Deliverables asociadas a la task " + fk_idTask,
+                    Mensaje = "Deliverables associated with the task " + fk_idTask,
                     Object = _mapper.Map<List<DeliverableDTO>>(deliverables)
                 };
             }
@@ -243,13 +243,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Error Interno del Servidor",
+                    Mensaje = "Internal Server Error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica verificarDeliverable(string code, long fk_idTask)
+        public RespuestaGenerica checkDeliverable(string code, long fk_idTask)
         {
             try
             {
@@ -265,7 +265,7 @@ namespace WebApiSAIH.Services.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
     }

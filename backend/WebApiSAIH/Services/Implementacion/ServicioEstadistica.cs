@@ -24,7 +24,7 @@ namespace WebApiSAIH.Services.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica employeesActivos()
+        public RespuestaGenerica activeEmployees()
         {
             try
             {
@@ -34,7 +34,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de employees activos en el sistema: ",
+                    Mensaje = "Number of active employees in the system: ",
                     Object = employeesActivos.Count()
                 };
             }
@@ -43,14 +43,14 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
                 
         }
 
-        public RespuestaGenerica employeesInactivos()
+        public RespuestaGenerica inactiveEmployees()
         {
             try
             {
@@ -60,7 +60,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de employees inactivos en el sistema: ",
+                    Mensaje = "Number of inactive employees in the system: ",
                     Object = employeesInactivos.Count()
                 };
             }
@@ -69,13 +69,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica employeesRegistradosTotal()
+        public RespuestaGenerica totalRegisteredEmployees()
         {
             try
             {
@@ -84,7 +84,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de employees registrados en total: ",
+                    Mensaje = "Total registered employees: ",
                     Object = employeesTotal.Count()
                 };
                 
@@ -94,13 +94,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica taskesCompletadas(String name)
+        public RespuestaGenerica completedTasks(String name)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de tasks completadas en el parque " + name + ": ",
+                    Mensaje = "Number of completed tasks at the site " + name + ": ",
                     Object = taskesCompletadas2.Count()
                 };
             }
@@ -128,13 +128,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica planesDeTrabajoAsignados(String nombreAsp)
+        public RespuestaGenerica assignedProjects(String nombreAsp)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "La cantidad de planes de trabajo: ",
+                    Mensaje = "Number of projects: ",
                     Object = planesTrabajo.Count()
                 };
             }
@@ -169,13 +169,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica employeesActivosXAsp(String nombreAsp)
+        public RespuestaGenerica activeEmployeesBySite(String nombreAsp)
         {
             try
             {
@@ -188,7 +188,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de employees activos en este Parque Nacional: ",
+                    Mensaje = "Number of active employees at this site: ",
                     Object = employeesActivos.Count()
                 };
             }
@@ -197,13 +197,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica cantidadAdministradorParque()
+        public RespuestaGenerica countSiteManagers()
         {
             try
             {
@@ -216,7 +216,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de administradores de Parque: ",
+                    Mensaje = "Number of Site Managers: ",
                     Object = employeesAdministradorParque.Count()
                 };
             }
@@ -225,13 +225,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica cantidadGuardaparques()
+        public RespuestaGenerica countEmployees()
         {
             try
             {
@@ -244,7 +244,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de employees activos en este Parque Nacional: ",
+                    Mensaje = "Number of active employees at this site: ",
                     Object = employeesGuardaparque.Count()
                 };
             }
@@ -253,13 +253,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica cantidadAdminTI()
+        public RespuestaGenerica countAdmins()
         {
             try
             {
@@ -272,7 +272,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de employees admin TI: ",
+                    Mensaje = "Number of Admin employees: ",
                     Object = employeesAdminTI.Count()
                 };
             }
@@ -281,13 +281,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica cantidadSupervisores()
+        public RespuestaGenerica countSupervisors()
         {
             try
             {
@@ -300,7 +300,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de employees supervisores: ",
+                    Mensaje = "Number of Supervisor employees: ",
                     Object = employeesSupervisor.Count()
                 };
             }
@@ -309,13 +309,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica siteesActivos()
+        public RespuestaGenerica activeSites()
         {
             try
             {
@@ -325,7 +325,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de parques de Nacionales activos en el sistema: ",
+                    Mensaje = "Number of active sites in the system: ",
                     Object = siteesActivos.Count()
                 };
             }
@@ -334,13 +334,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica areasConservacionActivas()
+        public RespuestaGenerica activeRegions()
         {
             try
             {
@@ -350,7 +350,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de areas de conservacion activas en el sistema: ",
+                    Mensaje = "Number of active regions in the system: ",
                     Object = areasConservacionActivas.Count()
                 };
             }
@@ -359,13 +359,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica porcentajeTaskesCompletadasParque(string name)
+        public RespuestaGenerica percentageOfCompletedTasksBySite(string name)
         {
             try
             {
@@ -399,14 +399,14 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (dec2 != 0)
                 {
-                    decimal porcentaje = Decimal.Divide(dec1, dec2);
-                    decimal porcentajeTaskesCompletadasParque = porcentaje * 100;
+                    decimal percentage = Decimal.Divide(dec1, dec2);
+                    decimal percentageOfCompletedTasksBySite = percentage * 100;
 
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks completadas en el parque " + name + ": ",
-                        Object = porcentajeTaskesCompletadasParque
+                        Mensaje = "Percentage of completed tasks at the site " + name + ": ",
+                        Object = percentageOfCompletedTasksBySite
                     };
                 }
                 else
@@ -414,7 +414,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks completadas en el parque " + name + ": ",
+                        Mensaje = "Percentage of completed tasks at the site " + name + ": ",
                         Object = 0
                     };
                 }
@@ -424,13 +424,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica planesCompletados(string name)
+        public RespuestaGenerica completedProjects(string name)
         {
             try
             {
@@ -448,7 +448,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                    Mensaje = "Cantidad de planes completados en el parque " + name + ": ",
+                    Mensaje = "Number of completed projects at the site " + name + ": ",
                     Object = planesCompletados.Count()
                 };
             }
@@ -457,13 +457,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica porcentajeTaskesEnProcesoParque(string name)
+        public RespuestaGenerica percentageOfInProgressTasksBySite(string name)
         {
             try
             {
@@ -497,14 +497,14 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (dec2 != 0)
                 {
-                    decimal porcentaje = Decimal.Divide(dec1, dec2);
-                    decimal porcentajeTaskesEnProcesoParque = porcentaje * 100;
+                    decimal percentage = Decimal.Divide(dec1, dec2);
+                    decimal percentageOfInProgressTasksBySite = percentage * 100;
 
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks en proceso en el parque " + name + ": ",
-                        Object = porcentajeTaskesEnProcesoParque
+                        Mensaje = "Percentage of in-progress tasks at the site " + name + ": ",
+                        Object = percentageOfInProgressTasksBySite
                     };
                 }
                 else
@@ -512,7 +512,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks en proceso en el parque " + name + ": ",
+                        Mensaje = "Percentage of in-progress tasks at the site " + name + ": ",
                         Object = 0
                     };
                 }
@@ -522,13 +522,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica porcentajeTaskesPendientesParque(string name)
+        public RespuestaGenerica percentageOfPendingTasksBySite(string name)
         {
             try
             {
@@ -562,14 +562,14 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (dec2 != 0)
                 {
-                    decimal porcentaje = Decimal.Divide(dec1, dec2);
-                    decimal porcentajeTaskesPendientesParque = porcentaje * 100;
+                    decimal percentage = Decimal.Divide(dec1, dec2);
+                    decimal percentageOfPendingTasksBySite = percentage * 100;
 
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks pendientes en el parque " + name + ": ",
-                        Object = porcentajeTaskesPendientesParque
+                        Mensaje = "Percentage of pending tasks at the site " + name + ": ",
+                        Object = percentageOfPendingTasksBySite
                     };
                 } 
                 else
@@ -577,7 +577,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks pendientes en el parque " + name + ": ",
+                        Mensaje = "Percentage of pending tasks at the site " + name + ": ",
                         Object = 0
                     };
                 }
@@ -587,13 +587,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica porcentajeTaskesCompletadasEmployee(string nationalId)
+        public RespuestaGenerica percentageOfCompletedTasksByEmployee(string nationalId)
         {
             try
             {
@@ -623,14 +623,14 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (dec2 != 0)
                 {
-                    decimal porcentaje = Decimal.Divide(dec1, dec2);
-                    decimal porcentajeTaskesCompletadasEmployee = porcentaje * 100;
+                    decimal percentage = Decimal.Divide(dec1, dec2);
+                    decimal percentageOfCompletedTasksByEmployee = percentage * 100;
 
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks pendientes en el nationalId " + nationalId + ": ",
-                        Object = porcentajeTaskesCompletadasEmployee
+                        Mensaje = "Percentage of pending tasks for employee " + nationalId + ": ",
+                        Object = percentageOfCompletedTasksByEmployee
                     };
                 }
                 else
@@ -638,7 +638,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks pendientes en el nationalId " + nationalId + ": ",
+                        Mensaje = "Percentage of pending tasks for employee " + nationalId + ": ",
                         Object = 0
                     };
                 }
@@ -648,13 +648,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica porcentajeTaskesEnProcesoEmployee(string nationalId)
+        public RespuestaGenerica percentageOfInProgressTasksByEmployee(string nationalId)
         {
             try
             {
@@ -684,14 +684,14 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (dec2 != 0)
                 {
-                    decimal porcentaje = Decimal.Divide(dec1, dec2);
-                    decimal porcentajeTaskesEnProcesoEmployee = porcentaje * 100;
+                    decimal percentage = Decimal.Divide(dec1, dec2);
+                    decimal percentageOfInProgressTasksByEmployee = percentage * 100;
 
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks en proceso en el  " + nationalId + ": ",
-                        Object = porcentajeTaskesEnProcesoEmployee
+                        Mensaje = "Percentage of in-progress tasks for employee " + nationalId + ": ",
+                        Object = percentageOfInProgressTasksByEmployee
                     };
                 }
                 else
@@ -699,7 +699,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks en proceso en el  " + nationalId + ": ",
+                        Mensaje = "Percentage of in-progress tasks for employee " + nationalId + ": ",
                         Object = 0
                     };
                 }
@@ -709,13 +709,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica porcentajeTaskesPendientesEmployee(string nationalId)
+        public RespuestaGenerica percentageOfPendingTasksByEmployee(string nationalId)
         {
             try
             {
@@ -745,14 +745,14 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (dec2 != 0)
                 {
-                    decimal porcentaje = Decimal.Divide(dec1, dec2);
-                    decimal porcentajeTaskesPendientesEmployee = porcentaje * 100;
+                    decimal percentage = Decimal.Divide(dec1, dec2);
+                    decimal percentageOfPendingTasksByEmployee = percentage * 100;
 
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks pendientes en el  " + nationalId + ": ",
-                        Object = porcentajeTaskesPendientesEmployee
+                        Mensaje = "Percentage of pending tasks for employee " + nationalId + ": ",
+                        Object = percentageOfPendingTasksByEmployee
                     };
                 }
                 else
@@ -760,7 +760,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks pendientes en el  " + nationalId + ": ",
+                        Mensaje = "Percentage of pending tasks for employee " + nationalId + ": ",
                         Object = 0
                     };
                 }
@@ -770,13 +770,13 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }
         }
 
-        public RespuestaGenerica porcentajeGeneralTaskesEmployee(string nationalId)
+        public RespuestaGenerica percentageOfTasksByEmployee(string nationalId)
         {
             try
             {
@@ -818,14 +818,14 @@ namespace WebApiSAIH.Services.Implementacion
 
                 if (dec3 != 0)
                 {
-                    decimal porcentaje = Decimal.Divide(dec1 + dec2, dec3);
-                    decimal porcentajeGeneralTaskesEmployee = porcentaje * 100;
+                    decimal percentage = Decimal.Divide(dec1 + dec2, dec3);
+                    decimal percentageOfTasksByEmployee = percentage * 100;
 
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks pendientes en el  " + nationalId + ": ",
-                        Object = porcentajeGeneralTaskesEmployee
+                        Mensaje = "Percentage of pending tasks for employee " + nationalId + ": ",
+                        Object = percentageOfTasksByEmployee
                     };
                 }
                 else
@@ -833,7 +833,7 @@ namespace WebApiSAIH.Services.Implementacion
                     return new RespuestaGenerica
                     {
                         Codigo = CodigosEstadoHTTP.HTTP_STATUS_OK,
-                        Mensaje = "Porcentaje de tasks pendientes en el  " + nationalId + ": ",
+                        Mensaje = "Percentage of pending tasks for employee " + nationalId + ": ",
                         Object = 0
                     };
                 }
@@ -843,7 +843,7 @@ namespace WebApiSAIH.Services.Implementacion
                 return new RespuestaGenerica
                 {
                     Codigo = CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR,
-                    Mensaje = "Hubo un error en el servidor",
+                    Mensaje = "There was a server error",
                     Object = e.Message
                 };
             }

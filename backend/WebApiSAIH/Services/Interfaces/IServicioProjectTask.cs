@@ -9,14 +9,14 @@ namespace WebApiSAIH.Services.Interfaces
 {
     public interface IServicioProjectTask
     {
-        RespuestaGenerica guardarProjectTask(ProjectTaskDTO projectTaskDTO);
+        RespuestaGenerica createProjectTask(ProjectTaskDTO projectTaskDTO);
 
-        RespuestaGenerica guardarProjectTaskList(List<ProjectTaskDTO> projectTaskDTOs);
+        RespuestaGenerica createProjectTaskList(List<ProjectTaskDTO> projectTaskDTOs);
 
-        RespuestaGenerica eliminarProjectTask(long idProjectTaskDTO);
+        RespuestaGenerica deleteProjectTask(long idProjectTaskDTO);
 
-        RespuestaGenerica verificarRelacionExistente(long fk_idProject, long fk_idTask);
+        RespuestaGenerica checkExistingLink(long fk_idProject, long fk_idTask);
 
-        RespuestaGenerica obtenerProjectTask();
+        RespuestaGenerica getProjectTask();
     }
 }

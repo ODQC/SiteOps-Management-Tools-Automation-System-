@@ -10,22 +10,22 @@ namespace WebApiSAIH.Services.Interfaces
 {
     public interface IServicioGoal
     {
-        RespuestaGenerica guardarGoal(GoalDTO goalDTO);
+        RespuestaGenerica createGoal(GoalDTO goalDTO);
 
-        RespuestaGenerica obtenerGoal(string idGoalDTO);
+        RespuestaGenerica getGoal(string idGoalDTO);
 
-        RespuestaGenerica obtenerGoals();
+        RespuestaGenerica getGoals();
 
-        RespuestaGenerica deshabilitarGoal(string idGoalDTO);
+        RespuestaGenerica toggleGoalStatus(string idGoalDTO);
 
-        RespuestaGenerica eliminarGoal(string idGoalDTO);
+        RespuestaGenerica deleteGoal(string idGoalDTO);
 
-        RespuestaGenerica modificarGoal(long pK_idGoal, GoalDTO goalDTO);
+        RespuestaGenerica updateGoal(long pK_idGoal, GoalDTO goalDTO);
 
-        RespuestaGenerica obtenerPKGoalNA();
+        RespuestaGenerica getNAGoalId();
 
-        RespuestaGenerica resourcesXgoal(String code);
+        RespuestaGenerica resourcesByGoal(String code);
 
-        RespuestaGenerica verificarGoal(String code);
+        RespuestaGenerica checkGoal(String code);
     }
 }

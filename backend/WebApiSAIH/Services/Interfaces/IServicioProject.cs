@@ -9,16 +9,16 @@ namespace WebApiSAIH.Services.Interfaces
 {
     public interface IServicioProject
     {
-        RespuestaGenerica guardarProject(ProjectDTO projectDTO);
-        RespuestaGenerica obtenerProject(long idProjectDTO);
-        RespuestaGenerica obtenerProjects();
-        RespuestaGenerica deshabilitarProject(long idProjectDTO, long pk_idEmployee);
-        RespuestaGenerica eliminarProject(long idProjectDTO);
-        RespuestaGenerica modificarProject(long pk_IdProject, ProjectDTO projectDTO);
-        RespuestaGenerica obtenerPKProjectNA();
-        RespuestaGenerica taskesXproject(long pk_idProject);
-        RespuestaGenerica verificarProject(String codigoProject, long fk_idEmployee);
-        RespuestaGenerica projectXemployee(long fk_idEmployee);
+        RespuestaGenerica createProject(ProjectDTO projectDTO);
+        RespuestaGenerica getProject(long idProjectDTO);
+        RespuestaGenerica getProjects();
+        RespuestaGenerica toggleProjectStatus(long idProjectDTO, long pk_idEmployee);
+        RespuestaGenerica deleteProject(long idProjectDTO);
+        RespuestaGenerica updateProject(long pk_IdProject, ProjectDTO projectDTO);
+        RespuestaGenerica getNAProjectId();
+        RespuestaGenerica tasksByProject(long pk_idProject);
+        RespuestaGenerica checkProject(String codigoProject, long fk_idEmployee);
+        RespuestaGenerica projectByEmployee(long fk_idEmployee);
 
         RespuestaGenerica cambiarProgesoPlan(long pk_idProject, string progress);
     }

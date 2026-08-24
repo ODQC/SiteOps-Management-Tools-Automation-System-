@@ -25,19 +25,19 @@ namespace SAIH_Backend.Controladores
 
         }
         [HttpGet]
-        public IActionResult obtenerAuditLog()
+        public IActionResult getAuditLog()
         {
-            return Ok(_auditLogService.obtenerTaskesDeEmployees());
+            return Ok(_auditLogService.getAuditLog());
         }
         [HttpGet("{idEmployee}")]
-        public IActionResult obtenerTaskesPorEmployees(int idEmployee)
+        public IActionResult getAuditLogByEmployee(int idEmployee)
         {
-            return Ok(_auditLogService.obtenerTaskesPorEmployee(idEmployee));
+            return Ok(_auditLogService.getAuditLogByEmployee(idEmployee));
         }
         [HttpPost]
-        public IActionResult guardarEmployee(AuditLogDTO auditLogDTO)
+        public IActionResult createEmployee(AuditLogDTO auditLogDTO)
         {
-            RespuestaGenerica respuestaGenerica = _auditLogService.guardarAuditLog(auditLogDTO);
+            RespuestaGenerica respuestaGenerica = _auditLogService.createAuditLog(auditLogDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {

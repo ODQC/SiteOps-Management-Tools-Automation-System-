@@ -25,14 +25,14 @@ namespace SAIH_Backend.Servicios.Implementacion
             _mapper = mapper;
         }
 
-        public RespuestaGenerica deshabilitarRole(string idRole)
+        public RespuestaGenerica toggleRoleStatus(string idRole)
         {
             Role role = _context.EmployeeRoles.Where(
                 s => s.Code == idRole).FirstOrDefault<Role>();
 
             if (role == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Rol no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Role not found", null);
             }
 
             if (role.Status == Status.ACTIVE)
@@ -51,20 +51,20 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El estado del Rol ha sido modificado", _mapper.Map<RoleDTO>(role));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "The role's status has been changed", _mapper.Map<RoleDTO>(role));
         }
 
-        public RespuestaGenerica eliminarRole(string idRole)
+        public RespuestaGenerica deleteRole(string idRole)
         {
             Role role = _context.EmployeeRoles.Where(
                 s => s.Code == idRole).FirstOrDefault<Role>();
 
             if (role == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Rol no encontrado", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Role not found", null);
             }
 
             try
@@ -74,13 +74,13 @@ namespace SAIH_Backend.Servicios.Implementacion
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.InnerException.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.InnerException.Message);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Rol " + role.Code + " eliminado exitosamente", _mapper.Map<RoleDTO>(role));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Role " + role.Code + " deleted successfully", _mapper.Map<RoleDTO>(role));
         }
 
-        public RespuestaGenerica guardarRole(RoleDTO roleDTO)
+        public RespuestaGenerica createRole(RoleDTO roleDTO)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (role != null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El rol ya esta registrado en el sistema", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This role is already registered in the system", null);
                 }
 
                 Role role2 = _mapper.Map<Role>(roleDTO);
@@ -102,15 +102,15 @@ namespace SAIH_Backend.Servicios.Implementacion
                 _context.EmployeeRoles.Add(role2);
                 _context.SaveChanges();
 
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Rol registrado", _mapper.Map<RoleDTO>(role2));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_CREATED, "Role registered", _mapper.Map<RoleDTO>(role2));
             }
             catch (DbUpdateException e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
             catch (Exception e)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
             }
         }
 
@@ -131,10 +131,10 @@ namespace SAIH_Backend.Servicios.Implementacion
                 return null;
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Error de validaciones", listaErrores);
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Validation error", listaErrores);
         }
 
-        public RespuestaGenerica modificarRole(long pK_idRole, RoleDTO roleDTO)
+        public RespuestaGenerica updateRole(long pK_idRole, RoleDTO roleDTO)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (role == null)
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Rol no encontrado", "No se actualizo ningun rol");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Role not found", "No role was updated");
                 }
                     
                 Role rolCodigo = _context.EmployeeRoles.Where(
@@ -151,23 +151,23 @@ namespace SAIH_Backend.Servicios.Implementacion
 
                 if (rolCodigo != null && (rolCodigo != role))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "El codigo de rol ya está siendo utilizado", "");
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "This role code is already in use", "");
                 }
 
                 role = covertirDTOAEntidad(role, roleDTO);
                 _context.Update(role);
                 _context.SaveChanges();
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Rol actualizado", _mapper.Map<RoleDTO>(role));
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Role updated", _mapper.Map<RoleDTO>(role));
             }
             catch (Exception e)
             {
                 if (!RolExists(pK_idRole))
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Rol no encontrado", null);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Role not found", null);
                 }
                 else
                 {
-                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Error Interno del Servidor", e.Message);
+                    return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", e.Message);
                 }
             }
         }
@@ -177,9 +177,9 @@ namespace SAIH_Backend.Servicios.Implementacion
             return _context.EmployeeRoles.Any(e => e.PK_idRole == pK_idRole);
         }
 
-        public RespuestaGenerica obtenerRoless()
+        public RespuestaGenerica getRoles()
         {
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Roles desplegados", _context.EmployeeRoles.ToList());
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Roles listed", _context.EmployeeRoles.ToList());
         }
 
         public RespuestaGenerica obtenerRole(string idRole)
@@ -189,10 +189,10 @@ namespace SAIH_Backend.Servicios.Implementacion
 
             if (role == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el rol", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Role not found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Rol", _mapper.Map<RoleDTO>(role));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Role", _mapper.Map<RoleDTO>(role));
         }
 
 
@@ -213,10 +213,10 @@ namespace SAIH_Backend.Servicios.Implementacion
 
             if (role == null)
             {
-                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "No se encontro el rol", null);
+                return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_NOT_FOUND, "Role not found", null);
             }
 
-            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Rol", _mapper.Map<RoleDTO>(role));
+            return new RespuestaGenerica(CodigosEstadoHTTP.HTTP_STATUS_OK, "Role", _mapper.Map<RoleDTO>(role));
         }
     }
 }

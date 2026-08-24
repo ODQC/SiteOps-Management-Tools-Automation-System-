@@ -23,28 +23,28 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpGet]
-        public IActionResult obtenerRegion()
+        public IActionResult getRegion()
         {
-            return Ok(_servicioRegion.obtenerAreasConservacion());
+            return Ok(_servicioRegion.getRegions());
         }
 
         [HttpGet("regionNA")]
-        public IActionResult obtenerPKRegionNA()
+        public IActionResult getNARegionId()
         {
-            RespuestaGenerica respuestaGenerica = _servicioRegion.obtenerPKRegionNA();
+            RespuestaGenerica respuestaGenerica = _servicioRegion.getNARegionId();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
-                NotFound(respuestaGenerica);
+                return NotFound(respuestaGenerica);
             }
 
             return Ok(respuestaGenerica);
         }
 
         [HttpGet("{code}")]
-        public IActionResult obtenerRegion(string code)
+        public IActionResult getRegion(string code)
         {
-            RespuestaGenerica respuestaGenerica = _servicioRegion.obtenerRegion(code);
+            RespuestaGenerica respuestaGenerica = _servicioRegion.getRegion(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -55,9 +55,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPost]
-        public IActionResult guardarRegion(RegionDTO regionDTO)
+        public IActionResult createRegion(RegionDTO regionDTO)
         {
-            RespuestaGenerica respuestaGenerica = _servicioRegion.guardarRegion(regionDTO);
+            RespuestaGenerica respuestaGenerica = _servicioRegion.createRegion(regionDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -73,9 +73,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPut("{pkIdRegion}")]
-        public IActionResult actualizarRegion(int pkIdRegion, RegionDTO regionDTO)
+        public IActionResult updateRegion(int pkIdRegion, RegionDTO regionDTO)
         {
-            RespuestaGenerica respuestaGenerica = _servicioRegion.actualizarRegion(pkIdRegion, regionDTO);
+            RespuestaGenerica respuestaGenerica = _servicioRegion.updateRegion(pkIdRegion, regionDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -96,9 +96,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpDelete("{code}")]
-        public IActionResult eliminarRegion(string code)
+        public IActionResult deleteRegion(string code)
         {
-            RespuestaGenerica respuestaGenerica = _servicioRegion.eliminarRegion(code);
+            RespuestaGenerica respuestaGenerica = _servicioRegion.deleteRegion(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -112,10 +112,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{code}")]
-        public IActionResult deshabilitarRegion(string code)
+        [HttpGet("toggle-status/{code}")]
+        public IActionResult toggleRegionStatus(string code)
         {
-            RespuestaGenerica respuestaGenerica = _servicioRegion.deshabilitarRegion(code);
+            RespuestaGenerica respuestaGenerica = _servicioRegion.toggleRegionStatus(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -135,10 +135,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarArea/{code}")]
-        public IActionResult verificarArea(string code)
+        [HttpGet("checkRegion/{code}")]
+        public IActionResult checkRegion(string code)
         {
-            RespuestaGenerica respuestaGenerica = _servicioRegion.verificarArea(code);
+            RespuestaGenerica respuestaGenerica = _servicioRegion.checkRegion(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -148,10 +148,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("obtenerAreaXparque/{pk_idParque}")]
-        public IActionResult obtenerAreaXparque(long pk_idParque)
+        [HttpGet("getRegionBySite/{pk_idSite}")]
+        public IActionResult getRegionBySite(long pk_idSite)
         {
-            RespuestaGenerica respuestaGenerica = _servicioRegion.obtenerAreaXparque(pk_idParque);
+            RespuestaGenerica respuestaGenerica = _servicioRegion.getRegionBySite(pk_idSite);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {

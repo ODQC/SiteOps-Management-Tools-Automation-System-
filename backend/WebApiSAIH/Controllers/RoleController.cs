@@ -24,9 +24,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpGet]
-        public IActionResult obtenerRoles()
+        public IActionResult getRoles()
         {
-            return Ok(_roleService.obtenerRoless());
+            return Ok(_roleService.getRoles());
         }
 
         [HttpGet("{code}")]
@@ -42,7 +42,7 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("obtenerRolPk/{pk_idRole}")]
+        [HttpGet("getRoleId/{pk_idRole}")]
         public IActionResult obtenerRole(long pk_idRole)
         {
             RespuestaGenerica respuestaGenerica = _roleService.obtenerRole(pk_idRole);
@@ -56,9 +56,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPost]
-        public IActionResult guardarRole(RoleDTO roleDTO)
+        public IActionResult createRole(RoleDTO roleDTO)
         {
-            RespuestaGenerica respuestaGenerica = _roleService.guardarRole(roleDTO);
+            RespuestaGenerica respuestaGenerica = _roleService.createRole(roleDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -74,9 +74,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpPut("{pK_idRole}")]
-        public IActionResult modificarRole(long pK_idRole, RoleDTO roleDTO)
+        public IActionResult updateRole(long pK_idRole, RoleDTO roleDTO)
         {
-            RespuestaGenerica respuestaGenerica = _roleService.modificarRole(pK_idRole, roleDTO);
+            RespuestaGenerica respuestaGenerica = _roleService.updateRole(pK_idRole, roleDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -97,9 +97,9 @@ namespace SAIH_Backend.Controladores
         }
 
         [HttpDelete("{code}")]
-        public IActionResult eliminarRole(string code)
+        public IActionResult deleteRole(string code)
         {
-            RespuestaGenerica respuestaGenerica = _roleService.eliminarRole(code);
+            RespuestaGenerica respuestaGenerica = _roleService.deleteRole(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -113,10 +113,10 @@ namespace SAIH_Backend.Controladores
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{code}")]
-        public IActionResult deshabilitarRole(string code)
+        [HttpGet("toggle-status/{code}")]
+        public IActionResult toggleRoleStatus(string code)
         {
-            RespuestaGenerica respuestaGenerica = _roleService.deshabilitarRole(code);
+            RespuestaGenerica respuestaGenerica = _roleService.toggleRoleStatus(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {

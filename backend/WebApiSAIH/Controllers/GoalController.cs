@@ -27,28 +27,28 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet]
-        public IActionResult obtenerGoals()
+        public IActionResult getGoals()
         {
-            return Ok(_goalService.obtenerGoals());
+            return Ok(_goalService.getGoals());
         }
 
         [HttpGet("goalNA")]
-        public IActionResult obtenerPKGoalNA()
+        public IActionResult getNAGoalId()
         {
-            RespuestaGenerica respuestaGenerica = _goalService.obtenerPKGoalNA();
+            RespuestaGenerica respuestaGenerica = _goalService.getNAGoalId();
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
-                NotFound(respuestaGenerica);
+                return NotFound(respuestaGenerica);
             }
 
             return Ok(respuestaGenerica);
         }
 
         [HttpGet("{code}")]
-        public IActionResult obtenerGoal(string code)
+        public IActionResult getGoal(string code)
         {
-            RespuestaGenerica respuestaGenerica = _goalService.obtenerGoal(code);
+            RespuestaGenerica respuestaGenerica = _goalService.getGoal(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -59,9 +59,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPost]
-        public IActionResult guardarGoal(GoalDTO goalDTO)
+        public IActionResult createGoal(GoalDTO goalDTO)
         {
-            RespuestaGenerica respuestaGenerica = _goalService.guardarGoal(goalDTO);
+            RespuestaGenerica respuestaGenerica = _goalService.createGoal(goalDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
@@ -77,9 +77,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpPut("{pK_idGoal}")]
-        public IActionResult modificarGoal(long pK_idGoal, GoalDTO goalDTO)
+        public IActionResult updateGoal(long pK_idGoal, GoalDTO goalDTO)
         {
-            RespuestaGenerica respuestaGenerica = _goalService.modificarGoal(pK_idGoal, goalDTO);
+            RespuestaGenerica respuestaGenerica = _goalService.updateGoal(pK_idGoal, goalDTO);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_BAD_REQUEST)
             {
@@ -102,7 +102,7 @@ namespace WebApiSAIH.Controllers
         [HttpDelete("{code}")]
         public IActionResult eliminaGoal(string code)
         {
-            RespuestaGenerica respuestaGenerica = _goalService.eliminarGoal(code);
+            RespuestaGenerica respuestaGenerica = _goalService.deleteGoal(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -116,10 +116,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("cambiarEstado/{code}")]
-        public IActionResult deshabilitarGoal(string code)
+        [HttpGet("toggle-status/{code}")]
+        public IActionResult toggleGoalStatus(string code)
         {
-            RespuestaGenerica respuestaGenerica = _goalService.deshabilitarGoal(code);
+            RespuestaGenerica respuestaGenerica = _goalService.toggleGoalStatus(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -139,10 +139,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("resourcesXgoal/{code}")]
-        public IActionResult resourcesXgoal(string code)
+        [HttpGet("resourcesByGoal/{code}")]
+        public IActionResult resourcesByGoal(string code)
         {
-            RespuestaGenerica respuestaGenerica = _goalService.resourcesXgoal(code);
+            RespuestaGenerica respuestaGenerica = _goalService.resourcesByGoal(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_NOT_FOUND)
             {
@@ -157,10 +157,10 @@ namespace WebApiSAIH.Controllers
             return Ok(respuestaGenerica);
         }
 
-        [HttpGet("verificarGoal/{code}")]
-        public IActionResult verificarGoal(string code)
+        [HttpGet("checkGoal/{code}")]
+        public IActionResult checkGoal(string code)
         {
-            RespuestaGenerica respuestaGenerica = _goalService.verificarGoal(code);
+            RespuestaGenerica respuestaGenerica = _goalService.checkGoal(code);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_INTERNAL_SERVER_ERROR)
             {
