@@ -86,8 +86,8 @@ export class ProjectComponent implements OnInit {
   cambiarEstado(plan: IProject): void {
     if (!plan.fk_IdEmployee1) return;
     this.planService.cambiarEstado(plan.pK_idProject, plan.fk_IdEmployee1).subscribe({
-      next: () => { this.toastr.success('Estado actualizado', 'Éxito'); this.cargar(); },
-      error: () => this.toastr.error('No se pudo cambiar el estado', 'Error')
+      next: () => { this.toastr.success('Status updated', 'Success'); this.cargar(); },
+      error: () => this.toastr.error('Could not change the status', 'Error')
     });
   }
 }

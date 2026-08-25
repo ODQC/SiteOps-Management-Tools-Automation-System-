@@ -60,9 +60,9 @@ export class SidebarComponent implements OnInit, IAction {
 
   logout(): void {
     this.confirmDialog.confirm({
-      title: '¿Cerrar sesión?',
-      message: '¿Está seguro que desea cerrar sesión?',
-      confirmText: 'Cerrar sesión'
+      title: 'Log out?',
+      message: 'Are you sure you want to log out?',
+      confirmText: 'Log out'
     }).subscribe(confirmed => {
       if (confirmed) {
         let profileU = this.employeeService.cargarProfileEmployee();
@@ -76,7 +76,7 @@ export class SidebarComponent implements OnInit, IAction {
   }
 
   generarDescripcion(nationalId: string, descripcion: string): string {
-    return `El employee ${nationalId}${descripcion}`;
+    return `Employee ${nationalId}${descripcion}`;
   }
 
   registrarTask(taskU: AuditLog): void {
@@ -88,12 +88,12 @@ export class SidebarComponent implements OnInit, IAction {
       },
       (err: any) => {
         console.log(err.mensaje);
-        this.toastr.error(err.codigo, 'Error interno en el servidor...');
+        this.toastr.error(err.codigo, 'Internal server error...');
       }
     );
   }
 
   administrarEmployees(idAdmin: string, descripcion: string, nationalIdRegistro: string): string {
-    return `El employee ${idAdmin}${descripcion}${nationalIdRegistro}`;
+    return `Employee ${idAdmin}${descripcion}${nationalIdRegistro}`;
   }
 }

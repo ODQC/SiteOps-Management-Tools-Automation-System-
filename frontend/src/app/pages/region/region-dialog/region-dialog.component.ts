@@ -59,11 +59,11 @@ export class RegionDialogComponent {
 
     request$.subscribe({
       next: () => {
-        this.toastr.success(this.esEdicion ? 'Área actualizada' : 'Área creada', 'Éxito');
+        this.toastr.success(this.esEdicion ? 'Region updated' : 'Region created', 'Success');
         this.dialogRef.close(true);
       },
       error: (err) => {
-        this.toastr.error(err?.error?.mensaje || 'Error interno del servidor', 'No se pudo guardar');
+        this.toastr.error(err?.error?.mensaje || 'Internal server error', 'Could not save');
       }
     });
   }

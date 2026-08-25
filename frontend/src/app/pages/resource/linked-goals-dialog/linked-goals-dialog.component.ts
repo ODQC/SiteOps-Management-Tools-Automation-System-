@@ -72,21 +72,21 @@ export class LinkedGoalsDialogComponent implements OnInit {
     const fK_idGoal2 = this.formulario.value.fK_idGoal2;
     this.resourceGoalService.vincular(this.resource.pK_idResource, fK_idGoal2).subscribe({
       next: () => {
-        this.toastr.success('Goal vinculado', 'Éxito');
+        this.toastr.success('Goal linked', 'Success');
         this.formulario.reset();
         this.cargarVinculos();
       },
-      error: (err: HttpErrorResponse) => this.toastr.error(err?.error?.mensaje || 'Error interno del servidor', 'No se pudo vincular')
+      error: (err: HttpErrorResponse) => this.toastr.error(err?.error?.mensaje || 'Internal server error', 'Could not link')
     });
   }
 
   quitar(vinculo: IResourceGoal): void {
     this.resourceGoalService.desvincular(vinculo.pK_idGoalResource).subscribe({
       next: () => {
-        this.toastr.success('Goal desvinculado', 'Éxito');
+        this.toastr.success('Goal unlinked', 'Success');
         this.cargarVinculos();
       },
-      error: () => this.toastr.error('No se pudo desvincular', 'Error')
+      error: () => this.toastr.error('Could not unlink', 'Error')
     });
   }
 

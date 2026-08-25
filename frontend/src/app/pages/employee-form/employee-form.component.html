@@ -1,14 +1,14 @@
 <div class="page">
   <mat-card class="page__card" appearance="outlined">
     <div class="page__header">
-      <h1>Registro de employees</h1>
-      <p>Completa los datos para crear un nuevo employee del sistema.</p>
+      <h1>Employee registration</h1>
+      <p>Fill in the details to create a new employee.</p>
     </div>
 
     <form [formGroup]="formulario" (ngSubmit)="guardarEmployee()" class="form-grid">
 
       <mat-form-field appearance="outline" class="form-grid__field">
-        <mat-label>Identificación</mat-label>
+        <mat-label>ID</mat-label>
         <input matInput formControlName="nationalId" maxlength="20" />
         @if (esCampoValido('nationalId')) {
           <mat-error>{{ getErrorMessageId('nationalId') }}</mat-error>
@@ -16,34 +16,34 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-grid__field">
-        <mat-label>Nombre</mat-label>
+        <mat-label>First name</mat-label>
         <input matInput formControlName="nombre" />
         @if (nombreNoValido) {
-          <mat-error>El nombre debe contener únicamente letras y no puede estar vacío</mat-error>
+          <mat-error>First name is required</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-grid__field">
-        <mat-label>Primer apellido</mat-label>
+        <mat-label>Last name</mat-label>
         <input matInput formControlName="apellidoUno" />
         @if (apellido1NoValido) {
-          <mat-error>El apellido debe contener únicamente letras y no puede estar vacío</mat-error>
+          <mat-error>Last name is required</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-grid__field">
-        <mat-label>Segundo apellido</mat-label>
+        <mat-label>Second last name</mat-label>
         <input matInput formControlName="apellidoDos" />
         @if (apellido2NoValido) {
-          <mat-error>El apellido debe contener únicamente letras y no puede estar vacío</mat-error>
+          <mat-error>Second last name is required</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-grid__field">
-        <mat-label>Número de teléfono</mat-label>
+        <mat-label>Phone number</mat-label>
         <input matInput type="tel" formControlName="phone" maxlength="8" />
         @if (phoneNoValido) {
-          <mat-error>Debe tener al menos 8 números sin espacios ni guiones</mat-error>
+          <mat-error>Must be at least 8 digits, no spaces or dashes</mat-error>
         }
       </mat-form-field>
 
@@ -51,7 +51,7 @@
         <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="correo" />
         @if (correoNoValido) {
-          <mat-error>Ingresa un correo electrónico válido</mat-error>
+          <mat-error>Enter a valid email address</mat-error>
         }
       </mat-form-field>
 
@@ -67,18 +67,18 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-grid__field">
-        <mat-label>Confirmar password</mat-label>
+        <mat-label>Confirm password</mat-label>
         <input matInput #input2 type="password" formControlName="passwordDos" maxlength="16" />
         <button mat-icon-button matSuffix type="button" (click)="showPassword(input2)">
           <mat-icon>visibility</mat-icon>
         </button>
         @if (password2NoValido && password2NoValid) {
-          <mat-error>Las passwords no coinciden</mat-error>
+          <mat-error>Passwords do not match</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-grid__field">
-        <mat-label>Rol</mat-label>
+        <mat-label>Role</mat-label>
         <mat-select [(ngModel)]="selectedRol.name" formControlName="rol" (selectionChange)="onSelected(selectedRol.name)">
           @for (tipo of roleList; track tipo) {
             <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
@@ -89,7 +89,7 @@
       @for (rol of roleList; track rol) {
         @if (rol.name == 'Site Manager' && areasList2!.length > 0) {
           <mat-form-field appearance="outline" class="form-grid__field">
-            <mat-label>Áreas de conservación</mat-label>
+            <mat-label>Region</mat-label>
             <mat-select [(ngModel)]="selectedArea.name" formControlName="areaSilvestre" (selectionChange)="getParques()">
               @for (tipo of areasList; track tipo) {
                 <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
@@ -98,7 +98,7 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-grid__field">
-            <mat-label>Parques nacionales</mat-label>
+            <mat-label>Site</mat-label>
             <mat-select [(ngModel)]="selectedParque.name" formControlName="site">
               @for (tipo of parqueList; track tipo) {
                 <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
@@ -121,7 +121,7 @@
       <div class="form-grid__actions">
         <button type="submit" mat-flat-button color="primary">
           <mat-icon>person_add</mat-icon>
-          Ingresar
+          Register
         </button>
       </div>
     </form>

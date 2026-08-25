@@ -59,11 +59,11 @@ export class ResourceDialogComponent {
 
     request$.subscribe({
       next: () => {
-        this.toastr.success(this.esEdicion ? 'Resource actualizada' : 'Resource creada', 'Éxito');
+        this.toastr.success(this.esEdicion ? 'Resource updated' : 'Resource created', 'Success');
         this.dialogRef.close(true);
       },
       error: (err) => {
-        this.toastr.error(err?.error?.mensaje || 'Error interno del servidor', 'No se pudo guardar');
+        this.toastr.error(err?.error?.mensaje || 'Internal server error', 'Could not save');
       }
     });
   }

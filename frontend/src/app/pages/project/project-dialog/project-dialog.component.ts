@@ -86,11 +86,11 @@ export class ProjectDialogComponent implements OnInit {
 
     request$.subscribe({
       next: () => {
-        this.toastr.success(this.esEdicion ? 'Plan actualizado' : 'Plan creado', 'Éxito');
+        this.toastr.success(this.esEdicion ? 'Project updated' : 'Project created', 'Success');
         this.dialogRef.close(true);
       },
       error: (err) => {
-        this.toastr.error(err?.error?.mensaje || 'Error interno del servidor', 'No se pudo guardar');
+        this.toastr.error(err?.error?.mensaje || 'Internal server error', 'Could not save');
       }
     });
   }

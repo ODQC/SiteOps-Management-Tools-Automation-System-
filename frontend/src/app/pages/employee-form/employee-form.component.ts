@@ -92,9 +92,9 @@ export class EmployeeFormComponent implements OnInit, IAction {
     this.getDepartmentNA();
   }
 
-//método para generar descripciones de tasks de employee
+//generates the description for an employee audit log entry
 generarDescripcion(nationalId :string, descripcion:string):string{
-  return "El employee"+ nationalId + descripcion
+  return "Employee " + nationalId + descripcion
 }
 
 public guardarEmployee() {
@@ -116,15 +116,15 @@ public guardarEmployee() {
       (res: any) => {
         if (res.codigo == '201') {
           this.formulario.reset();
-          this.toastr.success('Employee creado', '¡Registro exitoso!');
+          this.toastr.success('Employee created', 'Registration successful!');
           let profileU = this.employeeService.cargarProfileEmployee();
           let descripcion:string = this.administrarEmployees(profileU.NationalId,Action.AgregarEmployee,employee.nationalId);
           let task = new AuditLog(parseInt(profileU.UserID),descripcion);
           this.registrarTask(task)
         }
         else if (res.codigo == '200') {
-          if (res.mensaje == "El employee ya está registrado en el sistema") {
-            this.toastr.error(res.mensaje, 'Error en el ingreso del employee!');
+          if (res.mensaje == "This employee is already registered in the system") {
+            this.toastr.error(res.mensaje, 'Error registering the employee!');
           }
           else {
             this.toastr.error(res.object, res.mensaje);
@@ -133,12 +133,12 @@ public guardarEmployee() {
       },
       err => {
         console.log(err.mensaje);
-        this.toastr.error(err.codigo, 'Error interno en el servidor...');
+        this.toastr.error(err.codigo, 'Internal server error...');
       }
     );
   }
   administrarEmployees(idAdmin:string, descripciion:string, nationalIdRegistro:string ):string{
-    return `El employee ${idAdmin}${descripciion}${nationalIdRegistro}`
+    return `Employee ${idAdmin}${descripciion}${nationalIdRegistro}`
     }
   registrarTask(taskU : AuditLog){
     this.taskService.registrarAuditLog(taskU).subscribe(
@@ -151,7 +151,7 @@ public guardarEmployee() {
       },
       err =>{
         console.log(err.mensaje);
-          this.toastr.error(err.codigo, 'Error interno en el servidor...');
+          this.toastr.error(err.codigo, 'Internal server error...');
       }
     );
 
@@ -309,11 +309,11 @@ public guardarEmployee() {
   getErrorMessage(field: string): string{
     let mensaje = '';
     if(this.formulario.get(field)?.errors?.required){
-      mensaje = 'El campo no puede estar vacío!';
+      mensaje = 'This field cannot be empty!';
     }else if(this.formulario.get(field)?.hasError('pattern')){
-      mensaje = 'No es una password válida, debe tener al menos una letra mayúscula, un número, una letra minúscula y al menos un caracter especial ($@!%*?&)';
+      mensaje = 'Not a valid password: it must include at least one uppercase letter, one number, one lowercase letter, and one special character ($@!%*?&)';
     }else if(this.formulario.get(field)?.hasError('minlength') ||  this.formulario.get(field)?.hasError('maxlength')){
-      mensaje = `Debe tener de 8 a 16 caracteres`;
+      mensaje = `Must be 8 to 16 characters`;
     }
     return mensaje;
   }
@@ -321,9 +321,9 @@ public guardarEmployee() {
   getErrorMessageId(field: string): string{
     let mensaje = '';
     if(this.formulario.get(field)?.errors?.required){
-      mensaje = 'El campo no puede estar vacío!';
+      mensaje = 'This field cannot be empty!';
     }else if(this.formulario.get(field)?.hasError('pattern')){
-      mensaje = 'Solo se permiten letras, números y guiones';
+      mensaje = 'Only letters, numbers, and dashes are allowed';
     }else if(this.formulario.get(field)?.hasError('minlength') || this.formulario.get(field)?.hasError('maxlength')){
       mensaje = 'Debe tener de 4 a 20 caracteres';
     }

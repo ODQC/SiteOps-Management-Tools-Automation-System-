@@ -52,7 +52,7 @@ export class DeliverableComponent implements OnInit {
     const texto = this.search.trim().toLowerCase();
     if (!texto) return this.deliverables;
     return this.deliverables.filter(e =>
-      e.nombre?.toLowerCase().includes(texto) || e.code?.toLowerCase().includes(texto)
+      e.name?.toLowerCase().includes(texto) || e.code?.toLowerCase().includes(texto)
     );
   }
 
@@ -68,8 +68,8 @@ export class DeliverableComponent implements OnInit {
 
   cambiarEstado(deliverable: IDeliverable): void {
     this.deliverableService.cambiarEstado(deliverable.pK_idDeliverable).subscribe({
-      next: () => { this.toastr.success('Estado actualizado', 'Éxito'); this.cargar(); },
-      error: () => this.toastr.error('No se pudo cambiar el estado', 'Error')
+      next: () => { this.toastr.success('Status updated', 'Success'); this.cargar(); },
+      error: () => this.toastr.error('Could not change the status', 'Error')
     });
   }
 }

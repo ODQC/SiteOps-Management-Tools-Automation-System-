@@ -160,21 +160,21 @@ export class EmployeeTableComponent implements OnInit, IAction {
 
   deshabilitarEmployee(nationalId: string) {
     this.confirmDialog.confirm({
-      title: 'Cambiar estado',
-      message: '¿Está seguro que desea cambiar el estado del employee?'
+      title: 'Change status',
+      message: 'Are you sure you want to change this employee’s status?'
     }).subscribe(confirmed => {
       if (confirmed) {
         this.employeeService.deshabilitarEmployee(nationalId).subscribe(
           (res: any) => {
             if (res.codigo == "200") {
               if (res.object.status == 'Activo') {
-                this.toastr.success('Employee habilitado exitosamente', 'Habilitación exitosa!');
+                this.toastr.success('Employee enabled successfully', 'Enabled!');
                 let profileU = this.employeesService.cargarProfileEmployee();
                 let descripcion: string = this.administrarEmployees(profileU.NationalId, Action.ActivarEmployee, nationalId);
                 let task = new AuditLog(parseInt(profileU.UserID), descripcion);
                 this.registrarTask(task)
               } else {
-                this.toastr.warning('Employee deshabilitado exitosamente', 'Deshabilitación exitosa!');
+                this.toastr.warning('Employee disabled successfully', 'Disabled!');
                 let profileU = this.employeesService.cargarProfileEmployee();
                 let descripcion: string = this.administrarEmployees(profileU.NationalId, Action.DesactivarEmployee, nationalId);
                 let task = new AuditLog(parseInt(profileU.UserID), descripcion);
@@ -184,7 +184,7 @@ export class EmployeeTableComponent implements OnInit, IAction {
             this.employeeService.obtenerEmployees();
           }, err => {
             if (err.status == 400) {
-              this.toastr.error('No se pudo cambiar el estado del employee', 'Ya existe un administrador de parque activo!');
+              this.toastr.error('Could not change the employee status', 'An active site manager already exists!');
             }
           })
       }
@@ -192,7 +192,7 @@ export class EmployeeTableComponent implements OnInit, IAction {
   }
 
   administrarEmployees(idAdmin: string, descripciion: string, nationalIdRegistro: string): string {
-    return `El employee ${idAdmin}${descripciion}${nationalIdRegistro}`
+    return `Employee ${idAdmin}${descripciion}${nationalIdRegistro}`
   }
 
   //========================= filter de busqueda ================================
@@ -230,7 +230,7 @@ export class EmployeeTableComponent implements OnInit, IAction {
       },
       err => {
         console.log(err.mensaje);
-        this.toastr.error(err.codigo, 'Error interno en el servidor...');
+        this.toastr.error(err.codigo, 'Internal server error...');
       }
     );
   }

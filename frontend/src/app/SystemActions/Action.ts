@@ -1,13 +1,13 @@
 export enum Action{
-    //Catalogo de actiones del sistema 
-    //Utilizadas para generar tasks de employee 
-    InicioSesion = " ha iniciado sesión ",
-    FinalizarSesion = " ha finalizado sesion ",
-    AgregarEmployee = " ha registrado al employee ",
-    ActualizarDatosPersonales=" ha actualizado sus datos ",
-    DesactivarEmployee =" ha desactivado al employee ",
-    ActivarEmployee = " ha activado al employee ",
-    ActualizarEmployee = " ha actualizado los datos del employee ",
-    ActualizarRegistro = " ha actualizado  el registro "
+    //Catalog of system actions
+    //Used to generate employee audit log entries
+    InicioSesion = " logged in ",
+    FinalizarSesion = " logged out ",
+    AgregarEmployee = " registered employee ",
+    ActualizarDatosPersonales=" updated their info ",
+    DesactivarEmployee =" deactivated employee ",
+    ActivarEmployee = " activated employee ",
+    ActualizarEmployee = " updated employee ",
+    ActualizarRegistro = " updated the record "
 
 }

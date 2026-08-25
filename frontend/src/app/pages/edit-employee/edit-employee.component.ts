@@ -204,11 +204,11 @@ export class EditEmployeeComponent implements OnInit, IAction {
     this.employeeService.actualizarEmployee(this.getNationalId(), employee).subscribe(
       (data: any) => {
         if (data.codigo == 200) {
-          if (data.mensaje == "El email ya está siendo utilizado") {
-            this.toastr.error(data.mensaje, 'Error en actualizar el employee!');
+          if (data.mensaje == "This email is already in use") {
+            this.toastr.error(data.mensaje, 'Error updating the employee!');
           }
-          if (data.mensaje == "Employee actualizado") {
-            this.toastr.success("Registro Actualizado", "La employee fue actualizado");
+          if (data.mensaje == "Employee updated") {
+            this.toastr.success("Record updated", "The employee was updated");
             let profileU = this.employeeService.cargarProfileEmployee();
             let descripcion: string = this.administrarEmployees(profileU.NationalId, Action.ActualizarEmployee, employee.nationalId);
             let task = new AuditLog(parseInt(profileU.UserID), descripcion);
@@ -223,20 +223,20 @@ export class EditEmployeeComponent implements OnInit, IAction {
       err => {
         console.log(err.mensaje);
         if (err.status == 404) {
-          this.toastr.error('Employee no encontrado', 'El employee no se encontro en el sistema');
+          this.toastr.error('Employee not found', 'The employee was not found in the system');
         }
-        this.toastr.error(err.codigo, 'Error interno en el servidor...');
+        this.toastr.error(err.codigo, 'Internal server error...');
       });
   }
 
   getErrorMessage(field: string): string {
     let mensaje = '';
     if (this.formulario.get(field)?.errors?.required) {
-      mensaje = 'El campo no puede estar vacío!';
+      mensaje = 'This field cannot be empty!';
     } else if (this.formulario.get(field)?.hasError('pattern')) {
-      mensaje = 'No es una password válida, debe tener al menos una letra mayúscula, un número, una letra minúscula y al menos un caracter especial ($@!%*?&)';
+      mensaje = 'Not a valid password: it must include at least one uppercase letter, one number, one lowercase letter, and one special character ($@!%*?&)';
     } else if (this.formulario.get(field)?.hasError('minlength') || this.formulario.get(field)?.hasError('maxlength')) {
-      mensaje = `Debe tener de 8 a 16 caracteres`;
+      mensaje = `Must be 8 to 16 characters`;
     }
     return mensaje;
   }
@@ -357,16 +357,16 @@ export class EditEmployeeComponent implements OnInit, IAction {
       },
       err => {
         console.log(err.mensaje);
-        this.toastr.error(err.codigo, 'Error interno en el servidor...');
+        this.toastr.error(err.codigo, 'Internal server error...');
       }
     );
   }
 
   generarDescripcion(nationalId: string, descripcion: string): string {
-    return `El employee ${nationalId}${descripcion}`;
+    return `Employee ${nationalId}${descripcion}`;
   }
 
   administrarEmployees(idAdmin: string, descripcion: string, nationalIdRegistro: string): string {
-    return `El employee ${idAdmin}${descripcion}${nationalIdRegistro}`;
+    return `Employee ${idAdmin}${descripcion}${nationalIdRegistro}`;
   }
 }

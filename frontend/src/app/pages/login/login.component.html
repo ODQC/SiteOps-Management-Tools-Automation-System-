@@ -3,31 +3,31 @@
     <div class="login__visual-overlay">
       <mat-icon class="login__visual-logo" inline="true">hub</mat-icon>
       <h1 class="login__visual-title">SiteOps</h1>
-      <p class="login__visual-subtitle">Gestión centralizada de employees, sitios, departamentos y planes de trabajo de tu organización.</p>
+      <p class="login__visual-subtitle">Centralized management of your organization's employees, sites, departments, and projects.</p>
     </div>
   </div>
 
   <div class="login__panel">
     <div class="login__help">
       <button mat-icon-button type="button" (click)="themeService.alternarTema()"
-        [matTooltip]="themeService.tema === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
-        aria-label="Cambiar tema">
+        [matTooltip]="themeService.tema === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+        aria-label="Toggle theme">
         <mat-icon>{{ themeService.tema === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
-      <a href="#"><mat-icon inline="true">help_outline</mat-icon> Ayuda</a>
+      <a href="#"><mat-icon inline="true">help_outline</mat-icon> Help</a>
     </div>
 
     <mat-card class="login__card" appearance="outlined">
       <div class="login__brand">
         <mat-icon class="login__brand-icon" inline="true">hub</mat-icon>
-        <h2>Bienvenido</h2>
-        <p>Inicia sesión para continuar</p>
+        <h2>Welcome</h2>
+        <p>Sign in to continue</p>
       </div>
 
       <form [formGroup]="loginForm" (ngSubmit)="inicioSesion()" class="login__form">
         <mat-form-field appearance="outline" class="login__field">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="username" placeholder="nombre.apellido@example.com" autocomplete="username" />
+          <input matInput formControlName="username" placeholder="firstname.lastname@example.com" autocomplete="username" />
           <mat-icon matSuffix>mail_outline</mat-icon>
           @if (esCampoValido('username')) {
             <mat-error>{{ getErrorMessage('username') }}</mat-error>
@@ -37,7 +37,7 @@
         <mat-form-field appearance="outline" class="login__field">
           <mat-label>Password</mat-label>
           <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" autocomplete="current-password" />
-          <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'Mostrar password'" [attr.aria-pressed]="!hidePassword">
+          <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'Show password'" [attr.aria-pressed]="!hidePassword">
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           @if (esCampoValido('password')) {
@@ -46,11 +46,11 @@
         </mat-form-field>
 
         <button type="button" class="login__forgot" mat-button (click)="abrirRecuperarPassword()">
-          ¿Has olvidado tu password?
+          Forgot your password?
         </button>
 
         <button type="submit" mat-flat-button color="primary" class="login__submit">
-          Iniciar sesión
+          Sign in
           <mat-icon iconPositionEnd>login</mat-icon>
         </button>
       </form>

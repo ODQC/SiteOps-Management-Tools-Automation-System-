@@ -75,13 +75,13 @@ export class TasksDialogComponent implements OnInit {
 
     this.taskService.guardarTask(payload).subscribe({
       next: () => {
-        this.toastr.success('Task creada', 'Éxito');
+        this.toastr.success('Task created', 'Success');
         this.formulario.reset();
         this.mostrarFormulario = false;
         this.cargarTaskes();
       },
       error: (err) => {
-        this.toastr.error(err?.error?.mensaje || 'Error interno del servidor', 'No se pudo crear la task');
+        this.toastr.error(err?.error?.mensaje || 'Internal server error', 'Could not create the task');
       }
     });
   }

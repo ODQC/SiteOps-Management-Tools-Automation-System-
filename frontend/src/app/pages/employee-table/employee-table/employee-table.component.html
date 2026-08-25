@@ -1,39 +1,39 @@
 <div class="page">
   <mat-card class="page__card" appearance="outlined">
     <div class="page__header">
-      <h1>Consulta de employees</h1>
-      <p>Filtra, revisa y administra los employees registrados en el sistema.</p>
+      <h1>Employee directory</h1>
+      <p>Filter, review, and manage the employees registered in the system.</p>
     </div>
 
     <div class="filters">
       <mat-form-field appearance="outline" class="filters__search">
-        <mat-label>Buscador</mat-label>
-        <input matInput #txtSearch (keyup)="onSearchEmployee(txtSearch.value)" placeholder="Buscar..." />
+        <mat-label>Search</mat-label>
+        <input matInput #txtSearch (keyup)="onSearchEmployee(txtSearch.value)" placeholder="Search..." />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="filters__field">
-        <mat-label>Tipo de búsqueda</mat-label>
+        <mat-label>Search by</mat-label>
         <mat-select [(ngModel)]="opcionBusqueda" (selectionChange)="capturarTipoBusqueda()">
-          <mat-option value="Identificacion">Identificación</mat-option>
-          <mat-option value="Nombre">Nombre</mat-option>
-          <mat-option value="Apellidos">Apellidos</mat-option>
+          <mat-option value="Identificacion">ID</mat-option>
+          <mat-option value="Nombre">First name</mat-option>
+          <mat-option value="Apellidos">Last names</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="filters__field">
-        <mat-label>Estado</mat-label>
+        <mat-label>Status</mat-label>
         <mat-select [(ngModel)]="opcionBusquedaEstado" (selectionChange)="capturarTipoBusquedaEstado()">
-          <mat-option value="Todos">Todos</mat-option>
-          <mat-option value="Activos">Activos</mat-option>
-          <mat-option value="Inactivos">Inactivos</mat-option>
+          <mat-option value="Todos">All</mat-option>
+          <mat-option value="Activos">Active</mat-option>
+          <mat-option value="Inactivos">Inactive</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="filters__field">
-        <mat-label>Rol</mat-label>
+        <mat-label>Role</mat-label>
         <mat-select [(ngModel)]="opcionBusquedaRol" (selectionChange)="capturarTipoBusquedaRol()">
-          <mat-option value="Todos">Todos</mat-option>
+          <mat-option value="Todos">All</mat-option>
           @for (tipo of roleList; track tipo) {
             <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
           }
@@ -43,7 +43,7 @@
       <mat-form-field appearance="outline" class="filters__field">
         <mat-label>Department</mat-label>
         <mat-select [(ngModel)]="opcionBusquedaDepartment" (selectionChange)="capturarTipoBusquedaDepartment()">
-          <mat-option value="Todos">Todos</mat-option>
+          <mat-option value="Todos">All</mat-option>
           @for (tipo of departmentList; track tipo) {
             <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
           }
@@ -51,9 +51,9 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="filters__field">
-        <mat-label>ASP</mat-label>
+        <mat-label>Site</mat-label>
         <mat-select [(ngModel)]="opcionBusquedaParque" (selectionChange)="capturarTipoBusquedaParque()">
-          <mat-option value="Todos">Todos</mat-option>
+          <mat-option value="Todos">All</mat-option>
           @for (tipo of parqueList; track tipo) {
             @if (tipo.name !== 'N/A') {
               <mat-option [value]="tipo.name">{{ tipo.name }}</mat-option>
@@ -67,12 +67,12 @@
       <table mat-table [dataSource]="employeesVisibles | filter: pagina:search:opcionBusqueda:opcionBusquedaEstado:opcionBusquedaRol: opcionBusquedaArea:opcionBusquedaParque:opcionBusquedaDepartment:roleList:departmentList:parqueList" class="users-table">
 
         <ng-container matColumnDef="identificacion">
-          <th mat-header-cell *matHeaderCellDef>Identificación</th>
+          <th mat-header-cell *matHeaderCellDef>ID</th>
           <td mat-cell *matCellDef="let employee">{{ employee.nationalId }}</td>
         </ng-container>
 
         <ng-container matColumnDef="nombre">
-          <th mat-header-cell *matHeaderCellDef>Nombre completo</th>
+          <th mat-header-cell *matHeaderCellDef>Full name</th>
           <td mat-cell *matCellDef="let employee">{{ employee.firstName }} {{ employee.lastName }} {{ employee.secondLastName }}</td>
         </ng-container>
 
@@ -82,7 +82,7 @@
         </ng-container>
 
         <ng-container matColumnDef="phone">
-          <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+          <th mat-header-cell *matHeaderCellDef>Phone</th>
           <td mat-cell *matCellDef="let employee">{{ employee.phone }}</td>
         </ng-container>
 
@@ -92,12 +92,12 @@
         </ng-container>
 
         <ng-container matColumnDef="rol">
-          <th mat-header-cell *matHeaderCellDef>Rol</th>
+          <th mat-header-cell *matHeaderCellDef>Role</th>
           <td mat-cell *matCellDef="let employee">{{ getRoleName(employee.fK_idRole1) }}</td>
         </ng-container>
 
         <ng-container matColumnDef="asp">
-          <th mat-header-cell *matHeaderCellDef>ASP</th>
+          <th mat-header-cell *matHeaderCellDef>Site</th>
           <td mat-cell *matCellDef="let employee">{{ getSiteName(employee.fK_idSite1) }}</td>
         </ng-container>
 
@@ -107,17 +107,17 @@
             @if (!soloLectura) {
               <button mat-stroked-button color="primary" (click)="editar(employee)">
                 <mat-icon>edit</mat-icon>
-                Editar
+                Edit
               </button>
             }
           </td>
         </ng-container>
 
         <ng-container matColumnDef="estado">
-          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <th mat-header-cell *matHeaderCellDef>Status</th>
           <td mat-cell *matCellDef="let employee">
             <button mat-flat-button [color]="employee.status === 'Activo' ? 'primary' : 'warn'" [disabled]="soloLectura" (click)="deshabilitarEmployee(employee.nationalId)">
-              {{ employee.status === 'Activo' ? 'Activo' : 'Inactivo' }}
+              {{ employee.status === 'Activo' ? 'Active' : 'Inactive' }}
             </button>
           </td>
         </ng-container>
@@ -129,7 +129,7 @@
       @if ((employeesVisibles | filter: pagina:search:opcionBusqueda:opcionBusquedaEstado:opcionBusquedaRol: opcionBusquedaArea:opcionBusquedaParque:opcionBusquedaDepartment:roleList:departmentList:parqueList).length === 0) {
         <div class="table-wrapper__empty">
           <mat-icon>search_off</mat-icon>
-          <p>No se encontraron employees con esos criterios.</p>
+          <p>No employees matched those filters.</p>
         </div>
       }
     </div>
@@ -137,11 +137,11 @@
     <div class="pager">
       <button mat-stroked-button (click)="paginaAnterior()" [disabled]="pagina === 0">
         <mat-icon>chevron_left</mat-icon>
-        Anteriores
+        Previous
       </button>
       <button mat-stroked-button (click)="paginaSiguiente()"
         [disabled]="(employeesVisibles | filter: pagina:search:opcionBusqueda:opcionBusquedaEstado:opcionBusquedaRol: opcionBusquedaArea:opcionBusquedaParque:opcionBusquedaDepartment:roleList:departmentList:parqueList).length === 0">
-        Siguiente
+        Next
         <mat-icon iconPositionEnd>chevron_right</mat-icon>
       </button>
     </div>

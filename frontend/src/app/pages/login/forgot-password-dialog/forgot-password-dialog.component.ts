@@ -30,9 +30,9 @@ export class ForgotPasswordDialogComponent {
   getErrorMensaje(field: string): string {
     let mensaje = '';
     if (this.recuperarPasswordForm.get(field)?.errors?.required) {
-      mensaje = '¡El campo se encuentra vacío!';
+      mensaje = 'This field cannot be empty!';
     } else if (this.recuperarPasswordForm.get(field)?.hasError('pattern')) {
-      mensaje = 'Ingresa un correo electrónico válido.';
+      mensaje = 'Enter a valid email address.';
     }
     return mensaje;
   }
@@ -45,7 +45,7 @@ export class ForgotPasswordDialogComponent {
     const correoElectronico = this.recuperarPasswordForm.get('recuperarPassword')?.value;
     if (correoElectronico !== "") {
       this.employeesService.recuperarPassword(correoElectronico).subscribe();
-      this.toastr.success('Recuperacion de password', 'Correo enviado.');
+      this.toastr.success('Password recovery', 'Email sent.');
     }
     this.dialogRef.close();
   }

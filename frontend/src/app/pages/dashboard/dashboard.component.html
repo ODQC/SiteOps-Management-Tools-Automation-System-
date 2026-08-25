@@ -2,8 +2,8 @@
   <mat-card class="page__card" appearance="outlined">
     <div class="page__header">
       <div>
-        <h1>Inicio</h1>
-        <p>Resumen de tu task en el SAIH.</p>
+        <h1>Home</h1>
+        <p>Summary of your work in SiteOps.</p>
       </div>
     </div>
 
@@ -17,27 +17,27 @@
       <div class="dashboard__tiles">
         <div class="dashboard__tile">
           <span class="dashboard__tile-value">{{ employeesActivos }}</span>
-          <span class="dashboard__tile-label">Employees activos</span>
+          <span class="dashboard__tile-label">Active employees</span>
         </div>
         <div class="dashboard__tile">
           <span class="dashboard__tile-value">{{ employeesInactivos }}</span>
-          <span class="dashboard__tile-label">Employees inactivos</span>
+          <span class="dashboard__tile-label">Inactive employees</span>
         </div>
         <div class="dashboard__tile">
           <span class="dashboard__tile-value">{{ areasActivas }}</span>
-          <span class="dashboard__tile-label">Áreas activas</span>
+          <span class="dashboard__tile-label">Active regions</span>
         </div>
         <div class="dashboard__tile">
           <span class="dashboard__tile-value">{{ parquesActivos }}</span>
-          <span class="dashboard__tile-label">Parques activos</span>
+          <span class="dashboard__tile-label">Active sites</span>
         </div>
         <div class="dashboard__tile">
           <span class="dashboard__tile-value">{{ resourcesActivas }}</span>
-          <span class="dashboard__tile-label">Resources activas</span>
+          <span class="dashboard__tile-label">Active resources</span>
         </div>
       </div>
 
-      <h2 class="dashboard__section-title">Employees por rol</h2>
+      <h2 class="dashboard__section-title">Employees by role</h2>
       <div class="dashboard__tiles">
         @for (r of employeesPorRol; track r.name) {
           <div class="dashboard__tile dashboard__tile--secondary">
@@ -47,7 +47,7 @@
         }
       </div>
 
-      <h2 class="dashboard__section-title">Últimos eventos</h2>
+      <h2 class="dashboard__section-title">Recent events</h2>
       <div class="table-wrapper">
         <table class="data-table dashboard__list">
           @for (e of ultimosEventos; track e.fecha) {
@@ -60,7 +60,7 @@
         @if (ultimosEventos.length === 0) {
           <div class="table-wrapper__empty">
             <mat-icon>history</mat-icon>
-            <p>Aún no hay eventos registrados.</p>
+            <p>No events recorded yet.</p>
           </div>
         }
       </div>
@@ -70,19 +70,19 @@
       <div class="dashboard__tiles">
         <div class="dashboard__tile">
           <span class="dashboard__tile-value">{{ progressPromedio }}%</span>
-          <span class="dashboard__tile-label">progress promedio</span>
+          <span class="dashboard__tile-label">average progress</span>
         </div>
         <div class="dashboard__tile">
           <span class="dashboard__tile-value">{{ goalsActivos }}</span>
-          <span class="dashboard__tile-label">Goals activos ({{ goalsActivos + goalsInhabilitados }} del año)</span>
+          <span class="dashboard__tile-label">Active goals ({{ goalsActivos + goalsInhabilitados }} this year)</span>
         </div>
         <div class="dashboard__tile">
           <span class="dashboard__tile-value">{{ teamActive }}</span>
-          <span class="dashboard__tile-label">Employees activos de {{ teamTotal }}</span>
+          <span class="dashboard__tile-label">Active employees out of {{ teamTotal }}</span>
         </div>
       </div>
 
-      <h2 class="dashboard__section-title">Planes próximos a vencer (30 días)</h2>
+      <h2 class="dashboard__section-title">Projects due soon (30 days)</h2>
       <div class="table-wrapper">
         <table class="data-table dashboard__list">
           @for (p of planesPorVencer; track p.code) {
@@ -90,19 +90,19 @@
               <td>{{ p.code }}</td>
               <td>{{ p.responsable }}</td>
               <td>{{ p.progress }}%</td>
-              <td class="dashboard__list-date">{{ p.diasRestantes }} días</td>
+              <td class="dashboard__list-date">{{ p.diasRestantes }} days</td>
             </tr>
           }
         </table>
         @if (planesPorVencer.length === 0) {
           <div class="table-wrapper__empty">
             <mat-icon>event_available</mat-icon>
-            <p>No hay planes por vencer en los próximos 30 días.</p>
+            <p>No projects due in the next 30 days.</p>
           </div>
         }
       </div>
 
-      <h2 class="dashboard__section-title">Todos los planes de trabajo</h2>
+      <h2 class="dashboard__section-title">All projects</h2>
       <div class="table-wrapper">
         <table class="data-table dashboard__list">
           @for (p of planes; track p.code) {
@@ -116,7 +116,7 @@
         @if (planes.length === 0) {
           <div class="table-wrapper__empty">
             <mat-icon>event_note</mat-icon>
-            <p>Aún no hay planes de trabajo.</p>
+            <p>No projects yet.</p>
           </div>
         }
       </div>
@@ -127,23 +127,23 @@
         <div class="dashboard__tiles">
           <div class="dashboard__tile">
             <span class="dashboard__tile-value">{{ miPlan.progress }}%</span>
-            <span class="dashboard__tile-label">progress de {{ miPlan.code }}</span>
+            <span class="dashboard__tile-label">progress on {{ miPlan.code }}</span>
           </div>
           <div class="dashboard__tile">
             <span class="dashboard__tile-value">{{ miPlan.diasRestantes }}</span>
-            <span class="dashboard__tile-label">Días restantes</span>
+            <span class="dashboard__tile-label">Days remaining</span>
           </div>
           <div class="dashboard__tile">
             <span class="dashboard__tile-value">{{ taskesPendientes }}</span>
-            <span class="dashboard__tile-label">Tasks pendientes</span>
+            <span class="dashboard__tile-label">Pending tasks</span>
           </div>
           <div class="dashboard__tile">
             <span class="dashboard__tile-value">{{ taskesCompletadas }}</span>
-            <span class="dashboard__tile-label">Tasks completadas</span>
+            <span class="dashboard__tile-label">Completed tasks</span>
           </div>
         </div>
 
-        <h2 class="dashboard__section-title">Mis deliverables recientes</h2>
+        <h2 class="dashboard__section-title">My recent deliverables</h2>
         <div class="table-wrapper">
           <table class="data-table dashboard__list">
             @for (e of misDeliverables; track e.nombre) {
@@ -156,14 +156,14 @@
           @if (misDeliverables.length === 0) {
             <div class="table-wrapper__empty">
               <mat-icon>photo_library</mat-icon>
-              <p>Aún no has subido deliverables.</p>
+              <p>You have not uploaded any deliverables yet.</p>
             </div>
           }
         </div>
       } @else {
         <div class="table-wrapper__empty">
           <mat-icon>event_busy</mat-icon>
-          <p>Todavía no tenés un plan de trabajo asignado.</p>
+          <p>You do not have a project assigned yet.</p>
         </div>
       }
     }
@@ -172,11 +172,11 @@
       <div class="dashboard__tiles">
         <div class="dashboard__tile">
           <span class="dashboard__tile-value">{{ taskesSinDeliverable }}</span>
-          <span class="dashboard__tile-label">Tasks sin deliverable</span>
+          <span class="dashboard__tile-label">Tasks without a deliverable</span>
         </div>
       </div>
 
-      <h2 class="dashboard__section-title">Deliverables recientes</h2>
+      <h2 class="dashboard__section-title">Recent deliverables</h2>
       <div class="table-wrapper">
         <table class="data-table dashboard__list">
           @for (e of deliverablesRecientes; track e.nombre) {
@@ -190,12 +190,12 @@
         @if (deliverablesRecientes.length === 0) {
           <div class="table-wrapper__empty">
             <mat-icon>photo_library</mat-icon>
-            <p>Aún no hay deliverables registradas.</p>
+            <p>No deliverables recorded yet.</p>
           </div>
         }
       </div>
 
-      <h2 class="dashboard__section-title">progress de planes por responsable</h2>
+      <h2 class="dashboard__section-title">Project progress by owner</h2>
       <div class="table-wrapper">
         <table class="data-table dashboard__list">
           @for (p of planesPorResponsable; track p.code) {
@@ -209,7 +209,7 @@
         @if (planesPorResponsable.length === 0) {
           <div class="table-wrapper__empty">
             <mat-icon>event_note</mat-icon>
-            <p>Aún no hay planes de trabajo.</p>
+            <p>No projects yet.</p>
           </div>
         }
       </div>

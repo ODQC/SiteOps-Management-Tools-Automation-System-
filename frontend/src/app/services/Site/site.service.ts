@@ -26,7 +26,7 @@ export class SiteService {
     return this._refres$;
   }
 
-  // Servicio para traer una lista de Parques Nacionales según el área de conservación
+  // Fetches the list of sites for a given region
   obtenerSite(id: number): Observable<ISite[]> {
     return this.http.get<Mensaje>(this.urlApp + this.urlAPI  + id).pipe(map(this.tranformarSite));
   }

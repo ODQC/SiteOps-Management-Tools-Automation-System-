@@ -10,7 +10,7 @@ export interface IDeliverable {
   status?: string;
   fK_idDocument?: number;
   fK_idTask1?: number;
-  descripcion?: string;
-  nombre?: string;
+  description?: string;
+  name?: string;
   documentName?: string;
 }

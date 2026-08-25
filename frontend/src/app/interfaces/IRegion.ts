@@ -10,7 +10,7 @@ export interface Mensaje2 {
   object:  number;
 }
 
-//Se crea la interface de Área de conservación que recibe el objeto Json de Area de conservación
+//Region interface, receives the Region JSON object
 export interface IRegion {
   pK_IdRegion: number;
   code?: string;

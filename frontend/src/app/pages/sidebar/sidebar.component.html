@@ -12,14 +12,14 @@
       <mat-icon class="shell__brand-logo" inline="true">hub</mat-icon>
       <div class="shell__brand-text">
         <span class="shell__brand-title">SiteOps</span>
-        <span class="shell__brand-subtitle">Sistema de gestión organizacional</span>
+        <span class="shell__brand-subtitle">Organization management system</span>
       </div>
     </div>
 
     <a class="shell__profile" routerLink="/sidebar/my-profile">
       <div class="shell__profile-avatar">
         @if (fotoProfile) {
-          <img [src]="fotoProfile" alt="Foto de profile" />
+          <img [src]="fotoProfile" alt="Profile photo" />
         } @else {
           <mat-icon>account_circle</mat-icon>
         }
@@ -32,25 +32,25 @@
     <mat-nav-list class="shell__nav">
       <a mat-list-item routerLink="/sidebar/dashboard" routerLinkActive="shell__nav-link--active">
         <mat-icon matListItemIcon>dashboard</mat-icon>
-        <span matListItemTitle>Inicio</span>
+        <span matListItemTitle>Home</span>
       </a>
 
       <mat-divider></mat-divider>
 
       @if (permissions.tieneAcceso('employeesRegistro') || permissions.tieneAcceso('employeesConsulta')) {
-        <h3 matSubheader>Módulos</h3>
+        <h3 matSubheader>Modules</h3>
 
         @if (permissions.tieneAcceso('employeesRegistro')) {
           <a mat-list-item routerLink="/sidebar/registro" routerLinkActive="shell__nav-link--active">
             <mat-icon matListItemIcon>person_add</mat-icon>
-            <span matListItemTitle>Registro de employees</span>
+            <span matListItemTitle>Employee registration</span>
           </a>
         }
 
         @if (permissions.tieneAcceso('employeesConsulta')) {
           <a mat-list-item routerLink="/sidebar/consultas" routerLinkActive="shell__nav-link--active">
             <mat-icon matListItemIcon>groups</mat-icon>
-            <span matListItemTitle>Consulta de employees</span>
+            <span matListItemTitle>Employee directory</span>
           </a>
         }
 
@@ -58,17 +58,17 @@
       }
 
       @if (permissions.tieneAcceso('mantenimientos') || permissions.tieneAcceso('resources')) {
-        <h3 matSubheader>Mantenimientos</h3>
+        <h3 matSubheader>Maintenance</h3>
 
         @if (permissions.tieneAcceso('mantenimientos')) {
           <a mat-list-item routerLink="/sidebar/areas-conservacion" routerLinkActive="shell__nav-link--active">
             <mat-icon matListItemIcon>forest</mat-icon>
-            <span matListItemTitle>Áreas de conservación</span>
+            <span matListItemTitle>Regions</span>
           </a>
 
           <a mat-list-item routerLink="/sidebar/parques-nacionales" routerLinkActive="shell__nav-link--active">
             <mat-icon matListItemIcon>park</mat-icon>
-            <span matListItemTitle>Parques nacionales</span>
+            <span matListItemTitle>Sites</span>
           </a>
         }
 
@@ -83,7 +83,7 @@
       }
 
       @if (permissions.tieneAcceso('goals') || permissions.tieneAcceso('planesTrabajo') || permissions.tieneAcceso('deliverables')) {
-        <h3 matSubheader>Planificación</h3>
+        <h3 matSubheader>Planning</h3>
 
         @if (permissions.tieneAcceso('goals')) {
           <a mat-list-item routerLink="/sidebar/goals" routerLinkActive="shell__nav-link--active">
@@ -95,7 +95,7 @@
         @if (permissions.tieneAcceso('planesTrabajo')) {
           <a mat-list-item routerLink="/sidebar/planes-trabajo" routerLinkActive="shell__nav-link--active">
             <mat-icon matListItemIcon>event_note</mat-icon>
-            <span matListItemTitle>Planes de trabajo</span>
+            <span matListItemTitle>Projects</span>
           </a>
         }
 
@@ -111,24 +111,24 @@
 
       <a mat-list-item href="#">
         <mat-icon matListItemIcon>help_outline</mat-icon>
-        <span matListItemTitle>Ayuda</span>
+        <span matListItemTitle>Help</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <mat-toolbar class="shell__toolbar" color="primary">
-      <button mat-icon-button (click)="drawer.toggle()" aria-label="Abrir/cerrar menú">
+      <button mat-icon-button (click)="drawer.toggle()" aria-label="Open/close menu">
         <mat-icon>menu</mat-icon>
       </button>
-      <span class="shell__toolbar-title">Sistema de Automatización de Información de las Resources de Manejo</span>
+      <span class="shell__toolbar-title">SiteOps</span>
       <span class="shell__spacer"></span>
       <button mat-icon-button (click)="themeService.alternarTema()"
-        [matTooltip]="themeService.tema === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
-        aria-label="Cambiar tema">
+        [matTooltip]="themeService.tema === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+        aria-label="Toggle theme">
         <mat-icon>{{ themeService.tema === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
-      <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión" aria-label="Cerrar sesión">
+      <button mat-icon-button (click)="logout()" matTooltip="Log out" aria-label="Log out">
         <mat-icon>logout</mat-icon>
       </button>
     </mat-toolbar>

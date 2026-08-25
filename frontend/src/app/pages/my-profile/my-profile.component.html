@@ -2,8 +2,8 @@
   <mat-card class="page__card" appearance="outlined">
     <div class="page__header">
       <div>
-        <h1>Mi profile</h1>
-        <p>Actualiza tu número de teléfono y tu foto de profile.</p>
+        <h1>My profile</h1>
+        <p>Update your phone number and profile photo.</p>
       </div>
     </div>
 
@@ -16,14 +16,14 @@
         <div class="my-profile__foto">
           <div class="my-profile__avatar">
             @if (fotoPreview || fotoActual) {
-              <img [src]="fotoPreview || fotoActual" alt="Foto de profile" />
+              <img [src]="fotoPreview || fotoActual" alt="Profile photo" />
             } @else {
               <mat-icon>account_circle</mat-icon>
             }
           </div>
           <button mat-stroked-button type="button" (click)="fileInput.click()">
             <mat-icon>photo_camera</mat-icon>
-            {{ fotoActual || fotoPreview ? 'Cambiar foto' : 'Subir foto' }}
+            {{ fotoActual || fotoPreview ? 'Change photo' : 'Upload photo' }}
           </button>
           <input #fileInput type="file" accept="image/*" hidden (change)="onFotoSeleccionada($event)" />
         </div>
@@ -31,11 +31,11 @@
         <form [formGroup]="formulario" (ngSubmit)="guardar()" class="my-profile__form">
           <div class="my-profile__readonly">
             <div>
-              <span class="my-profile__label">Nombre completo</span>
+              <span class="my-profile__label">Full name</span>
               <span>{{ employee?.firstName }} {{ employee?.lastName }} {{ employee?.secondLastName }}</span>
             </div>
             <div>
-              <span class="my-profile__label">Identificación</span>
+              <span class="my-profile__label">ID</span>
               <span>{{ nationalId }}</span>
             </div>
             <div>
@@ -45,10 +45,10 @@
           </div>
 
           <mat-form-field appearance="outline" class="my-profile__field">
-            <mat-label>Teléfono</mat-label>
+            <mat-label>Phone</mat-label>
             <input matInput formControlName="phone" />
             @if (esCampoValido('phone')) {
-              <mat-error>El teléfono es obligatorio</mat-error>
+              <mat-error>Phone is required</mat-error>
             }
           </mat-form-field>
 
@@ -57,7 +57,7 @@
               @if (subiendoDocument) {
                 <mat-spinner diameter="18"></mat-spinner>
               } @else {
-                Guardar cambios
+                Save changes
               }
             </button>
           </div>

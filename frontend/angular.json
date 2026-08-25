@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "SAIH-Frontend": {
+    "SiteOps-Frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -21,7 +21,7 @@
           "builder": "@angular/build:application",
           "options": {
             "outputPath": {
-              "base": "dist/SAIH-Frontend"
+              "base": "dist/SiteOps-Frontend"
             },
             "index": "src/index.html",
             "polyfills": [
@@ -75,10 +75,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "SAIH-Frontend:build:production"
+              "buildTarget": "SiteOps-Frontend:build:production"
             },
             "development": {
-              "buildTarget": "SAIH-Frontend:build:development"
+              "buildTarget": "SiteOps-Frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n",
           "options": {
-            "buildTarget": "SAIH-Frontend:build"
+            "buildTarget": "SiteOps-Frontend:build"
           }
         },
         "test": {

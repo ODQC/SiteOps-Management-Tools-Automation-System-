@@ -44,7 +44,7 @@ export class MyProfileComponent implements OnInit {
       },
       error: () => {
         this.cargando = false;
-        this.toastr.error('No se pudo cargar tu profile', 'Error');
+        this.toastr.error('Could not load your profile', 'Error');
       }
     });
 
@@ -91,7 +91,7 @@ export class MyProfileComponent implements OnInit {
         },
         error: () => {
           this.subiendoDocument = false;
-          this.toastr.error('No se pudo subir la foto', 'Error');
+          this.toastr.error('Could not upload the photo', 'Error');
         }
       });
     } else {
@@ -109,7 +109,7 @@ export class MyProfileComponent implements OnInit {
 
     this.employeesService.actualizarMiProfile(payload).subscribe({
       next: () => {
-        this.toastr.success('Profile actualizado', 'Éxito');
+        this.toastr.success('Profile updated', 'Success');
         if (documentId) {
           this.fotoActual = this.fotoPreview;
           this.fotoPreview = null;
@@ -117,7 +117,7 @@ export class MyProfileComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.toastr.error(err?.error?.mensaje || 'Error interno del servidor', 'No se pudo guardar');
+        this.toastr.error(err?.error?.mensaje || 'Internal server error', 'Could not save');
       }
     });
   }

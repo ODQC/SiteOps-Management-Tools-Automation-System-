@@ -34,8 +34,8 @@ export class DeliverableDialogComponent implements OnInit {
     this.esEdicion = !!data;
     this.formulario = this.fb.group({
       code: ['', Validators.required],
-      nombre: ['', Validators.required],
-      descripcion: ['', Validators.required],
+      name: ['', Validators.required],
+      description: ['', Validators.required],
       fK_idTask1: ['', Validators.required],
       status: ['Activo', Validators.required]
     });
@@ -69,7 +69,7 @@ export class DeliverableDialogComponent implements OnInit {
       return;
     }
     if (!this.esEdicion && !this.documentSeleccionado) {
-      this.toastr.warning('Selecciona un document de deliverable', 'Falta el document');
+      this.toastr.warning('Select a deliverable document', 'Missing document');
       return;
     }
 
@@ -83,7 +83,7 @@ export class DeliverableDialogComponent implements OnInit {
         },
         error: () => {
           this.subiendoDocument = false;
-          this.toastr.error('No se pudo subir el document', 'Error');
+          this.toastr.error('Could not upload the document', 'Error');
         }
       });
     } else {
@@ -105,11 +105,11 @@ export class DeliverableDialogComponent implements OnInit {
 
     request$.subscribe({
       next: () => {
-        this.toastr.success(this.esEdicion ? 'Deliverable actualizada' : 'Deliverable creada', 'Éxito');
+        this.toastr.success(this.esEdicion ? 'Deliverable updated' : 'Deliverable created', 'Success');
         this.dialogRef.close(true);
       },
       error: (err) => {
-        this.toastr.error(err?.error?.mensaje || 'Error interno del servidor', 'No se pudo guardar');
+        this.toastr.error(err?.error?.mensaje || 'Internal server error', 'Could not save');
       }
     });
   }

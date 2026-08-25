@@ -1,50 +1,50 @@
-<h2 mat-dialog-title>{{ esEdicion ? 'Editar goal' : 'Nuevo goal' }}</h2>
+<h2 mat-dialog-title>{{ esEdicion ? 'Editar goal' : 'New goal' }}</h2>
 
 <form [formGroup]="formulario" (ngSubmit)="guardar()">
   <mat-dialog-content class="dialog-grid">
     <mat-form-field appearance="outline" class="dialog-grid__field">
-      <mat-label>Código</mat-label>
+      <mat-label>Code</mat-label>
       <input matInput formControlName="code" [readonly]="esEdicion" />
       @if (esCampoValido('code')) {
-        <mat-error>El código es obligatorio</mat-error>
+        <mat-error>Code is required</mat-error>
       }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="dialog-grid__field">
-      <mat-label>Nombre</mat-label>
+      <mat-label>Name</mat-label>
       <input matInput formControlName="name" />
       @if (esCampoValido('name')) {
-        <mat-error>El nombre es obligatorio</mat-error>
+        <mat-error>Name is required</mat-error>
       }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="dialog-grid__field dialog-grid__field--full">
-      <mat-label>Descripción</mat-label>
+      <mat-label>Description</mat-label>
       <textarea matInput formControlName="description" rows="3"></textarea>
       @if (esCampoValido('description')) {
-        <mat-error>La descripción es obligatoria</mat-error>
+        <mat-error>Description is required</mat-error>
       }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="dialog-grid__field">
-      <mat-label>Año</mat-label>
+      <mat-label>Year</mat-label>
       <input matInput formControlName="year" maxlength="4" />
       @if (esCampoValido('year')) {
-        <mat-error>El año es obligatorio</mat-error>
+        <mat-error>Year is required</mat-error>
       }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="dialog-grid__field">
-      <mat-label>Estado</mat-label>
+      <mat-label>Status</mat-label>
       <mat-select formControlName="status">
-        <mat-option value="Activo">Activo</mat-option>
-        <mat-option value="Inactivo">Inactivo</mat-option>
+        <mat-option value="Activo">Active</mat-option>
+        <mat-option value="Inactivo">Inactive</mat-option>
       </mat-select>
     </mat-form-field>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
-    <button mat-flat-button color="primary" type="submit">{{ esEdicion ? 'Actualizar' : 'Crear' }}</button>
+    <button mat-stroked-button type="button" (click)="cancelar()">Cancel</button>
+    <button mat-flat-button color="primary" type="submit">{{ esEdicion ? 'Update' : 'Create' }}</button>
   </mat-dialog-actions>
 </form>

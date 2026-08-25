@@ -1,13 +1,13 @@
 import { AuditLog } from "../SystemActions/AuditLog";
 
-// Interfaz diseñada para la implementación de tasks de Employee
+// Interface for employee audit log entries
 export interface IAction{
 
-     //método para generar y guardar tasks de employee
+     //generates and saves an employee audit log entry
     registrarTask(taskU : AuditLog):void ;
-     //método para generar descripciones de tasks de employee
+     //generates the description for an employee audit log entry
     generarDescripcion(nationalId :string, descripcion:string):string;
-    //método para generar descripciones relacionadas con manenimientos de usarios hechos por el adminTI
+    //generates the description for an employee record change made by an admin
     administrarEmployees(idAdmin:string, descripciion:string, nationalIdRegistro:string ):string
 
 }

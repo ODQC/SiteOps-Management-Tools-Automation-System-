@@ -67,13 +67,13 @@ export class ResourceComponent implements OnInit {
 
   cambiarEstado(resource: IResource): void {
     this.confirmDialog.confirm({
-      title: 'Cambiar estado',
-      message: `¿Cambiar el estado de "${resource.type}"?`
+      title: 'Change status',
+      message: `Change the status of "${resource.type}"?`
     }).subscribe(confirmed => {
       if (confirmed && resource.code) {
         this.resourceService.cambiarEstado(resource.code).subscribe({
-          next: () => this.toastr.success('Estado actualizado', 'Éxito'),
-          error: () => this.toastr.error('No se pudo cambiar el estado', 'Error')
+          next: () => this.toastr.success('Status updated', 'Success'),
+          error: () => this.toastr.error('Could not change the status', 'Error')
         });
       }
     });

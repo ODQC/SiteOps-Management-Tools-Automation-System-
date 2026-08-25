@@ -237,7 +237,7 @@ export class DashboardComponent implements OnInit {
             .sort((a, b) => b.pK_idDeliverable - a.pK_idDeliverable)
             .slice(0, 5)
             .map(e => ({
-              nombre: e.nombre || e.code || '',
+              nombre: e.name || e.code || '',
               task: tasks.find(a => a.pK_idTask === e.fK_idTask1)?.name || 'N/A'
             }));
 
@@ -271,7 +271,7 @@ export class DashboardComponent implements OnInit {
         .sort((a, b) => b.pK_idDeliverable - a.pK_idDeliverable)
         .slice(0, 5)
         .map(e => ({
-          nombre: e.nombre || e.code || '',
+          nombre: e.name || e.code || '',
           task: tasks.find(a => a.pK_idTask === e.fK_idTask1)?.name || 'N/A',
           responsable: responsableDeTask(e.fK_idTask1)
         }));

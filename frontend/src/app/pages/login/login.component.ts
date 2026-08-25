@@ -52,13 +52,13 @@ export class LoginComponent implements OnInit, IAction {
   getErrorMessage(field: string): string {
     let mensaje = '';
     if (this.loginForm.get(field)?.errors?.required) {
-      mensaje = 'Campo vacío!';
+      mensaje = 'This field cannot be empty!';
     } else if (this.loginForm.get(field)?.hasError('pattern')) {
-      mensaje = 'No es un email valido';
+      mensaje = 'Not a valid email';
     } else if (this.loginForm.get(field)?.hasError('minlength')) {
-      mensaje = `Debe tener almenos 8 caracteres`;
+      mensaje = `Must be at least 8 characters`;
     } else if (this.loginForm.get(field)?.hasError('maxlength')) {
-      mensaje = `No debe sobrepasar 16 caracteres`;
+      mensaje = `Must not exceed 16 characters`;
     }
     return mensaje;
   }
@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit, IAction {
       },
       err => {
         if (err.status == 400)
-          this.toastr.error('Employee o password incorrectos', 'Autentificación fallida');
+          this.toastr.error('Incorrect email or password', 'Authentication failed');
         else
           console.log(err);
       }
@@ -104,16 +104,16 @@ export class LoginComponent implements OnInit, IAction {
       },
       err => {
         console.log(err.mensaje);
-        this.toastr.error(err.codigo, 'Error interno en el servidor...');
+        this.toastr.error(err.codigo, 'Internal server error...');
       }
     );
   }
 
   generarDescripcion(nationalId: string, descripcion: string): string {
-    return `El employee ${nationalId}${descripcion}`;
+    return `Employee ${nationalId}${descripcion}`;
   }
 
   administrarEmployees(idAdmin: string, descripcion: string, nationalIdRegistro: string): string {
-    return `El employee ${idAdmin}${descripcion}${nationalIdRegistro}`;
+    return `Employee ${idAdmin}${descripcion}${nationalIdRegistro}`;
   }
 }

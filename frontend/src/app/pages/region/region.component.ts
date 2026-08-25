@@ -62,13 +62,13 @@ export class RegionComponent implements OnInit {
 
   cambiarEstado(area: IRegion): void {
     this.confirmDialog.confirm({
-      title: 'Cambiar estado',
-      message: `¿Cambiar el estado de "${area.name}"?`
+      title: 'Change status',
+      message: `Change the status of "${area.name}"?`
     }).subscribe(confirmed => {
       if (confirmed && area.code) {
         this.areaService.cambiarEstado(area.code).subscribe({
-          next: () => this.toastr.success('Estado actualizado', 'Éxito'),
-          error: () => this.toastr.error('No se pudo cambiar el estado', 'Error')
+          next: () => this.toastr.success('Status updated', 'Success'),
+          error: () => this.toastr.error('Could not change the status', 'Error')
         });
       }
     });

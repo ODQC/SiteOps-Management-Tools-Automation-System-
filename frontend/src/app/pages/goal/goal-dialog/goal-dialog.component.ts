@@ -60,11 +60,11 @@ export class GoalDialogComponent {
 
     request$.subscribe({
       next: () => {
-        this.toastr.success(this.esEdicion ? 'Goal actualizado' : 'Goal creado', 'Éxito');
+        this.toastr.success(this.esEdicion ? 'Goal updated' : 'Goal created', 'Success');
         this.dialogRef.close(true);
       },
       error: (err) => {
-        this.toastr.error(err?.error?.mensaje || 'Error interno del servidor', 'No se pudo guardar');
+        this.toastr.error(err?.error?.mensaje || 'Internal server error', 'Could not save');
       }
     });
   }

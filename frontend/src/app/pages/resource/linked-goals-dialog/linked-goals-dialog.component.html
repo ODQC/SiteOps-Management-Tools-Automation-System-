@@ -1,15 +1,15 @@
-<h2 mat-dialog-title>Goals vinculados a {{ resource.code }}</h2>
+<h2 mat-dialog-title>Goals linked to {{ resource.code }}</h2>
 
 <mat-dialog-content class="linked-goals-dialog">
   <div class="table-wrapper">
     <table mat-table [dataSource]="vinculos" class="data-table">
       <ng-container matColumnDef="codigo">
-        <th mat-header-cell *matHeaderCellDef>Código</th>
+        <th mat-header-cell *matHeaderCellDef>Code</th>
         <td mat-cell *matCellDef="let v">{{ code(v.fK_idGoal2) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="nombre">
-        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <th mat-header-cell *matHeaderCellDef>Name</th>
         <td mat-cell *matCellDef="let v">{{ name(v.fK_idGoal2) }}</td>
       </ng-container>
 
@@ -18,7 +18,7 @@
         <td mat-cell *matCellDef="let v">
           <button mat-stroked-button color="warn" (click)="quitar(v)">
             <mat-icon>link_off</mat-icon>
-            Quitar
+            Remove
           </button>
         </td>
       </ng-container>
@@ -30,7 +30,7 @@
     @if (vinculos.length === 0) {
       <div class="table-wrapper__empty">
         <mat-icon>link_off</mat-icon>
-        <p>Esta resource aún no tiene goals vinculados.</p>
+        <p>This resource has no linked goals yet.</p>
       </div>
     }
   </div>
@@ -38,7 +38,7 @@
   @if (permissions.esCompleto('resources')) {
     <form [formGroup]="formulario" (ngSubmit)="vincular()" class="linked-goals-dialog__form">
       <mat-form-field appearance="outline" class="linked-goals-dialog__select">
-        <mat-label>Goal a vincular</mat-label>
+        <mat-label>Goal to link</mat-label>
         <mat-select formControlName="fK_idGoal2">
           @for (obj of goalsDisponibles; track obj) {
             <mat-option [value]="obj.pK_idGoal">{{ obj.code }} - {{ obj.name }}</mat-option>
@@ -47,12 +47,12 @@
       </mat-form-field>
       <button mat-flat-button color="primary" type="submit" [disabled]="goalsDisponibles.length === 0">
         <mat-icon>add_link</mat-icon>
-        Vincular
+        Link
       </button>
     </form>
   }
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-flat-button color="primary" (click)="cerrar()">Cerrar</button>
+  <button mat-flat-button color="primary" (click)="cerrar()">Close</button>
 </mat-dialog-actions>

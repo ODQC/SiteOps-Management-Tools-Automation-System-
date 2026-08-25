@@ -11,9 +11,9 @@ export class AuditLog
         this.description = descripcion;
         this.date =  this.getFecha();
     }
-    //método para generar descripciones de tasks de employee
+    //generates the description for an employee audit log entry
     generarDescripcion(nationalId :string, descripcion:string):string{
-        return "El employee"+ nationalId + descripcion
+        return "Employee " + nationalId + descripcion
     }
     getFecha():string{
         const tiempoTranscurrido = Date.now();
