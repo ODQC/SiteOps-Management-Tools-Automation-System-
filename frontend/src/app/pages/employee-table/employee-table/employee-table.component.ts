@@ -69,7 +69,7 @@ export class EmployeeTableComponent implements OnInit, IAction {
     return this.employees;
   }
 
-  generarDescripcion(cedula: string, descripcion: string): string {
+  generarDescripcion(nationalId: string, descripcion: string): string {
     throw new Error('Method not implemented.');
   }
 
@@ -191,8 +191,8 @@ export class EmployeeTableComponent implements OnInit, IAction {
     })
   }
 
-  administrarEmployees(idAdmin: string, descripciion: string, cedulaRegistro: string): string {
-    return `El employee ${idAdmin}${descripciion}${cedulaRegistro}`
+  administrarEmployees(idAdmin: string, descripciion: string, nationalIdRegistro: string): string {
+    return `El employee ${idAdmin}${descripciion}${nationalIdRegistro}`
   }
 
   //========================= filter de busqueda ================================

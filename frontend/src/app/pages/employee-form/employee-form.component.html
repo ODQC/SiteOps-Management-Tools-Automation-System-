@@ -8,36 +8,12 @@
     <form [formGroup]="formulario" (ngSubmit)="guardarEmployee()" class="form-grid">
 
       <mat-form-field appearance="outline" class="form-grid__field">
-        <mat-label>Tipo de identificación</mat-label>
-        <mat-select formControlName="tipoIdentificacion" [(ngModel)]="selectedId.tipoId" (selectionChange)="onSelectedId({value: $event.value})">
-          @for (tipo of tipoIdentificacion; track tipo) {
-            <mat-option [value]="tipo.tipoId">{{ tipo.nombre }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-
-      @if (tipoCedulas!.length > 0) {
-        @for (tipo of tipoCedulas; track tipo) {
-          @if (tipo.tipoId == 1) {
-            <mat-form-field appearance="outline" class="form-grid__field">
-              <mat-label>Número de cédula</mat-label>
-              <input matInput formControlName="cedulaNacional" maxlength="9" />
-              @if (esCampoValido('cedulaNacional')) {
-                <mat-error>{{ getErrorMessageId('cedulaNacional') }}</mat-error>
-              }
-            </mat-form-field>
-          }
-          @if (tipo.tipoId == 2) {
-            <mat-form-field appearance="outline" class="form-grid__field">
-              <mat-label>Número de cédula (DIMEX)</mat-label>
-              <input matInput formControlName="cedulaDimex" minlength="11" maxlength="12" />
-              @if (esCampoValido('cedulaDimex')) {
-                <mat-error>{{ getErrorMessageId('cedulaDimex') }}</mat-error>
-              }
-            </mat-form-field>
-          }
+        <mat-label>Identificación</mat-label>
+        <input matInput formControlName="nationalId" maxlength="20" />
+        @if (esCampoValido('nationalId')) {
+          <mat-error>{{ getErrorMessageId('nationalId') }}</mat-error>
         }
-      }
+      </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-grid__field">
         <mat-label>Nombre</mat-label>

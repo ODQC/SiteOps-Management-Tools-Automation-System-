@@ -2,8 +2,6 @@ import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/cor
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastService } from 'src/app/services/Toast/toast.service';
-import { tipo, tipoIdentificacion } from 'src/app/interfaces/identificationType';
-import { DataService } from 'src/app/services/Data/data.service';
 import { EmployeesService } from '../../services/Employees/employees.service';
 import { RegionService } from 'src/app/services/Region/region.service';
 import { IRegion } from 'src/app/interfaces/IRegion';
@@ -62,21 +60,12 @@ export class EditEmployeeComponent implements OnInit, IAction {
     name: ''
   };
 
-  //Tipos de identificaciones
-  public tipoIdentificacion: tipoIdentificacion[] = [];
-  public tipoCedulas: tipo[] = [];
-  public selectedId: tipoIdentificacion = {
-    tipoId: 0,
-    nombre: ''
-  };
-
   private employee: Employees;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) employee: Employees,
     private dialogRef: MatDialogRef<EditEmployeeComponent>,
     private formularioBuilder: UntypedFormBuilder,
-    private dataService: DataService,
     private employeeService: EmployeesService,
     private toastr: ToastService,
     private siteService: SiteService,
@@ -111,7 +100,6 @@ export class EditEmployeeComponent implements OnInit, IAction {
     this.getParqueNA();
     this.getAreaNA();
     this.getDepartmentNA();
-    this.tipoIdentificacion = this.dataService.getTipoId();
 
     this.formulario.patchValue({
       nombre: this.employee.firstName,
@@ -129,15 +117,8 @@ export class EditEmployeeComponent implements OnInit, IAction {
     this.onSelected(this.defaultValue);
   }
 
-  public retornarCedula(): string {
+  public getNationalId(): string {
     return this.employee?.nationalId;
-  }
-
-  public verificarInputID() {
-    if (this.selectedId.tipoId == 1) {
-      return this.formulario.get('cedulaNacional');
-    }
-    return this.formulario.get('cedulaDimex');
   }
 
   public get nombreNoValido() {
@@ -198,10 +179,6 @@ export class EditEmployeeComponent implements OnInit, IAction {
     return "";
   }
 
-  public onSelectedId(id: any) {
-    this.tipoCedulas = this.dataService.getTipo().filter(item => item.tipoId == id.value);
-  }
-
   showPassword(input: any): any {
     input.type = input.type === 'password' ? 'text' : 'password';
   }
@@ -212,7 +189,7 @@ export class EditEmployeeComponent implements OnInit, IAction {
 
   editar() {
     const employee: Employees = {
-      nationalId: this.retornarCedula(),
+      nationalId: this.getNationalId(),
       firstName: this.formulario.get('nombre')?.value,
       lastName: this.formulario.get('apellidoUno')?.value,
       secondLastName: this.formulario.get('apellidoDos')?.value,
@@ -224,7 +201,7 @@ export class EditEmployeeComponent implements OnInit, IAction {
       fK_idDepartment1: this.retornarPkDepartment(this.formulario.get('department')?.value),
       fK_idSite1: this.retornarPkParque(this.formulario.get('site')?.value)
     }
-    this.employeeService.actualizarEmployee(this.retornarCedula(), employee).subscribe(
+    this.employeeService.actualizarEmployee(this.getNationalId(), employee).subscribe(
       (data: any) => {
         if (data.codigo == 200) {
           if (data.mensaje == "El email ya está siendo utilizado") {
@@ -385,11 +362,11 @@ export class EditEmployeeComponent implements OnInit, IAction {
     );
   }
 
-  generarDescripcion(cedula: string, descripcion: string): string {
-    return `El employee ${cedula}${descripcion}`;
+  generarDescripcion(nationalId: string, descripcion: string): string {
+    return `El employee ${nationalId}${descripcion}`;
   }
 
-  administrarEmployees(idAdmin: string, descripcion: string, cedulaRegistro: string): string {
-    return `El employee ${idAdmin}${descripcion}${cedulaRegistro}`;
+  administrarEmployees(idAdmin: string, descripcion: string, nationalIdRegistro: string): string {
+    return `El employee ${idAdmin}${descripcion}${nationalIdRegistro}`;
   }
 }

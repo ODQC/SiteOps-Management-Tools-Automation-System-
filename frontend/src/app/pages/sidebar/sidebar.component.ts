@@ -47,8 +47,8 @@ export class SidebarComponent implements OnInit, IAction {
       this.sidenavOpened = !isHandset;
     });
 
-    const cedula = this.employeeService.cargarProfileEmployee().NationalId;
-    this.documentService.obtenerImagenEmployee(cedula).subscribe({
+    const nationalId = this.employeeService.cargarProfileEmployee().NationalId;
+    this.documentService.getEmployeeImage(nationalId).subscribe({
       next: (res: any) => {
         this.fotoProfile = res?.object ? 'data:image/jpeg;base64,' + res.object : null;
       },
@@ -75,8 +75,8 @@ export class SidebarComponent implements OnInit, IAction {
     });
   }
 
-  generarDescripcion(cedula: string, descripcion: string): string {
-    return `El employee ${cedula}${descripcion}`;
+  generarDescripcion(nationalId: string, descripcion: string): string {
+    return `El employee ${nationalId}${descripcion}`;
   }
 
   registrarTask(taskU: AuditLog): void {
@@ -93,7 +93,7 @@ export class SidebarComponent implements OnInit, IAction {
     );
   }
 
-  administrarEmployees(idAdmin: string, descripcion: string, cedulaRegistro: string): string {
-    return `El employee ${idAdmin}${descripcion}${cedulaRegistro}`;
+  administrarEmployees(idAdmin: string, descripcion: string, nationalIdRegistro: string): string {
+    return `El employee ${idAdmin}${descripcion}${nationalIdRegistro}`;
   }
 }

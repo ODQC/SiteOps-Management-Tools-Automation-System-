@@ -19,7 +19,7 @@ export class DocumentService {
     return this.http.post(this.urlApp + this.urlAPI, formData);
   }
 
-  obtenerImagenEmployee(cedula: string): Observable<any> {
-    return this.http.get(this.urlApp + this.urlAPI + 'imagenEmployee/' + cedula);
+  getEmployeeImage(nationalId: string): Observable<any> {
+    return this.http.get(this.urlApp + this.urlAPI + 'employeeImage/' + nationalId);
   }
 }

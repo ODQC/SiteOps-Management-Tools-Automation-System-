@@ -109,11 +109,11 @@ export class LoginComponent implements OnInit, IAction {
     );
   }
 
-  generarDescripcion(cedula: string, descripcion: string): string {
-    return `El employee ${cedula}${descripcion}`;
+  generarDescripcion(nationalId: string, descripcion: string): string {
+    return `El employee ${nationalId}${descripcion}`;
   }
 
-  administrarEmployees(idAdmin: string, descripcion: string, cedulaRegistro: string): string {
-    return `El employee ${idAdmin}${descripcion}${cedulaRegistro}`;
+  administrarEmployees(idAdmin: string, descripcion: string, nationalIdRegistro: string): string {
+    return `El employee ${idAdmin}${descripcion}${nationalIdRegistro}`;
   }
 }

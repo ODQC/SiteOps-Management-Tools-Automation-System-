@@ -15,7 +15,7 @@ import { Employees } from 'src/app/models/employees';
 export class MyProfileComponent implements OnInit {
   formulario: UntypedFormGroup;
   employee: Employees | null = null;
-  cedula = '';
+  nationalId = '';
   cargando = true;
   subiendoDocument = false;
   documentSeleccionado: File | null = null;
@@ -34,9 +34,9 @@ export class MyProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cedula = this.employeesService.cargarProfileEmployee().NationalId;
+    this.nationalId = this.employeesService.cargarProfileEmployee().NationalId;
 
-    this.employeesService.obtenerEmployee(this.cedula).subscribe({
+    this.employeesService.obtenerEmployee(this.nationalId).subscribe({
       next: (res: any) => {
         this.employee = res?.object ?? null;
         this.formulario.patchValue({ phone: this.employee?.phone });
@@ -48,7 +48,7 @@ export class MyProfileComponent implements OnInit {
       }
     });
 
-    this.documentService.obtenerImagenEmployee(this.cedula).subscribe({
+    this.documentService.getEmployeeImage(this.nationalId).subscribe({
       next: (res: any) => {
         this.fotoActual = res?.object ? 'data:image/jpeg;base64,' + res.object : null;
       },

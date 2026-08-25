@@ -2,8 +2,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from 'src/app/services/Toast/toast.service';
 import { IRole } from 'src/app/interfaces/IRole';
-import { tipo, tipoIdentificacion } from 'src/app/interfaces/identificationType';
-import { DataService } from 'src/app/services/Data/data.service';
 import { EmployeesService } from '../../services/Employees/employees.service';
 import { RoleService } from '../../services/Role/role.service';
 import { RegionService } from '../../services/Region/region.service';
@@ -23,7 +21,7 @@ import { Employees } from 'src/app/models/employees';
     selector: 'app-employee-form',
     templateUrl: './employee-form.component.html',
     styleUrls: ['./employee-form.component.css'],
-    providers: [DataService, EmployeesService],
+    providers: [EmployeesService],
     changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
@@ -59,16 +57,8 @@ export class EmployeeFormComponent implements OnInit, IAction {
     pK_IdSite: 0,
     name: ''
   };
-  //Tipos de identificaciones
-  public tipoIdentificacion: tipoIdentificacion[] = [];
-  public tipoCedulas: tipo[] = [];
-  public selectedId: tipoIdentificacion = {
-    tipoId: 0,
-    nombre: ''
-  };
 
   constructor(private formularioBuilder: UntypedFormBuilder,
-    private dataService: DataService,
     private employeeService: EmployeesService,
     private toastr: ToastService,
     private roleService: RoleService,
@@ -78,9 +68,7 @@ export class EmployeeFormComponent implements OnInit, IAction {
     private taskService : AuditLogService) {
 
     this.formulario = this.formularioBuilder.group({
-      tipoIdentificacion: ['', Validators.required],
-      cedulaNacional: ['', [Validators.required, Validators.maxLength(9), Validators.minLength(9), Validators.pattern(/^[0-9]\d*$/)]],
-      cedulaDimex: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(12), Validators.pattern(/^[0-9]\d*$/)]],
+      nationalId: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[a-zA-Z0-9-]+$/)]],
       nombre: ['', Validators.required],
       apellidoUno: ['', Validators.required],
       apellidoDos: ['', Validators.required],
@@ -102,17 +90,16 @@ export class EmployeeFormComponent implements OnInit, IAction {
     this.getParqueNA();
     this.getAreaNA();
     this.getDepartmentNA();
-    this.tipoIdentificacion = this.dataService.getTipoId();
   }
 
 //método para generar descripciones de tasks de employee
-generarDescripcion(cedula :string, descripcion:string):string{
-  return "El employee"+ cedula + descripcion
+generarDescripcion(nationalId :string, descripcion:string):string{
+  return "El employee"+ nationalId + descripcion
 }
 
 public guardarEmployee() {
     const employee: Employees = {
-      nationalId: this.verificarInputID()?.value,
+      nationalId: this.formulario.get('nationalId')?.value,
       firstName: this.formulario.get('nombre')?.value,
       lastName: this.formulario.get('apellidoUno')?.value,
       secondLastName: this.formulario.get('apellidoDos')?.value,
@@ -150,8 +137,8 @@ public guardarEmployee() {
       }
     );
   }
-  administrarEmployees(idAdmin:string, descripciion:string, cedulaRegistro:string ):string{
-    return `El employee ${idAdmin}${descripciion}${cedulaRegistro}`
+  administrarEmployees(idAdmin:string, descripciion:string, nationalIdRegistro:string ):string{
+    return `El employee ${idAdmin}${descripciion}${nationalIdRegistro}`
     }
   registrarTask(taskU : AuditLog){
     this.taskService.registrarAuditLog(taskU).subscribe(
@@ -170,19 +157,8 @@ public guardarEmployee() {
 
   }
 
-  public verificarInputID() {
-    if (this.selectedId.tipoId == 1) {
-      return this.formulario.get('cedulaNacional');
-    }
-    return this.formulario.get('cedulaDimex');
-  }
-
-  public get nacionalNoValido() {
-    return this.formulario.get('cedulaNacional')?.invalid && this.formulario.get('cedulaNacional')?.touched;
-  }
-
-  public get dimexNoValido() {
-    return this.formulario.get('cedulaDimex')?.invalid && this.formulario.get('cedulaDimex')?.touched;
+  public get nationalIdNoValido() {
+    return this.formulario.get('nationalId')?.invalid && this.formulario.get('nationalId')?.touched;
   }
 
   public get nombreNoValido() {
@@ -231,10 +207,6 @@ public guardarEmployee() {
     else if(nombre == 'Supervisor'){
       this.departmentList2 = this.departmentList;
     }
-  }
-
-  public onSelectedId(id: any) {
-    this.tipoCedulas = this.dataService.getTipo().filter(item => item.tipoId == id.value);
   }
 
   public getRoles(){
@@ -351,19 +323,9 @@ public guardarEmployee() {
     if(this.formulario.get(field)?.errors?.required){
       mensaje = 'El campo no puede estar vacío!';
     }else if(this.formulario.get(field)?.hasError('pattern')){
-      if(field == 'cedulaNacional'){
-        mensaje = 'No es una cédula válida, debe incluir ceros sin espacios ni guiones. Ej: 20XXX0XXX!';
-      }
-      else if(field == 'cedulaDimex'){
-        mensaje = 'No es una cédula válida, debe incluir solo números sin espacios ni guiones!';
-      }
+      mensaje = 'Solo se permiten letras, números y guiones';
     }else if(this.formulario.get(field)?.hasError('minlength') || this.formulario.get(field)?.hasError('maxlength')){
-      if(field == 'cedulaNacional'){
-        mensaje = 'El formato es de 9 dígitos';
-      }
-      else if(field == 'cedulaDimex'){
-        mensaje = 'El formato es de 11 a 12 dígitos';
-      }
+      mensaje = 'Debe tener de 4 a 20 caracteres';
     }
     return mensaje;
   }
