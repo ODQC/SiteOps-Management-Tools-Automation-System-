@@ -1,0 +1,17 @@
+## .NET
+backend/**/bin/
+backend/**/obj/
+backend/**/.vs/
+*.user
+
+## Uploaded files (ArchivoController storage)
+backend/WebApiSAIH/wwwroot/*
+!backend/WebApiSAIH/wwwroot/.gitkeep
+
+## Angular / Node
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+## OS
+.DS_Store

@@ -1,0 +1,54 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: siteops-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-SiteOpsDev#2026Local}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - siteops-sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: WebApiSAIH/Dockerfile
+    container_name: siteops-backend
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__ProdConnection: "Server=sqlserver,1433;Database=SiteOps-Dev;User Id=sa;Password=${MSSQL_SA_PASSWORD:-SiteOpsDev#2026Local};TrustServerCertificate=True"
+      # Dev-only defaults so `docker compose up` works out of the box. Override via a .env
+      # file (or real secrets management) before this is ever used outside a local machine.
+      ConfiguracionJWT__JWT_Secret: "${JWT_SECRET:-LocalDevOnlyJwtSecret-ReplaceBeforeAnyRealDeployment-2026}"
+      ConfiguracionJWT__Client_URL: "http://localhost:4200"
+      SendGridAPIKey: "${SENDGRID_API_KEY:-local-dev-placeholder-not-a-real-key}"
+      AppAngular: "http://localhost:4200/"
+    ports:
+      # 5000 is taken by macOS's AirPlay Receiver (ControlCenter) on most Macs -- use 5080 instead.
+      - "5080:8080"
+    volumes:
+      - siteops-backend-wwwroot:/app/wwwroot
+    restart: on-failure
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: siteops-frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+
+volumes:
+  siteops-sqlserver-data:
+  siteops-backend-wwwroot:
