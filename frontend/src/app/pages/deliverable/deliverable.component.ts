@@ -45,7 +45,7 @@ export class DeliverableComponent implements OnInit {
   }
 
   name(id?: number): string {
-    return this.taskesList.find(a => a.pK_idTask === id)?.name || 'N/A';
+    return this.taskesList.find(a => a.pK_idTaskItem === id)?.name || 'N/A';
   }
 
   get deliverablesFiltradas(): IDeliverable[] {

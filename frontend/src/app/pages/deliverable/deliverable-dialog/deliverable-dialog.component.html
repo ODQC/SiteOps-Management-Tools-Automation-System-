@@ -30,7 +30,7 @@
       <mat-label>Related task</mat-label>
       <mat-select formControlName="fK_idTask1">
         @for (act of taskesList; track act) {
-          <mat-option [value]="act.pK_idTask">{{ act.name }}</mat-option>
+          <mat-option [value]="act.pK_idTaskItem">{{ act.name }}</mat-option>
         }
       </mat-select>
       @if (esCampoValido('fK_idTask1')) {

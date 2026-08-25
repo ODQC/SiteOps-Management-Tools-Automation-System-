@@ -229,7 +229,7 @@ export class DashboardComponent implements OnInit {
         this.taskesPendientes = tasks.filter(a => a.taskStatus === 'Pendiente').length;
         this.taskesCompletadas = tasks.length - this.taskesPendientes;
 
-        const idsTaskes = new Set(tasks.map(a => a.pK_idTask));
+        const idsTaskes = new Set(tasks.map(a => a.pK_idTaskItem));
 
         this.deliverableService.obtenerDeliverables().subscribe(deliverables => {
           this.misDeliverables = deliverables
@@ -238,7 +238,7 @@ export class DashboardComponent implements OnInit {
             .slice(0, 5)
             .map(e => ({
               nombre: e.name || e.code || '',
-              task: tasks.find(a => a.pK_idTask === e.fK_idTask1)?.name || 'N/A'
+              task: tasks.find(a => a.pK_idTaskItem === e.fK_idTask1)?.name || 'N/A'
             }));
 
           this.cargando = false;
@@ -261,7 +261,7 @@ export class DashboardComponent implements OnInit {
         return u ? this.nombreCompleto(u) : 'N/A';
       };
       const responsableDeTask = (idTask?: number): string => {
-        const task = tasks.find(a => a.pK_idTask === idTask);
+        const task = tasks.find(a => a.pK_idTaskItem === idTask);
         const plan = planes.find(p => p.pK_idProject === task?.fK_idProject);
         return nombreResponsable(plan?.fk_IdEmployee1);
       };
@@ -272,7 +272,7 @@ export class DashboardComponent implements OnInit {
         .slice(0, 5)
         .map(e => ({
           nombre: e.name || e.code || '',
-          task: tasks.find(a => a.pK_idTask === e.fK_idTask1)?.name || 'N/A',
+          task: tasks.find(a => a.pK_idTaskItem === e.fK_idTask1)?.name || 'N/A',
           responsable: responsableDeTask(e.fK_idTask1)
         }));
 
@@ -285,7 +285,7 @@ export class DashboardComponent implements OnInit {
         .sort((a, b) => b.progress - a.progress);
 
       const idsConDeliverable = new Set(deliverables.map(e => e.fK_idTask1));
-      this.taskesSinDeliverable = tasks.filter(a => !idsConDeliverable.has(a.pK_idTask)).length;
+      this.taskesSinDeliverable = tasks.filter(a => !idsConDeliverable.has(a.pK_idTaskItem)).length;
 
       this.cargando = false;
     });

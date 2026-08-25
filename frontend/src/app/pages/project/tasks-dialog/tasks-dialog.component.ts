@@ -65,10 +65,10 @@ export class TasksDialogComponent implements OnInit {
 
     const value = this.formulario.value;
     const payload: ITask = {
-      pK_idTask: 0,
+      pK_idTaskItem: 0,
       ...value,
       completionDate: new Date(value.completionDate).toISOString(),
-      estado: 'Pendiente',
+      status: 'Pendiente',
       taskStatus: 'Pendiente',
       fK_idProject: this.plan.pK_idProject
     };

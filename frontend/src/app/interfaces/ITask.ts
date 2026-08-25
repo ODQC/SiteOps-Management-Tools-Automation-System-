@@ -5,13 +5,13 @@ export interface Mensaje {
 }
 
 export interface ITask {
-  pK_idTask: number;
+  pK_idTaskItem: number;
   fk_IdGoal1?: number;
   completionDate?: string;
   code?: string;
   name?: string;
   collaborators?: string;
-  estado?: string;
+  status?: string;
   taskStatus?: string;
   notes?: string;
   fK_idProject?: number;
