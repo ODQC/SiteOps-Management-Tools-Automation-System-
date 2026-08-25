@@ -9,6 +9,14 @@ html, body {
   padding: 0;
 }
 
+/* Material 3's dark theme lightens "primary" for contrast, which turns filled
+   buttons pastel. Use the brand's saturated teal there instead; light mode's
+   generated blue already reads well, so it's kept as-is. */
+html {
+  --mat-sys-primary: light-dark(#005cbb, #3f7f96);
+  --mat-sys-on-primary: light-dark(#ffffff, #ffffff);
+}
+
 a {
   color: inherit;
 }
