@@ -4,6 +4,20 @@
   box-sizing: border-box;
 }
 
+/* Neutralize the warm/pink cast Material 3 derives for light-mode surfaces from
+   the orange primary palette; keep the generated dark-mode values as-is. */
+html {
+  --mat-sys-surface: light-dark(#faf9f7, #181210);
+  --mat-sys-surface-dim: light-dark(#ddd9d6, #181210);
+  --mat-sys-surface-bright: light-dark(#faf9f7, #3f3834);
+  --mat-sys-surface-container-lowest: light-dark(#ffffff, #120d0b);
+  --mat-sys-surface-container-low: light-dark(#f4f2f0, #201a17);
+  --mat-sys-surface-container: light-dark(#eeebe9, #241e1b);
+  --mat-sys-surface-container-high: light-dark(#e8e5e2, #2f2926);
+  --mat-sys-surface-container-highest: light-dark(#e2dedb, #3a3330);
+  --mat-sys-surface-variant: light-dark(#e4e0dd, #52443c);
+}
+
 html, body {
   margin: 0;
   padding: 0;
