@@ -32,7 +32,7 @@ export class SiteDialogComponent implements OnInit {
       code: ['', Validators.required],
       name: ['', Validators.required],
       description: ['', Validators.required],
-      status: ['Activo', Validators.required],
+      status: ['Active', Validators.required],
       fK_idRegion1: [null, Validators.required]
     });
 

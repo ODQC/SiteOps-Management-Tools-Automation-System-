@@ -56,7 +56,7 @@
         <ng-container matColumnDef="estado">
           <th mat-header-cell *matHeaderCellDef>Status</th>
           <td mat-cell *matCellDef="let e">
-            <button mat-flat-button [color]="e.status === 'Activo' ? 'primary' : 'warn'" [disabled]="soloLectura" (click)="cambiarEstado(e)">
+            <button mat-flat-button [color]="e.status === 'Active' ? 'primary' : 'warn'" [disabled]="soloLectura" (click)="cambiarEstado(e)">
               {{ e.status }}
             </button>
           </td>

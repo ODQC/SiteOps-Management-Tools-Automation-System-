@@ -116,8 +116,8 @@
         <ng-container matColumnDef="estado">
           <th mat-header-cell *matHeaderCellDef>Status</th>
           <td mat-cell *matCellDef="let employee">
-            <button mat-flat-button [color]="employee.status === 'Activo' ? 'primary' : 'warn'" [disabled]="soloLectura" (click)="deshabilitarEmployee(employee.nationalId)">
-              {{ employee.status === 'Activo' ? 'Active' : 'Inactive' }}
+            <button mat-flat-button [color]="employee.status === 'Active' ? 'primary' : 'warn'" [disabled]="soloLectura" (click)="deshabilitarEmployee(employee.nationalId)">
+              {{ employee.status === 'Active' ? 'Active' : 'Inactive' }}
             </button>
           </td>
         </ng-container>

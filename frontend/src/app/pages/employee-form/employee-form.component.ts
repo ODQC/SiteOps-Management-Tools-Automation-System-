@@ -106,7 +106,7 @@ public guardarEmployee() {
       phone: this.formulario.get('phone')?.value,
       email: this.formulario.get('correo')?.value,
       password: this.formulario.get('passwordDos')?.value,
-      status: 'Activo',
+      status: 'Active',
       fK_idRole1: this.retornarPkRol(this.formulario.get('rol')?.value),
       fK_idDepartment1: this.retornarPkDepartment(this.formulario.get('department')?.value),
       fK_idSite1: this.retornarPkParque(this.formulario.get('site')?.value)

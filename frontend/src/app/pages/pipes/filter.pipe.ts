@@ -26,9 +26,9 @@ export class FilterPipe implements PipeTransform {
   ): Employees[] {
 
     if (statusFilter === 'Activos') {
-      employees = employees.filter(user => user.status?.includes('Activo'));
+      employees = employees.filter(user => user.status?.includes('Active'));
     } else if (statusFilter === 'Inactivos') {
-      employees = employees.filter(user => user.status?.includes('Inactivo'));
+      employees = employees.filter(user => user.status?.includes('Inactive'));
     }
 
     if (searchType === 'Nombre') {

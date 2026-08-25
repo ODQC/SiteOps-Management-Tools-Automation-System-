@@ -167,7 +167,7 @@ export class EmployeeTableComponent implements OnInit, IAction {
         this.employeeService.deshabilitarEmployee(nationalId).subscribe(
           (res: any) => {
             if (res.codigo == "200") {
-              if (res.object.status == 'Activo') {
+              if (res.object.status == 'Active') {
                 this.toastr.success('Employee enabled successfully', 'Enabled!');
                 let profileU = this.employeesService.cargarProfileEmployee();
                 let descripcion: string = this.administrarEmployees(profileU.NationalId, Action.ActivarEmployee, nationalId);

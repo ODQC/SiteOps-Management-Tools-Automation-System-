@@ -29,7 +29,7 @@ export class GoalDialogComponent {
       name: ['', Validators.required],
       description: ['', Validators.required],
       year: ['', Validators.required],
-      status: ['Activo', Validators.required]
+      status: ['Active', Validators.required]
     });
 
     if (data) {

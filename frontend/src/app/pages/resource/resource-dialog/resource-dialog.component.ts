@@ -28,7 +28,7 @@ export class ResourceDialogComponent {
       code: ['', Validators.required],
       type: ['', Validators.required],
       description: ['', Validators.required],
-      status: ['Activo', Validators.required]
+      status: ['Active', Validators.required]
     });
 
     if (data) {

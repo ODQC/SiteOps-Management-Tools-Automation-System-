@@ -37,7 +37,7 @@ export class DeliverableDialogComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required],
       fK_idTask1: ['', Validators.required],
-      status: ['Activo', Validators.required]
+      status: ['Active', Validators.required]
     });
 
     if (data) {

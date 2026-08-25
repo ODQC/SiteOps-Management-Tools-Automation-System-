@@ -139,7 +139,7 @@ export class DashboardComponent implements OnInit {
         name: r.name,
         cantidad: employees.filter(u => u.fK_idRole1 === r.pK_idRole).length
       }));
-      this.employeesActivos = employees.filter(u => u.status === 'Activo').length;
+      this.employeesActivos = employees.filter(u => u.status === 'Active').length;
       this.employeesInactivos = employees.length - this.employeesActivos;
 
       this.ultimosEventos = eventos
@@ -148,9 +148,9 @@ export class DashboardComponent implements OnInit {
         .slice(0, 5)
         .map(e => ({ descripcion: e.description, fecha: e.date }));
 
-      this.areasActivas = areas.filter(a => a.status === 'Activo').length;
-      this.parquesActivos = parques.filter(p => p.status === 'Activo').length;
-      this.resourcesActivas = resources.filter(h => h.status === 'Activo').length;
+      this.areasActivas = areas.filter(a => a.status === 'Active').length;
+      this.parquesActivos = parques.filter(p => p.status === 'Active').length;
+      this.resourcesActivas = resources.filter(h => h.status === 'Active').length;
 
       this.cargando = false;
     });
@@ -178,7 +178,7 @@ export class DashboardComponent implements OnInit {
         : 0;
 
       this.planesPorVencer = planes
-        .filter(p => p.status !== 'Finalizado')
+        .filter(p => p.status !== 'Completada')
         .map(p => ({
           code: p.code || '',
           progress: parseInt(p.progress || '0', 10) || 0,
@@ -190,13 +190,13 @@ export class DashboardComponent implements OnInit {
 
       const anioActual = new Date().getFullYear().toString();
       const goalsDelAnio = goals.filter(o => o.year === anioActual);
-      this.goalsActivos = goalsDelAnio.filter(o => o.status === 'Activo').length;
-      this.goalsInhabilitados = goalsDelAnio.filter(o => o.status !== 'Activo').length;
+      this.goalsActivos = goalsDelAnio.filter(o => o.status === 'Active').length;
+      this.goalsInhabilitados = goalsDelAnio.filter(o => o.status !== 'Active').length;
 
       const rolEmployee = roles.find(r => r.name === 'Employee');
       const teamMembers = employees.filter(u => u.fK_idRole1 === rolEmployee?.pK_idRole);
       this.teamTotal = teamMembers.length;
-      this.teamActive = teamMembers.filter(u => u.status === 'Activo').length;
+      this.teamActive = teamMembers.filter(u => u.status === 'Active').length;
 
       this.cargando = false;
     });
