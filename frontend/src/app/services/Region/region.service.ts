@@ -66,7 +66,7 @@ export class RegionService {
   }
 
   cambiarEstado(code: string): Observable<any> {
-    return this.http.get(this.urlApp + this.urlAPI + 'cambiarEstado/' + code).pipe(
+    return this.http.get(this.urlApp + this.urlAPI + 'toggle-status/' + code).pipe(
       map(res => { this._refres$.next(); return res; })
     );
   }

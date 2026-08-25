@@ -37,12 +37,12 @@ export class ProjectService {
   }
 
   cambiarEstado(idPlan: number, idEmployee: number): Observable<any> {
-    return this.http.get(this.urlApp + this.urlAPI + 'cambiarEstado/' + idPlan + '/' + idEmployee).pipe(
+    return this.http.get(this.urlApp + this.urlAPI + 'toggle-status/' + idPlan + '/' + idEmployee).pipe(
       map(res => { this._refres$.next(); return res; })
     );
   }
 
   taskesPorPlan(id: number): Observable<any> {
-    return this.http.get(this.urlApp + this.urlAPI + 'taskesXproject/' + id);
+    return this.http.get(this.urlApp + this.urlAPI + 'tasksByProject/' + id);
   }
 }

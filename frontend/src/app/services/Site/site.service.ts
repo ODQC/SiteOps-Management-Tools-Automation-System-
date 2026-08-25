@@ -57,7 +57,7 @@ export class SiteService {
   }
 
   public obtenerParqueNA(){
-    return this.http.get<Mensaje2>(this.urlApp + this.urlAPI  + 'parqueNA').pipe(map(this.tranformarParqueNA));
+    return this.http.get<Mensaje2>(this.urlApp + this.urlAPI  + 'siteNA').pipe(map(this.tranformarParqueNA));
   }
 
   guardarParque(parque: any): Observable<any> {
@@ -73,7 +73,7 @@ export class SiteService {
   }
 
   cambiarEstado(code: string): Observable<any> {
-    return this.http.get(this.urlApp + this.urlAPI + 'cambiarEstado/' + code).pipe(
+    return this.http.get(this.urlApp + this.urlAPI + 'toggle-status/' + code).pipe(
       map(res => { this._refres$.next(); return res; })
     );
   }

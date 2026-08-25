@@ -13,7 +13,7 @@ export class TaskService {
 
   constructor(private http: HttpClient) {
     this.urlApp = environment.apiUrl;
-    this.urlAPI = 'api/Task/';
+    this.urlAPI = 'api/TaskItem/';
   }
 
   get refresh$() {
@@ -25,7 +25,7 @@ export class TaskService {
   }
 
   obtenerTaskesPorPlan(idPlan: number): Observable<any> {
-    return this.http.get(this.urlApp + this.urlAPI + 'taskesXproject/' + idPlan);
+    return this.http.get(this.urlApp + this.urlAPI + 'tasksByProject/' + idPlan);
   }
 
   guardarTask(task: ITask): Observable<any> {
@@ -41,7 +41,7 @@ export class TaskService {
   }
 
   cambiarEstado(id: number): Observable<any> {
-    return this.http.get(this.urlApp + this.urlAPI + 'cambiarEstado/' + id).pipe(
+    return this.http.get(this.urlApp + this.urlAPI + 'toggle-status/' + id).pipe(
       map(res => { this._refres$.next(); return res; })
     );
   }

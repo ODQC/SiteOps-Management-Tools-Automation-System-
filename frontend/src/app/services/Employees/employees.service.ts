@@ -94,7 +94,7 @@ export class EmployeesService {
     return employeeList;
   }
   deshabilitarEmployee(id: string): Observable<Employees> {
-    return this.http.get<Employees>(this.urlApp + this.urlAPI + "/cambiarEstado/" + id).pipe(
+    return this.http.get<Employees>(this.urlApp + this.urlAPI + "/toggle-status/" + id).pipe(
       tap(() => {
         this._refres$.next();
       })
@@ -109,8 +109,8 @@ export class EmployeesService {
   }
 
   /*    cmabiar password   */
-  recuperarPassword(correoElectronico: string): Observable<Employees> {
-    return this.http.get<Employees>(this.urlApp + this.urlAPI + "/recuperarPassword/" + correoElectronico);
+  recuperarPassword(correoElectronico: string): Observable<any> {
+    return this.http.post(this.urlApp + "api/Auth/ForgetPassword?email=" + encodeURIComponent(correoElectronico), {});
   }
 
 

@@ -25,7 +25,7 @@ export class DeliverableService {
   }
 
   obtenerDeliverablesPorTask(idTask: number): Observable<any> {
-    return this.http.get(this.urlApp + this.urlAPI + 'deliverablesXtask/' + idTask);
+    return this.http.get(this.urlApp + this.urlAPI + 'deliverablesByTask/' + idTask);
   }
 
   guardarDeliverable(deliverable: IDeliverable): Observable<any> {
@@ -41,7 +41,7 @@ export class DeliverableService {
   }
 
   cambiarEstado(id: number): Observable<any> {
-    return this.http.get(this.urlApp + this.urlAPI + 'cambiarEstado/' + id).pipe(
+    return this.http.get(this.urlApp + this.urlAPI + 'toggle-status/' + id).pipe(
       map(res => { this._refres$.next(); return res; })
     );
   }
