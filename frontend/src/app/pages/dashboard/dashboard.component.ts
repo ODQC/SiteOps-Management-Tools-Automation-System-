@@ -226,8 +226,8 @@ export class DashboardComponent implements OnInit {
 
       this.taskService.obtenerTaskesPorPlan(plan.pK_idProject).subscribe((res: any) => {
         const tasks: ITask[] = res?.object || res || [];
-        this.taskesPendientes = tasks.filter(a => a.taskStatus === 'Pendiente').length;
-        this.taskesCompletadas = tasks.length - this.taskesPendientes;
+        this.taskesPendientes = tasks.filter(a => a.status === 'Pending').length;
+        this.taskesCompletadas = tasks.filter(a => a.status === 'Completed').length;
 
         const idsTaskes = new Set(tasks.map(a => a.pK_idTaskItem));
 

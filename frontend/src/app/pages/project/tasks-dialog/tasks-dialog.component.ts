@@ -68,8 +68,8 @@ export class TasksDialogComponent implements OnInit {
       pK_idTaskItem: 0,
       ...value,
       completionDate: new Date(value.completionDate).toISOString(),
-      status: 'Pendiente',
-      taskStatus: 'Pendiente',
+      status: 'Pending',
+      taskStatus: 'Active',
       fK_idProject: this.plan.pK_idProject
     };
 
