@@ -6,7 +6,7 @@ using SAIH_Backend.Servicios.Clases_Estaticas;
 using WebApiSAIH.Models;
 using WebApiSAIH.Models.Entidades;
 
-const string connectionString = "Server=localhost,1433;Database=SAIH-Dev;User Id=sa;Password=SaihDev#2026Local;TrustServerCertificate=True";
+const string connectionString = "Server=localhost,1433;Database=SiteOps-Dev;User Id=sa;Password=SiteOpsDev#2026Local;TrustServerCertificate=True";
 
 var services = new ServiceCollection();
 services.AddDbContext<ApplicationDbContext>(o => o.UseSqlServer(connectionString));

@@ -74,7 +74,7 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("completedTasks{name}")]
+        [HttpGet("completedTasks/{name}")]
         public IActionResult completedTasks(String name)
         {
             RespuestaGenerica respuestaGenerica = _servicioEstadistica.completedTasks(name);
@@ -86,7 +86,7 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("completedProjects{siteName}")]
+        [HttpGet("completedProjects/{siteName}")]
         public IActionResult completedProjects(String siteName)
         {
             RespuestaGenerica respuestaGenerica = _servicioEstadistica.completedProjects(siteName);
@@ -98,7 +98,7 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("percentageOfCompletedTasksBySite{siteName}")]
+        [HttpGet("percentageOfCompletedTasksBySite/{siteName}")]
         public IActionResult percentageOfCompletedTasksBySite(String siteName)
         {
             RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfCompletedTasksBySite(siteName);
@@ -110,7 +110,7 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("percentageOfInProgressTasksBySite{siteName}")]
+        [HttpGet("percentageOfInProgressTasksBySite/{siteName}")]
         public IActionResult percentageOfInProgressTasksBySite(String siteName)
         {
             RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfInProgressTasksBySite(siteName);
@@ -122,7 +122,7 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("percentageOfPendingTasksBySite{siteName}")]
+        [HttpGet("percentageOfPendingTasksBySite/{siteName}")]
         public IActionResult percentageOfPendingTasksBySite(String siteName)
         {
             RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfPendingTasksBySite(siteName);
@@ -134,7 +134,7 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("percentageOfCompletedTasksByEmployee{nationalId}")]
+        [HttpGet("percentageOfCompletedTasksByEmployee/{nationalId}")]
         public IActionResult percentageOfCompletedTasksByEmployee(String nationalId)
         {
             RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfCompletedTasksByEmployee(nationalId);
@@ -146,7 +146,7 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("percentageOfInProgressTasksByEmployee{nationalId}")]
+        [HttpGet("percentageOfInProgressTasksByEmployee/{nationalId}")]
         public IActionResult percentageOfInProgressTasksByEmployee(String nationalId)
         {
             RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfInProgressTasksByEmployee(nationalId);
@@ -158,7 +158,7 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("percentageOfPendingTasksByEmployee{nationalId}")]
+        [HttpGet("percentageOfPendingTasksByEmployee/{nationalId}")]
         public IActionResult percentageOfPendingTasksByEmployee(String nationalId)
         {
             RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfPendingTasksByEmployee(nationalId);
@@ -170,7 +170,7 @@ namespace WebApiSAIH.Controllers
             return StatusCode(500, respuestaGenerica);
         }
 
-        [HttpGet("percentageOfTasksByEmployee{nationalId}")]
+        [HttpGet("percentageOfTasksByEmployee/{nationalId}")]
         public IActionResult percentageOfTasksByEmployee(String nationalId)
         {
             RespuestaGenerica respuestaGenerica = _servicioEstadistica.percentageOfTasksByEmployee(nationalId);
@@ -207,9 +207,9 @@ namespace WebApiSAIH.Controllers
         }
 
         [HttpGet("assignedProjects/{siteName}")]
-        public IActionResult assignedProjects(String nombreAsp)
+        public IActionResult assignedProjects(String siteName)
         {
-            RespuestaGenerica respuestaGenerica = _servicioEstadistica.assignedProjects(nombreAsp);
+            RespuestaGenerica respuestaGenerica = _servicioEstadistica.assignedProjects(siteName);
 
             if (respuestaGenerica.Codigo == CodigosEstadoHTTP.HTTP_STATUS_OK)
             {
