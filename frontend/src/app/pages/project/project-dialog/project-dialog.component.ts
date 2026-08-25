@@ -38,8 +38,7 @@ export class ProjectDialogComponent implements OnInit {
       fK_idRegion2: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      status: ['Pendiente', Validators.required],
-      progress: ['0', Validators.required]
+      progress: ['Pending', Validators.required]
     });
 
     if (data) {
@@ -73,11 +72,11 @@ export class ProjectDialogComponent implements OnInit {
 
     const value = this.formulario.value;
     const payload = {
+      status: 'Active',
       ...(this.data || {}),
       ...value,
       startDate: new Date(value.startDate).toISOString(),
-      endDate: new Date(value.endDate).toISOString(),
-      progress: String(value.progress)
+      endDate: new Date(value.endDate).toISOString()
     };
 
     const request$ = this.esEdicion

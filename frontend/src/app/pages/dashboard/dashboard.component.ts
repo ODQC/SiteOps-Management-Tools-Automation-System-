@@ -126,6 +126,14 @@ export class DashboardComponent implements OnInit {
     return `${u.firstName} ${u.lastName}`;
   }
 
+  private progressToPercent(progress?: string): number {
+    switch (progress) {
+      case 'Completed': return 100;
+      case 'In Progress': return 50;
+      default: return 0;
+    }
+  }
+
   private cargarAdministradorTI(): void {
     forkJoin({
       employees: this.employeesService.obtenerEmployees(),
@@ -170,7 +178,7 @@ export class DashboardComponent implements OnInit {
 
       this.planes = planes.map(p => ({
         code: p.code || '',
-        progress: parseInt(p.progress || '0', 10) || 0,
+        progress: this.progressToPercent(p.progress),
         responsable: nombreResponsable(p.fk_IdEmployee1)
       }));
       this.progressPromedio = this.planes.length
@@ -178,10 +186,10 @@ export class DashboardComponent implements OnInit {
         : 0;
 
       this.planesPorVencer = planes
-        .filter(p => p.status !== 'Completada')
+        .filter(p => p.progress !== 'Completed')
         .map(p => ({
           code: p.code || '',
-          progress: parseInt(p.progress || '0', 10) || 0,
+          progress: this.progressToPercent(p.progress),
           responsable: nombreResponsable(p.fk_IdEmployee1),
           diasRestantes: this.diasRestantes(p.endDate)
         }))
@@ -218,7 +226,7 @@ export class DashboardComponent implements OnInit {
 
       this.miPlan = {
         code: plan.code || '',
-        progress: parseInt(plan.progress || '0', 10) || 0,
+        progress: this.progressToPercent(plan.progress),
         responsable: propio ? this.nombreCompleto(propio) : '',
         diasRestantes: this.diasRestantes(plan.endDate),
         status: plan.status

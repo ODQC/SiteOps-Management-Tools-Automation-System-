@@ -35,11 +35,11 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="dialog-grid__field">
-      <mat-label>Status</mat-label>
-      <mat-select formControlName="status">
-        <mat-option value="Pendiente">Pending</mat-option>
-        <mat-option value="En Curso">In progress</mat-option>
-        <mat-option value="Completada">Completed</mat-option>
+      <mat-label>Progress</mat-label>
+      <mat-select formControlName="progress">
+        <mat-option value="Pending">Pending</mat-option>
+        <mat-option value="In Progress">In progress</mat-option>
+        <mat-option value="Completed">Completed</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -63,10 +63,6 @@
       }
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="dialog-grid__field">
-      <mat-label>progress (%)</mat-label>
-      <input matInput type="number" min="0" max="100" formControlName="progress" />
-    </mat-form-field>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
