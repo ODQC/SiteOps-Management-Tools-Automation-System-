@@ -126,6 +126,18 @@ namespace WebApiSAIH
 
             //app.UseHttpsRedirection(); Redirects requests to HTTPS
 
+            // Serves the Angular build when deployed alongside it (e.g. Azure), from its own
+            // folder rather than wwwroot (which ServicioDocument uses for uploaded files that
+            // must stay behind the API, not be served as static content). Absent in local
+            // Docker, where the frontend runs as its own container instead.
+            var clientAppPath = Path.Combine(env.ContentRootPath, "ClientApp");
+            var spaFileProvider = Directory.Exists(clientAppPath) ? new PhysicalFileProvider(clientAppPath) : null;
+            if (spaFileProvider != null)
+            {
+                app.UseDefaultFiles(new DefaultFilesOptions { FileProvider = spaFileProvider });
+                app.UseStaticFiles(new StaticFileOptions { FileProvider = spaFileProvider });
+            }
+
             app.UseRouting();
 
             app.UseAuthentication();
@@ -135,6 +147,11 @@ namespace WebApiSAIH
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+
+                if (spaFileProvider != null)
+                {
+                    endpoints.MapFallbackToFile("index.html", new StaticFileOptions { FileProvider = spaFileProvider });
+                }
             });
         }
     }

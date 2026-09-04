@@ -8,6 +8,9 @@ backend/**/.vs/
 backend/WebApiSAIH/wwwroot/*
 !backend/WebApiSAIH/wwwroot/.gitkeep
 
+## Angular build copied in for Azure deploys (see Startup.cs) — not committed, built on demand
+backend/WebApiSAIH/ClientApp/
+
 ## Angular / Node
 frontend/node_modules/
 frontend/dist/
