@@ -25,6 +25,7 @@ services:
       sqlserver:
         condition: service_healthy
     environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_URLS: "http://+:8080"
       ConnectionStrings__ProdConnection: "Server=sqlserver,1433;Database=SiteOps-Dev;User Id=sa;Password=${MSSQL_SA_PASSWORD:-SiteOpsDev#2026Local};TrustServerCertificate=True"
       # Dev-only defaults so `docker compose up` works out of the box. Override via a .env
