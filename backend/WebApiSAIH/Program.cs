@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApiSAIH.Configuration;
 using WebApiSAIH.Models;
 
 namespace WebApiSAIH
@@ -28,6 +30,18 @@ namespace WebApiSAIH
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    // Set only in Azure (App Service setting). Absent locally/Docker, so this is a no-op there.
+                    var keyVaultName = config.Build()["KeyVaultName"];
+                    if (!string.IsNullOrEmpty(keyVaultName))
+                    {
+                        config.AddAzureKeyVault(
+                            new Uri($"https://{keyVaultName}.vault.azure.net/"),
+                            new DefaultAzureCredential(),
+                            new SiteOpsKeyVaultSecretManager());
+                    }
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
